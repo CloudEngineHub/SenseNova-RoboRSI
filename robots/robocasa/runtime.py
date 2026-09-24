@@ -171,7 +171,10 @@ def _init_runtime(
         "vla": lambda rpc: {"vla_client": RoboCasaVLAClient(rpc)},
     }
     timeouts = {"env": 120.0, "vla": 300.0}
-    selected = set(starters) if components is None else components
+    selected = set(starters) if components is None else set(components)
+    enable_vla = getattr(args, "enable_vla", True)
+    if not enable_vla:
+        selected.discard("vla")
     unknown = selected.difference(starters)
     if unknown:
         raise ValueError(f"unknown RoboCasa runtime components: {sorted(unknown)}")
@@ -188,6 +191,8 @@ def _init_runtime(
             )
 
     runtime_kwargs: dict[str, Any] = {}
+    if not enable_vla:
+        runtime_kwargs["vla_client"] = None
     for component, (daemon, rpc) in pending.items():
         component_kwargs = try_wait_server(
             owned_daemons,
