@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from functools import partial
 from pathlib import Path
@@ -80,7 +81,10 @@ def _spawn_env_server(
                 ),
             ],
             env_overrides={
-                "MUJOCO_GL": "egl",
+                # EGL stays the default. A launcher on a host where EGL cannot
+                # render offscreen sets MUJOCO_GL=osmesa (with
+                # PYOPENGL_PLATFORM=osmesa) and the server inherits it.
+                "MUJOCO_GL": os.environ.get("MUJOCO_GL", "egl"),
                 "ROBOT_PLATFORM": "ROBOCASA",
                 # Standard HEART evaluation uses --seed directly. Do not let a
                 # stale variable from legacy paired-scene runs change the reset.

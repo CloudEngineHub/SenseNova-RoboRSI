@@ -20,6 +20,8 @@ import json
 from pathlib import Path
 from types import SimpleNamespace
 
+import pytest
+
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 MANIFEST_PATH = REPO_ROOT / "robots" / "robocasa" / "eval" / "target50.json"
@@ -131,3 +133,38 @@ def test_spawned_environment_uses_cli_seed_and_clears_legacy_override(
     assert captured["started"] is True
     assert daemon is not None
     assert client == "http://127.0.0.1:43210"
+
+
+@pytest.mark.parametrize(
+    ("launcher_gl", "server_gl"), [(None, "egl"), ("osmesa", "osmesa")]
+)
+def test_spawned_environment_inherits_the_launcher_renderer(
+    tmp_path, monkeypatch, launcher_gl, server_gl
+):
+    captured = {}
+
+    class FakeDaemon:
+        def __init__(self, **kwargs):
+            captured.update(kwargs)
+
+        def start(self):
+            pass
+
+    if launcher_gl is None:
+        monkeypatch.delenv("MUJOCO_GL", raising=False)
+    else:
+        monkeypatch.setenv("MUJOCO_GL", launcher_gl)
+    monkeypatch.setattr(robot_spec, "ProcessDaemon", FakeDaemon)
+    monkeypatch.setattr(robot_spec, "pick_free_port", lambda: 43210)
+    monkeypatch.setattr(robot_spec, "HttpRpcClient", lambda url: url)
+    args = SimpleNamespace(
+        env_endpoint=None,
+        task_name="OpenDrawer",
+        split="target",
+        seed=1,
+        cuda_device=0,
+    )
+
+    robot_spec._spawn_env_server(args, tmp_path)
+
+    assert captured["env_overrides"]["MUJOCO_GL"] == server_gl
