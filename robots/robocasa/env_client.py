@@ -42,6 +42,10 @@ CAM_ALIAS = {
 class RoboCasaEnvClient(BaseEnvClient):
     _TIMEOUT_S = {
         **BaseEnvClient._TIMEOUT_S,
+        # A kitchen reset loads the whole scene. With a cold file cache that
+        # takes 150-250 s, past the shared 120 s budget, and the client gave up
+        # on a reset that would have finished.
+        "env.reset": 600.0,
         "env.grasp_contact": 10.0,
     }
 
