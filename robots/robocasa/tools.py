@@ -350,6 +350,15 @@ TOOLS_SPEC = [
                         "or 'hold' (default 'hold')"
                     ),
                 },
+                "face_xy": {
+                    "type": ["array", "null"],
+                    "items": {"type": "number"},
+                    "description": (
+                        "Optional WORLD [x, y] to turn toward after arriving, "
+                        "so that point ends up in front of the robot. The "
+                        "result reports facing.faced and heading_err_rad."
+                    ),
+                },
             },
             "required": ["xy"],
         },

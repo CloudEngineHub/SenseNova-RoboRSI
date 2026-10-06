@@ -332,11 +332,53 @@ class RoboCasaPrimitives:
             self._fwd_offset = 0.0
         return self._fwd_offset
 
-    def navigate_to(self, xy, tol=0.20, max_steps=300, gripper="hold"):
+    def _heading_error(self, point):
+        """Signed yaw from the base forward axis to a world (x, y) point.
+
+        Returns None when the point is under the base, where no heading is
+        defined.
+        """
+        to = point - self._base_pose()[0][:2]
+        if float(np.linalg.norm(to)) < 1e-6:
+            return None
+        forward = self._yaw() + self._fwd_offset
+        return float((np.arctan2(to[1], to[0]) - forward + np.pi) % (2 * np.pi) - np.pi)
+
+    def _face(self, point_xy, gripper, target_q, max_steps=120, tol_rad=0.12):
+        """Turn in place until the base forward axis points at a world point."""
+        point = np.asarray(point_xy[:2], dtype=np.float64)
+        for i in range(max_steps):
+            dyaw = self._heading_error(point)
+            if dyaw is None:
+                return {"faced": True, "turn_steps": i, "heading_err_rad": 0.0}
+            if abs(dyaw) <= tol_rad:
+                return {
+                    "faced": True,
+                    "turn_steps": i,
+                    "heading_err_rad": round(dyaw, 4),
+                }
+            a = self._zero(base_mode=1.0)
+            a[6] = self._resolve_grip(gripper, target_q)
+            a[9] = float(np.sign(dyaw))
+            if self._check_cancelled is not None:
+                self._check_cancelled()
+            self.env.step(a)
+            if self._recording:
+                self.record_frame()
+        dyaw = self._heading_error(point)
+        return {
+            "faced": False,
+            "turn_steps": max_steps,
+            "heading_err_rad": round(dyaw or 0.0, 4),
+        }
+
+    def navigate_to(self, xy, tol=0.20, max_steps=300, gripper="hold", face_xy=None):
         """Drive the mobile base toward a WORLD (x,y) target. Online-calibrates the
         base forward->world heading, then turns to face + drives forward at full
         speed (closed-loop). Holds the arm (base_mode>0). Base ~2.3mm/step.
-        gripper="hold" (DEFAULT) maintains the finger width while driving (carry-safe)."""
+        gripper="hold" (DEFAULT) maintains the finger width while driving (carry-safe).
+        face_xy: optional WORLD (x,y) to turn toward after arriving, so that point
+        ends up in front of the robot instead of wherever the drive left it."""
         self._vla_desync = True
         target = np.asarray(xy[:2], dtype=np.float64)
         target_q = float(self.env.gripper_qpos[0])
@@ -350,7 +392,7 @@ class RoboCasaPrimitives:
             if dist < tol:
                 self._pos_jac = None  # base moved -> recalibrate arm
                 moved = float(np.linalg.norm(bp[:2] - start))
-                return {
+                out = {
                     "ok": True,
                     "steps": i,
                     "final_dist": dist,
@@ -358,6 +400,10 @@ class RoboCasaPrimitives:
                     "start_pos": start.tolist(),
                     "base_pos": bp.tolist(),
                 }
+                if face_xy is not None:
+                    out["facing"] = self._face(face_xy, gripper, target_q)
+                    out["base_pos"] = self._base_pose()[0].tolist()
+                return out
             world_dir = np.arctan2(to[1], to[0])
             cur_forward = self._yaw() + self._fwd_offset
             dyaw = (world_dir - cur_forward + np.pi) % (2 * np.pi) - np.pi

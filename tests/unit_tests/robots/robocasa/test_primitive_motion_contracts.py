@@ -76,3 +76,37 @@ def test_turn_in_place_stays_ok():
 
     assert result["ok"] is True
     assert result["distance_m"] == 0.0
+
+
+def test_navigate_to_turns_toward_face_xy_after_arriving():
+    env = _PlanarBase()
+
+    result = _primitives(env).navigate_to([0.5, 0.0], tol=0.05, face_xy=[0.5, 1.0])
+
+    facing = result["facing"]
+    assert facing["faced"] is True
+    assert abs(facing["heading_err_rad"]) <= 0.12
+    to_point = np.array([0.5, 1.0]) - env.pos[:2]
+    assert abs(np.arctan2(to_point[1], to_point[0]) - env.yaw) <= 0.12
+
+
+def test_navigate_to_without_face_xy_keeps_its_result_shape():
+    result = _primitives(_PlanarBase()).navigate_to([0.5, 0.0], tol=0.05)
+
+    assert result["ok"] is True
+    assert "facing" not in result
+
+
+def test_face_reports_failure_when_the_base_cannot_turn():
+    primitives = _primitives(_PlanarBase())
+    primitives.env.step = lambda action: None
+
+    facing = primitives._face([0.0, 1.0], "hold", 0.02, max_steps=5)
+
+    assert facing == {"faced": False, "turn_steps": 5, "heading_err_rad": 1.5708}
+
+
+def test_face_on_the_point_itself_needs_no_turn():
+    facing = _primitives(_PlanarBase())._face([0.0, 0.0], "hold", 0.02)
+
+    assert facing == {"faced": True, "turn_steps": 0, "heading_err_rad": 0.0}
