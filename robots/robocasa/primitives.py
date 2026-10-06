@@ -289,9 +289,15 @@ class RoboCasaPrimitives:
             if self._recording:
                 self.record_frame()
         bp1, _ = self._base_pose()
+        moved = bp1 - bp0
+        distance = float(np.linalg.norm(moved[:2]))
+        commanded = bool(forward or lateral) and steps > 0
         return {
-            "ok": True,
-            "base_moved": (bp1 - bp0).tolist(),
+            # A drive that was blocked used to report ok=True as well; the
+            # planner then planned from a position the base never reached.
+            "ok": distance > 1e-3 or not commanded,
+            "base_moved": moved.tolist(),
+            "distance_m": round(distance, 4),
             "base_pos": bp1.tolist(),
         }
 

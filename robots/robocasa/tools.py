@@ -362,7 +362,10 @@ TOOLS_SPEC = [
             "+turn = rotate CCW (yaw). All values clamped [-1, 1]. "
             "Use move_base for fine base adjustments near a target; "
             "use navigate_to for long-range navigation. "
-            "gripper='hold' (DEFAULT) maintains finger width while driving."
+            "gripper='hold' (DEFAULT) maintains finger width while driving. "
+            "The inputs are velocities, not meters. The result reports "
+            "base_moved (world-frame displacement) and distance_m; ok is "
+            "false when a forward or lateral command left the base in place."
         ),
         "input_schema": {
             "type": "object",

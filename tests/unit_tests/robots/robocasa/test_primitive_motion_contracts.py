@@ -1,0 +1,78 @@
+# Copyright 2026 The HEART Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+"""Contracts for what the RoboCasa motion primitives report back."""
+
+from __future__ import annotations
+
+import numpy as np
+from scipy.spatial.transform import Rotation
+
+from robots.robocasa.primitives import RoboCasaPrimitives
+
+
+class _PlanarBase:
+    """A base that moves 1 cm per step along its heading unless it is blocked."""
+
+    def __init__(self, *, blocked: bool = False) -> None:
+        self.pos = np.zeros(3)
+        self.yaw = 0.0
+        self.blocked = blocked
+        self.gripper_qpos = np.array([0.02])
+
+    @property
+    def current_raw_obs(self) -> dict:
+        quat = Rotation.from_euler("z", self.yaw).as_quat()
+        return {"robot0_base_pos": self.pos.copy(), "robot0_base_quat": quat}
+
+    def step(self, action) -> None:
+        self.yaw += 0.1 * float(action[9])
+        if self.blocked:
+            return
+        heading = np.array([np.cos(self.yaw), np.sin(self.yaw)])
+        left = np.array([-np.sin(self.yaw), np.cos(self.yaw)])
+        self.pos[:2] += 0.01 * (float(action[7]) * heading + float(action[8]) * left)
+
+
+def _primitives(env: _PlanarBase) -> RoboCasaPrimitives:
+    primitives = RoboCasaPrimitives.__new__(RoboCasaPrimitives)
+    primitives.env = env
+    primitives._check_cancelled = None
+    primitives._recording = False
+    primitives._vla_desync = False
+    primitives._pos_jac = None
+    primitives._fwd_offset = 0.0
+    return primitives
+
+
+def test_blocked_drive_is_reported_as_not_ok():
+    result = _primitives(_PlanarBase(blocked=True)).move_base(forward=1.0, steps=10)
+
+    assert result["ok"] is False
+    assert result["distance_m"] == 0.0
+
+
+def test_free_drive_reports_distance_and_keeps_base_moved():
+    result = _primitives(_PlanarBase()).move_base(forward=1.0, steps=10)
+
+    assert result["ok"] is True
+    assert result["distance_m"] == 0.1
+    assert np.allclose(result["base_moved"], [0.1, 0.0, 0.0])
+
+
+def test_turn_in_place_stays_ok():
+    result = _primitives(_PlanarBase()).move_base(turn=1.0, steps=10)
+
+    assert result["ok"] is True
+    assert result["distance_m"] == 0.0
