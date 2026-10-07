@@ -174,7 +174,9 @@ def _init_runtime(
         },
         "vla": lambda rpc: {"vla_client": RoboCasaVLAClient(rpc)},
     }
-    timeouts = {"env": 120.0, "vla": 300.0}
+    # A cold pod builds the kitchen on CPU (OSMesa) while other cells do the
+    # same; 120 s was not enough and those cells failed before the agent ran.
+    timeouts = {"env": 600.0, "vla": 300.0}
     selected = set(starters) if components is None else set(components)
     enable_vla = getattr(args, "enable_vla", True)
     if not enable_vla:
