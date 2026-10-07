@@ -25,11 +25,14 @@ from robots.robocasa.primitives import RoboCasaPrimitives
 class _PlanarBase:
     """A base that moves 1 cm per step along its heading unless it is blocked."""
 
-    def __init__(self, *, blocked: bool = False) -> None:
+    def __init__(self, *, blocked: bool = False, finger_creep: float = 0.0) -> None:
         self.pos = np.zeros(3)
         self.yaw = 0.0
         self.blocked = blocked
         self.gripper_qpos = np.array([0.02])
+        # Width lost per step, as when a held object slips and the fingers close in.
+        self.finger_creep = finger_creep
+        self.grip_commands: list[float] = []
 
     @property
     def current_raw_obs(self) -> dict:
@@ -37,6 +40,8 @@ class _PlanarBase:
         return {"robot0_base_pos": self.pos.copy(), "robot0_base_quat": quat}
 
     def step(self, action) -> None:
+        self.grip_commands.append(float(action[6]))
+        self.gripper_qpos = self.gripper_qpos - self.finger_creep
         self.yaw += 0.1 * float(action[9])
         if self.blocked:
             return
@@ -101,12 +106,42 @@ def test_face_reports_failure_when_the_base_cannot_turn():
     primitives = _primitives(_PlanarBase())
     primitives.env.step = lambda action: None
 
-    facing = primitives._face([0.0, 1.0], "hold", 0.02, max_steps=5)
+    facing = primitives._face([0.0, 1.0], "hold", max_steps=5)
 
     assert facing == {"faced": False, "turn_steps": 5, "heading_err_rad": 1.5708}
 
 
 def test_face_on_the_point_itself_needs_no_turn():
-    facing = _primitives(_PlanarBase())._face([0.0, 0.0], "hold", 0.02)
+    facing = _primitives(_PlanarBase())._face([0.0, 0.0], "hold")
 
     assert facing == {"faced": True, "turn_steps": 0, "heading_err_rad": 0.0}
+
+
+def test_hold_never_opens_while_the_fingers_close_in():
+    # The gripper action only counts by its sign, so any opening command here
+    # would back the finger target off a full step from a slipping object.
+    env = _PlanarBase(finger_creep=0.001)
+
+    _primitives(env).move_base(forward=1.0, steps=10)
+
+    assert env.grip_commands == [0.0] * 10
+
+
+def test_hold_is_the_default_for_every_carry_motion():
+    env = _PlanarBase()
+    primitives = _primitives(env)
+
+    primitives.navigate_to([0.5, 0.0], tol=0.05, face_xy=[0.5, 1.0])
+    primitives.move_base(turn=1.0, steps=5)
+
+    assert env.grip_commands
+    assert set(env.grip_commands) == {0.0}
+
+
+def test_explicit_gripper_commands_pass_through_clipped():
+    primitives = _primitives(_PlanarBase())
+
+    assert primitives._resolve_grip(1) == 1.0
+    assert primitives._resolve_grip(-1.0) == -1.0
+    assert primitives._resolve_grip(3.0) == 1.0
+    assert primitives._resolve_grip(None) == 0.0

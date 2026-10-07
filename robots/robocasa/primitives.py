@@ -114,20 +114,20 @@ class RoboCasaPrimitives:
         # +1 close/hold, -1 open
         return float(np.clip(g, -1, 1))
 
-    def _resolve_grip(self, gripper, target_q):
+    def _resolve_grip(self, gripper):
         """Return the a[6] gripper command for a motion step.
-        gripper="hold"/None (DEFAULT for moves) -> SERVO the fingers back to `target_q`,
-        the width they had when the motion began. This is the carry-safe hold: the
-        gripper action is a CLOSE-VELOCITY command, so a sustained +1 keeps driving the
-        fingers shut and SQUEEZES a small object OUT (verified: bread qpos 0.0376 -> 0.0005
-        during a +1 carry). Servoing to the grasped width holds the object without crushing
-        it and without letting it drift open. A numeric gripper (+1 close / -1 open) is an
+        gripper="hold"/None (DEFAULT for moves) -> 0.0: leave the finger position target
+        where the last explicit command put it, so a grasped object stays squeezed (the
+        finger actuators cap the force at 20 N) and an open gripper stays open. The
+        gripper action is applied by its SIGN only (robosuite PandaGripper.format_action
+        moves the target 4 mm per step), so servoing the measured width back to where a
+        motion began is bang-bang with no deadband: any closing-in OPENS the target a
+        full step and the grip collapses (verified: scripted grasps in 44 paired scenes
+        on four pick-place tasks, a 15 cm lift kept 16/44 objects under that servo and
+        40/44 with the target left alone). A numeric gripper (+1 close / -1 open) is an
         EXPLICIT override and passes through unchanged."""
         if isinstance(gripper, str) or gripper is None:
-            cur = float(self.env.gripper_qpos[0])
-            return float(
-                np.clip(60.0 * (cur - target_q), -1.0, 1.0)
-            )  # +a[6] closes (qpos↓)
+            return 0.0
         return self._hold_gripper_val(gripper)
 
     def _step_arm(self, dpos=(0, 0, 0), drot=(0, 0, 0), gripper=-1.0, n=1):
@@ -167,14 +167,13 @@ class RoboCasaPrimitives:
 
     def move_to(self, xyz, gripper="hold", step_clip=0.02, max_steps=200, tol=0.012):
         """Closed-loop OSC servo of the eef to a WORLD xyz target.
-        gripper="hold" (DEFAULT) maintains the CURRENT finger width — carry a grasped
-        object WITHOUT crushing it (a sustained +1 squeezes small objects out) or letting
-        it drop. Pass +1 to actively CLOSE, -1 to actively OPEN."""
+        gripper="hold" (DEFAULT) keeps the gripper's current command: a grasped object
+        stays squeezed while it is carried and an open gripper stays open. Pass +1 to
+        actively CLOSE, -1 to actively OPEN."""
         self._vla_desync = True
         target = np.asarray(xyz, dtype=np.float64)
-        target_q = float(self.env.gripper_qpos[0])  # finger width to hold
         if self._pos_jac is None:
-            self._calibrate_pos_jacobian(gripper=self._resolve_grip(gripper, target_q))
+            self._calibrate_pos_jacobian(gripper=self._resolve_grip(gripper))
         Jinv = np.linalg.pinv(self._pos_jac)
         for i in range(max_steps):
             cur = self.env.eef_pos
@@ -192,7 +191,7 @@ class RoboCasaPrimitives:
             a_xyz = np.clip(Jinv @ step_world, -1, 1)
             a = self._zero()
             a[0:3] = a_xyz
-            a[6] = self._resolve_grip(gripper, target_q)
+            a[6] = self._resolve_grip(gripper)
             if self._check_cancelled is not None:
                 self._check_cancelled()
             self.env.step(a)
@@ -271,9 +270,9 @@ class RoboCasaPrimitives:
 
     def move_base(self, forward=0, lateral=0, turn=0, steps=10, gripper="hold"):
         """Raw base velocity command (robot-local: +fwd, +lateral, +turn yaw).
-        gripper="hold" (DEFAULT) maintains the finger width while driving (carry-safe)."""
+        gripper="hold" (DEFAULT) keeps the gripper's current command while driving
+        (carry-safe)."""
         self._vla_desync = True
-        target_q = float(self.env.gripper_qpos[0])
         a = self._zero(base_mode=1.0)
         a[7:10] = [
             np.clip(forward, -1, 1),
@@ -282,7 +281,7 @@ class RoboCasaPrimitives:
         ]
         bp0, _ = self._base_pose()
         for _ in range(steps):
-            a[6] = self._resolve_grip(gripper, target_q)
+            a[6] = self._resolve_grip(gripper)
             if self._check_cancelled is not None:
                 self._check_cancelled()
             self.env.step(a)
@@ -344,7 +343,7 @@ class RoboCasaPrimitives:
         forward = self._yaw() + self._fwd_offset
         return float((np.arctan2(to[1], to[0]) - forward + np.pi) % (2 * np.pi) - np.pi)
 
-    def _face(self, point_xy, gripper, target_q, max_steps=120, tol_rad=0.12):
+    def _face(self, point_xy, gripper, max_steps=120, tol_rad=0.12):
         """Turn in place until the base forward axis points at a world point."""
         point = np.asarray(point_xy[:2], dtype=np.float64)
         for i in range(max_steps):
@@ -358,7 +357,7 @@ class RoboCasaPrimitives:
                     "heading_err_rad": round(dyaw, 4),
                 }
             a = self._zero(base_mode=1.0)
-            a[6] = self._resolve_grip(gripper, target_q)
+            a[6] = self._resolve_grip(gripper)
             a[9] = float(np.sign(dyaw))
             if self._check_cancelled is not None:
                 self._check_cancelled()
@@ -376,14 +375,14 @@ class RoboCasaPrimitives:
         """Drive the mobile base toward a WORLD (x,y) target. Online-calibrates the
         base forward->world heading, then turns to face + drives forward at full
         speed (closed-loop). Holds the arm (base_mode>0). Base ~2.3mm/step.
-        gripper="hold" (DEFAULT) maintains the finger width while driving (carry-safe).
+        gripper="hold" (DEFAULT) keeps the gripper's current command while driving
+        (carry-safe).
         face_xy: optional WORLD (x,y) to turn toward after arriving, so that point
         ends up in front of the robot instead of wherever the drive left it."""
         self._vla_desync = True
         target = np.asarray(xy[:2], dtype=np.float64)
-        target_q = float(self.env.gripper_qpos[0])
         if self._fwd_offset is None:
-            self._calibrate_forward(self._resolve_grip(gripper, target_q))
+            self._calibrate_forward(self._resolve_grip(gripper))
         start = self._base_pose()[0][:2].copy()
         for i in range(max_steps):
             bp, _ = self._base_pose()
@@ -401,14 +400,14 @@ class RoboCasaPrimitives:
                     "base_pos": bp.tolist(),
                 }
                 if face_xy is not None:
-                    out["facing"] = self._face(face_xy, gripper, target_q)
+                    out["facing"] = self._face(face_xy, gripper)
                     out["base_pos"] = self._base_pose()[0].tolist()
                 return out
             world_dir = np.arctan2(to[1], to[0])
             cur_forward = self._yaw() + self._fwd_offset
             dyaw = (world_dir - cur_forward + np.pi) % (2 * np.pi) - np.pi
             a = self._zero(base_mode=1.0)
-            a[6] = self._resolve_grip(gripper, target_q)
+            a[6] = self._resolve_grip(gripper)
             if abs(dyaw) > 0.30:  # turn to face the target
                 a[9] = float(np.sign(dyaw))
             else:  # drive forward + small steer
