@@ -8,6 +8,7 @@ from types import SimpleNamespace
 
 import pytest
 
+from heart_runtime.agents.config import AgentConfig
 from heart_runtime.evaluation.messages import Task
 from robots.libero.three_benchmark_agent import (
     ThreeBenchmarkIclAgent,
@@ -25,6 +26,28 @@ def test_optional_tool_flags_are_explicit(monkeypatch):
     assert server is not None
     assert server.url == "http://127.0.0.1:9001"
     assert _mcp_server({}, "sam3", False) is None
+
+
+@pytest.mark.parametrize(
+    ("name", "context_environment", "tool_enabled"),
+    [
+        ("long_plus_plus_v13.yaml", "HEART_LIBERO_LONGPP_ICL_ROOT", False),
+        ("ultra_long_v13.yaml", "HEART_LIBERO_ULTRA_ICL_ROOT", False),
+        ("pro_v19.yaml", "HEART_LIBERO_PRO_ICL_ROOT", True),
+    ],
+)
+def test_delivery_presets_compose_from_canonical_agent_directory(
+    name, context_environment, tool_enabled
+):
+    repository = Path(__file__).resolve().parents[4]
+    config = AgentConfig.from_file(repository / "configs/agents/libero_three" / name)
+
+    assert config.factory.endswith(":make_three_benchmark_agent")
+    assert config.parameters["context_root_env"] == context_environment
+    assert config.parameters["enable_vla"] is tool_enabled
+    assert config.parameters["enable_sam3"] is tool_enabled
+    assert config.resources["context_map"].is_file()
+    assert config.document["dependencies"] == ["heart-runtime[runtime]"]
 
 
 def test_context_root_is_supplied_by_named_environment_variable(

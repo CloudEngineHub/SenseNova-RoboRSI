@@ -12,6 +12,13 @@
     }
   },
   "assets": {
+    "libero_pro_evaluation": {
+      "name": "libero_pro",
+      "version": "zxy-libero-pro-eafdb809426b13153aa1e4c42d6601844217dfec-eval-v1",
+      "bddl_files_sha256": "108c3a0ab35380eb8e774e827efdb2fa84fb9ad0a5c1cd589abcbf9689c7aabd",
+      "init_files_sha256": "9623a664e5ef6f62801d6768b17ff5b5f73ee80a8df64847df03130ee27f1fef",
+      "snapshot_sha256": "381f91eec4ec26bc2a0bd06e32da8713f56367c5431d7a8cfa74d69439b57be9"
+    },
     "libero_long_plus_plus_icl": {
       "environment": "HEART_LIBERO_LONGPP_ICL_ROOT",
       "package_count": 12,
