@@ -344,18 +344,22 @@ class RoboCasaPrimitives:
         return float((np.arctan2(to[1], to[0]) - forward + np.pi) % (2 * np.pi) - np.pi)
 
     def _face(self, point_xy, gripper, max_steps=120, tol_rad=0.12):
-        """Turn in place until the base forward axis points at a world point."""
-        point = np.asarray(point_xy[:2], dtype=np.float64)
-        for i in range(max_steps):
+        """Turn in place until the base forward axis points at a world point.
+
+        The heading is checked before every turn step and once more after the
+        last one, so a turn that reaches the tolerance on its final step counts.
+        """
+        point = np.asarray(point_xy, dtype=np.float64)
+        for i in range(max_steps + 1):
             dyaw = self._heading_error(point)
-            if dyaw is None:
-                return {"faced": True, "turn_steps": i, "heading_err_rad": 0.0}
-            if abs(dyaw) <= tol_rad:
+            if dyaw is None or abs(dyaw) <= tol_rad:
                 return {
                     "faced": True,
                     "turn_steps": i,
-                    "heading_err_rad": round(dyaw, 4),
+                    "heading_err_rad": round(dyaw or 0.0, 4),
                 }
+            if i == max_steps:
+                break
             a = self._zero(base_mode=1.0)
             a[6] = self._resolve_grip(gripper)
             a[9] = float(np.sign(dyaw))
@@ -364,11 +368,10 @@ class RoboCasaPrimitives:
             self.env.step(a)
             if self._recording:
                 self.record_frame()
-        dyaw = self._heading_error(point)
         return {
             "faced": False,
             "turn_steps": max_steps,
-            "heading_err_rad": round(dyaw or 0.0, 4),
+            "heading_err_rad": round(dyaw, 4),
         }
 
     def navigate_to(self, xy, tol=0.20, max_steps=300, gripper="hold", face_xy=None):

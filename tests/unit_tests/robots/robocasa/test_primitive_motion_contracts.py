@@ -26,10 +26,17 @@ from robots.robocasa.primitives import RoboCasaPrimitives
 class _PlanarBase:
     """A base that moves 1 cm per step along its heading unless it is blocked."""
 
-    def __init__(self, *, blocked: bool = False, finger_creep: float = 0.0) -> None:
+    def __init__(
+        self,
+        *,
+        blocked: bool = False,
+        finger_creep: float = 0.0,
+        turn_rate: float = 0.1,
+    ) -> None:
         self.pos = np.zeros(3)
         self.yaw = 0.0
         self.blocked = blocked
+        self.turn_rate = turn_rate
         self.gripper_qpos = np.array([0.02])
         # Width lost per step, as when a held object slips and the fingers close in.
         self.finger_creep = finger_creep
@@ -43,7 +50,7 @@ class _PlanarBase:
     def step(self, action) -> None:
         self.grip_commands.append(float(action[6]))
         self.gripper_qpos = self.gripper_qpos - self.finger_creep
-        self.yaw += 0.1 * float(action[9])
+        self.yaw += self.turn_rate * float(action[9])
         if self.blocked:
             return
         heading = np.array([np.cos(self.yaw), np.sin(self.yaw)])
@@ -121,6 +128,21 @@ def test_navigate_to_rejects_a_malformed_face_xy_before_moving(face_xy):
 
     assert env.grip_commands == []
     assert np.allclose(env.pos, 0.0)
+
+
+def test_face_counts_a_turn_that_reaches_tolerance_on_its_last_step():
+    # At 0.01 rad per step from yaw 0 toward 1.315 rad, the 120th and last
+    # step leaves 0.115 rad, inside the 0.12 rad tolerance.
+    env = _PlanarBase(turn_rate=0.01)
+    point = [np.cos(1.315), np.sin(1.315)]
+
+    result = _primitives(env).navigate_to([0.0, 0.0], face_xy=point)
+
+    assert result["facing"] == {
+        "faced": True,
+        "turn_steps": 120,
+        "heading_err_rad": 0.115,
+    }
 
 
 def test_face_on_the_point_itself_needs_no_turn():
