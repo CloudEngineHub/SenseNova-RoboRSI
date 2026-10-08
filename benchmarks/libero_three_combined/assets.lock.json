@@ -23,13 +23,15 @@
       "environment": "HEART_LIBERO_LONGPP_ICL_ROOT",
       "package_count": 12,
       "source_version": "v12-efficiency-aligned",
-      "source_revision": "7d7816a00c98fd75b02ad2fb1da843c5e9ff3b1e"
+      "source_revision": "7d7816a00c98fd75b02ad2fb1da843c5e9ff3b1e",
+      "snapshot_sha256": "81b2f47538282f22a16f7d915e71a1a0ae50a7ec73090f41b4274f7bf0293c55"
     },
     "libero_ultra_long_icl": {
       "environment": "HEART_LIBERO_ULTRA_ICL_ROOT",
       "package_count": 9,
       "source_version": "v12-efficiency-aligned",
-      "source_revision": "7d7816a00c98fd75b02ad2fb1da843c5e9ff3b1e"
+      "source_revision": "7d7816a00c98fd75b02ad2fb1da843c5e9ff3b1e",
+      "snapshot_sha256": "d2fed2c6d6d4f209d1c03d11b98b7ceae55f5c65d072eee691ea9b42738151fd"
     },
     "libero_pro_icl": {
       "environment": "HEART_LIBERO_PRO_ICL_ROOT",
@@ -37,7 +39,8 @@
       "mapped_case_count": 80,
       "source_policy": "persistent-memory",
       "package_audit_sha256": "8ec3ac433d86b089a3eb562745c20e40bc964b96f8dd133610d386ead666bc4f",
-      "memory_audit_sha256": "4e07afb250ca025103bc16911f8fa847f25c3921b6e0487292c252d8f3dba676"
+      "memory_audit_sha256": "4e07afb250ca025103bc16911f8fa847f25c3921b6e0487292c252d8f3dba676",
+      "snapshot_sha256": "bcc6603d3006160e1eb650ef923fe51ebe46754a31519037e81dd0b39ea1985f"
     },
     "context_tokenizer": {
       "environment": "HEART_CONTEXT_TOKENIZER_PATH",

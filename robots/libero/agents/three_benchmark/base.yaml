@@ -32,3 +32,4 @@ parameters:
   enable_sam3: false
 dependencies:
   - heart-runtime[runtime]
+  - tokenizers==0.22.2

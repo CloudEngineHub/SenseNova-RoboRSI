@@ -48,7 +48,10 @@ def test_delivery_presets_compose_from_canonical_agent_directory(
     assert config.parameters["enable_sam3"] is tool_enabled
     assert config.document["agent"]["reasoning_effort"] == "max"
     assert config.resources["context_map"].is_file()
-    assert config.document["dependencies"] == ["heart-runtime[runtime]"]
+    assert config.document["dependencies"] == [
+        "heart-runtime[runtime]",
+        "tokenizers==0.22.2",
+    ]
 
 
 def test_pro_reproduces_the_full_run_policy_limits() -> None:
