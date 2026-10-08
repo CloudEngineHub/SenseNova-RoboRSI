@@ -33,7 +33,7 @@ def test_optional_tool_flags_are_explicit(monkeypatch):
     [
         ("long_plus_plus_v13.yaml", "HEART_LIBERO_LONGPP_ICL_ROOT", False),
         ("ultra_long_v13.yaml", "HEART_LIBERO_ULTRA_ICL_ROOT", False),
-        ("pro_v19.yaml", "HEART_LIBERO_PRO_ICL_ROOT", True),
+        ("pro.yaml", "HEART_LIBERO_PRO_ICL_ROOT", False),
     ],
 )
 def test_delivery_presets_compose_from_canonical_agent_directory(
@@ -46,8 +46,19 @@ def test_delivery_presets_compose_from_canonical_agent_directory(
     assert config.parameters["context_root_env"] == context_environment
     assert config.parameters["enable_vla"] is tool_enabled
     assert config.parameters["enable_sam3"] is tool_enabled
+    assert config.document["agent"]["reasoning_effort"] == "max"
     assert config.resources["context_map"].is_file()
     assert config.document["dependencies"] == ["heart-runtime[runtime]"]
+
+
+def test_pro_reproduces_the_full_run_policy_limits() -> None:
+    repository = Path(__file__).resolve().parents[4]
+    config = AgentConfig.from_file(repository / "robots/libero/agents/three_benchmark/pro.yaml")
+
+    assert config.document["agent"]["max_turns"] == 100
+    assert config.document["agent"]["planner_timeout_s"] == 5000
+    assert config.document["runtime"]["context"]["strategy"] == "summary"
+    assert config.document["runtime"]["llm"]["retry"]["max_retries"] == 0
 
 
 def test_context_root_is_supplied_by_named_environment_variable(

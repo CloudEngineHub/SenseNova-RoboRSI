@@ -162,8 +162,8 @@ def make_three_benchmark_agent(
     servers = tuple(
         server
         for server in (
-            _mcp_server(parameters, "vla", _boolean(parameters, "enable_vla", True)),
-            _mcp_server(parameters, "sam3", _boolean(parameters, "enable_sam3", True)),
+            _mcp_server(parameters, "vla", _boolean(parameters, "enable_vla", False)),
+            _mcp_server(parameters, "sam3", _boolean(parameters, "enable_sam3", False)),
         )
         if server is not None
     )

@@ -3,7 +3,6 @@ schema_version: 1
 extends: base.yaml
 agent:
   planner_timeout_s: 43200
-  reasoning_effort: max
 runtime:
   context:
     strategy: summary
@@ -14,6 +13,3 @@ runtime:
     summary_max_tokens: 128000
     summary_trigger_ratio: 0.75
     adaptive_retention: true
-parameters:
-  enable_vla: false
-  enable_sam3: false
