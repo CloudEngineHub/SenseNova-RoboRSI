@@ -353,6 +353,8 @@ TOOLS_SPEC = [
                 "face_xy": {
                     "type": ["array", "null"],
                     "items": {"type": "number"},
+                    "minItems": 2,
+                    "maxItems": 2,
                     "description": (
                         "Optional WORLD [x, y] to turn toward after arriving, "
                         "so that point ends up in front of the robot. The "

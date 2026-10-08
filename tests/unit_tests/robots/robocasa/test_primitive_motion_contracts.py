@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
 from scipy.spatial.transform import Rotation
 
 from robots.robocasa.primitives import RoboCasaPrimitives
@@ -109,6 +110,17 @@ def test_face_reports_failure_when_the_base_cannot_turn():
     facing = primitives._face([0.0, 1.0], "hold", max_steps=5)
 
     assert facing == {"faced": False, "turn_steps": 5, "heading_err_rad": 1.5708}
+
+
+@pytest.mark.parametrize("face_xy", [[], [1.0], [1.0, 2.0, 3.0], [float("nan"), 1.0]])
+def test_navigate_to_rejects_a_malformed_face_xy_before_moving(face_xy):
+    env = _PlanarBase()
+
+    with pytest.raises(ValueError, match="face_xy"):
+        _primitives(env).navigate_to([0.5, 0.0], tol=0.05, face_xy=face_xy)
+
+    assert env.grip_commands == []
+    assert np.allclose(env.pos, 0.0)
 
 
 def test_face_on_the_point_itself_needs_no_turn():

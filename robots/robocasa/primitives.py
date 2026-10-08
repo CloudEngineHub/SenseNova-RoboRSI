@@ -378,7 +378,14 @@ class RoboCasaPrimitives:
         gripper="hold" (DEFAULT) keeps the gripper's current command while driving
         (carry-safe).
         face_xy: optional WORLD (x,y) to turn toward after arriving, so that point
-        ends up in front of the robot instead of wherever the drive left it."""
+        ends up in front of the robot instead of wherever the drive left it. It is
+        checked before the base moves, so a malformed point fails without driving."""
+        if face_xy is not None:
+            face = np.asarray(face_xy, dtype=np.float64)
+            if face.shape != (2,) or not np.isfinite(face).all():
+                raise ValueError(
+                    f"face_xy must be a world [x, y] pair, got {face_xy!r}"
+                )
         self._vla_desync = True
         target = np.asarray(xy[:2], dtype=np.float64)
         if self._fwd_offset is None:
