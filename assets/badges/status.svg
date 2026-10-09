@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="22" role="img" aria-label="Status: Pre-Alpha">
+  <title>Status: Pre-Alpha</title>
+  <rect width="47" height="22" fill="#555" />
+  <rect x="47" width="73" height="22" fill="#D65A48" />
+  <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,sans-serif" font-size="11">
+    <text x="23.5" y="15">Status</text>
+    <text x="83.5" y="15">Pre-Alpha</text>
+  </g>
+</svg>
