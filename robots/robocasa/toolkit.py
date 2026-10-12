@@ -24,10 +24,10 @@ from functools import partial
 from pathlib import Path
 from typing import Any
 
-from heart_runtime.dashboard.events import DashboardEventSink
-from heart_runtime.session import EnvState
-from heart_runtime.tools.toolkit import Toolkit
-from heart_runtime.utils.logging import get_logger, get_output_dir
+from roborsi.dashboard.events import DashboardEventSink
+from roborsi.session import EnvState
+from roborsi.tools.toolkit import Toolkit
+from roborsi.utils.logging import get_logger, get_output_dir
 from robots.robocasa import tools as robocasa_tools
 
 

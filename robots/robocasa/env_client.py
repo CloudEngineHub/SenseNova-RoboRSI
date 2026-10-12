@@ -20,10 +20,10 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from heart_runtime.robots.components.env_client_base import BaseEnvClient
+from roborsi.robots.components.env_client_base import BaseEnvClient
 
 if TYPE_CHECKING:
-    from heart_runtime.utils.rpc import RpcClient
+    from roborsi.utils.rpc import RpcClient
 
 CAM_ALIAS = {
     "agentview": "robot0_agentview_left",

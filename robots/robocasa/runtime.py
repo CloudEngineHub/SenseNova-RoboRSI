@@ -23,15 +23,15 @@ from functools import partial
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from heart_runtime.dashboard.events import DashboardEventSink
-from heart_runtime.robots.runtime import try_spawn_server, try_wait_server
-from heart_runtime.utils.config import get_repo_root
-from heart_runtime.utils.daemon import ProcessDaemon, pick_free_port
-from heart_runtime.utils.rpc import make_rpc_client
-from heart_runtime.utils.rpc.http_rpc import HttpRpcClient
+from roborsi.dashboard.events import DashboardEventSink
+from roborsi.robots.runtime import try_spawn_server, try_wait_server
+from roborsi.utils.config import get_repo_root
+from roborsi.utils.daemon import ProcessDaemon, pick_free_port
+from roborsi.utils.rpc import make_rpc_client
+from roborsi.utils.rpc.http_rpc import HttpRpcClient
 
 if TYPE_CHECKING:
-    from heart_runtime.utils.rpc import RpcClient
+    from roborsi.utils.rpc import RpcClient
 
 
 
@@ -86,7 +86,7 @@ def _spawn_env_server(
                 # PYOPENGL_PLATFORM=osmesa) and the server inherits it.
                 "MUJOCO_GL": os.environ.get("MUJOCO_GL", "egl"),
                 "ROBOT_PLATFORM": "ROBOCASA",
-                # Standard HEART evaluation uses --seed directly. Do not let a
+                # Standard RoboRSI evaluation uses --seed directly. Do not let a
                 # stale variable from legacy paired-scene runs change the reset.
                 "RLDX_RESET_SEED": "",
             },

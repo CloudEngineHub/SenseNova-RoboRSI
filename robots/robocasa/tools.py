@@ -15,7 +15,7 @@
 """RoboCasa tool schemas and handlers backed by the run's ``EnvState``.
 
 The state trace (``states.json`` manifest + per-step artifact files under
-``<step:02d>/``) is owned by :class:`heart_runtime.session.EnvState`. Tool handlers
+``<step:02d>/``) is owned by :class:`roborsi.session.EnvState`. Tool handlers
 that need to read it take a ``state: EnvState`` keyword argument (bound by the
 toolkit via :func:`functools.partial`); state-advancing primitive tools capture
 state automatically through :meth:`RoboCasaToolkit.get_env_state`.
@@ -27,8 +27,8 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from heart_runtime.session import EnvState, StepRecord
-from heart_runtime.tools.toolkit import readonly
+from roborsi.session import EnvState, StepRecord
+from roborsi.tools.toolkit import readonly
 
 if TYPE_CHECKING:
     from robots.robocasa.primitives import RoboCasaPrimitives

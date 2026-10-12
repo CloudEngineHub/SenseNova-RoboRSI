@@ -16,7 +16,7 @@
 
 from __future__ import annotations
 
-from heart_runtime.robots.components.env_client_base import BaseEnvClient
+from roborsi.robots.components.env_client_base import BaseEnvClient
 from robots.robocasa.env_client import RoboCasaEnvClient
 
 META = {"camera_h": 4, "camera_w": 4}

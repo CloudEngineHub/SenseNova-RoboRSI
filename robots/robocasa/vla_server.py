@@ -19,9 +19,9 @@ import os
 
 import numpy as np
 
-from heart_runtime.robots.components.vla_facade_base import BaseVLAFacade
-from heart_runtime.utils.logging import get_logger
-from heart_runtime.utils.rpc.rpc_facade import DEFAULT_SESSION_TIMEOUT_S
+from roborsi.robots.components.vla_facade_base import BaseVLAFacade
+from roborsi.utils.logging import get_logger
+from roborsi.utils.rpc.rpc_facade import DEFAULT_SESSION_TIMEOUT_S
 
 logger = get_logger("vla_server")
 

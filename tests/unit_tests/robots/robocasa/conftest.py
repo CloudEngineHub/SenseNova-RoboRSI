@@ -18,7 +18,7 @@ from typing import Any
 
 import pytest
 
-from heart_runtime.tools.toolkit import readonly
+from roborsi.tools.toolkit import readonly
 
 
 class FakeSingleArmPrimitives:

@@ -29,7 +29,7 @@ from collections import deque
 import imageio.v2 as imageio
 import numpy as np
 
-from heart_runtime.utils.logging import get_logger
+from roborsi.utils.logging import get_logger
 from robots.robocasa.env_client import RoboCasaEnvClient
 
 logger = get_logger("rldx_skill")

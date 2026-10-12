@@ -16,7 +16,7 @@
 
 from __future__ import annotations
 
-from heart_runtime.robots.components.vla_client_base import BaseVLAClient
+from roborsi.robots.components.vla_client_base import BaseVLAClient
 
 
 class RoboCasaVLAClient(BaseVLAClient):

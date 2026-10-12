@@ -16,8 +16,8 @@
 
 These orchestrate the lifecycle of subprocess-backed servers (env, vla,
 sam3) selected through the ``init_runtime`` contract on
-:class:`~heart_runtime.robots.robot_spec.RobotSpec`. Each helper reports state
-transitions to a :class:`~heart_runtime.dashboard.events.DashboardEventSink` so
+:class:`~roborsi.robots.robot_spec.RobotSpec`. Each helper reports state
+transitions to a :class:`~roborsi.dashboard.events.DashboardEventSink` so
 the dashboard UI stays in sync with the actual processes.
 """
 
@@ -26,12 +26,12 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import TYPE_CHECKING, Any
 
-from heart_runtime.dashboard.events import DashboardEventSink, RuntimeStatusEvent
-from heart_runtime.utils.daemon import ProcessDaemon
-from heart_runtime.utils.rpc import wait_for_ready
+from roborsi.dashboard.events import DashboardEventSink, RuntimeStatusEvent
+from roborsi.utils.daemon import ProcessDaemon
+from roborsi.utils.rpc import wait_for_ready
 
 if TYPE_CHECKING:
-    from heart_runtime.utils.rpc import RpcClient
+    from roborsi.utils.rpc import RpcClient
 
 
 def stop_owned_daemons(

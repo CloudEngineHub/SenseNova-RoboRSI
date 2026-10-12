@@ -22,9 +22,9 @@ import sys
 
 import numpy as np
 
-from heart_runtime.robots.components.env_facade_base import BaseEnvFacade
-from heart_runtime.utils.logging import get_logger
-from heart_runtime.utils.rpc.main_thread_serve import MainThreadServeMixin
+from roborsi.robots.components.env_facade_base import BaseEnvFacade
+from roborsi.utils.logging import get_logger
+from roborsi.utils.rpc.main_thread_serve import MainThreadServeMixin
 
 logger = get_logger("env_server")
 
@@ -419,7 +419,7 @@ def main():
                 args.cuda_device,
             )
             os.environ.pop("CUDA_VISIBLE_DEVICES", None)
-        from heart_runtime.utils.egl import configure_egl_device
+        from roborsi.utils.egl import configure_egl_device
 
         configure_egl_device(args.cuda_device)
         import torch

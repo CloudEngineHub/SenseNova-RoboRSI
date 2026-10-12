@@ -16,8 +16,8 @@
 
 from __future__ import annotations
 
-from heart_runtime.utils.rpc import RpcFacade
-from heart_runtime.utils.rpc.rpc_facade import DEFAULT_SESSION_TIMEOUT_S
+from roborsi.utils.rpc import RpcFacade
+from roborsi.utils.rpc.rpc_facade import DEFAULT_SESSION_TIMEOUT_S
 
 
 class BaseVLAFacade(RpcFacade):

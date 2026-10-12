@@ -22,9 +22,9 @@ from typing import Any
 
 import pytest
 
-from heart_runtime.dashboard.events import NullDashboardEventSink
-from heart_runtime.tools.toolkit import Toolkit, _is_readonly
-from heart_runtime.utils import templates
+from roborsi.dashboard.events import NullDashboardEventSink
+from roborsi.tools.toolkit import Toolkit, _is_readonly
+from roborsi.utils import templates
 from robots.robocasa import toolkit
 
 COMMON_TOOLS = {"read_text_file", "write_text_file", "list_dir", "finish"}
