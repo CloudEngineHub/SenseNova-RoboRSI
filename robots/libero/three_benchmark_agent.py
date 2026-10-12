@@ -10,12 +10,13 @@ from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
-from heart_runtime.agents.config import AgentConfig
-from heart_runtime.agents.context_package import ContextPackage, load_package_map
-from heart_runtime.data_convert import TextDocument
-from heart_runtime.embodied_agent import EmbodiedAgent, McpServer
-from heart_runtime.evaluation.messages import Action, Observation, StepResult, Task
-from heart_runtime.evaluation.result import write_json_atomic
+from roborsi.agents.config import AgentConfig
+from roborsi.agents.context_package import ContextPackage, load_package_map
+from roborsi.data_convert import TextDocument
+from roborsi.embodied_agent import EmbodiedAgent, McpServer
+from roborsi.evaluation.messages import Action, Observation, StepResult, Task
+from roborsi.evaluation.result import write_json_atomic
+from roborsi.utils.config import get_project_env
 
 
 def _boolean(parameters: dict[str, Any], name: str, default: bool) -> bool:
@@ -31,22 +32,22 @@ def _mcp_server(
     if not enabled:
         return None
     field = f"{name}_url_env"
-    env_name = parameters.get(field, f"HEART_{name.upper()}_MCP_URL")
+    env_name = parameters.get(field, f"ROBORSI_{name.upper()}_MCP_URL")
     if not isinstance(env_name, str) or not env_name.strip():
         raise ValueError(f"parameters.{field} must name an environment variable")
-    url = os.environ.get(env_name)
+    url = get_project_env(env_name)
     if not url:
         raise ValueError(f"{name.upper()} is enabled but {env_name} is unset")
     return McpServer(name=name, url=url)
 
 
 def _context_root(parameters: dict[str, Any]) -> Path:
-    env_name = parameters.get("context_root_env", "HEART_LIBERO_ICL_ROOT")
+    env_name = parameters.get("context_root_env", "ROBORSI_LIBERO_ICL_ROOT")
     if not isinstance(env_name, str) or not env_name.strip():
         raise ValueError(
             "parameters.context_root_env must name an environment variable"
         )
-    value = os.environ.get(env_name)
+    value = get_project_env(env_name)
     if not value:
         raise ValueError(f"sealed ICL packages require {env_name}")
     root = Path(os.path.abspath(value))
@@ -80,7 +81,7 @@ def _initial_context(package: ContextPackage) -> tuple[Any, ...]:
 
 
 class ThreeBenchmarkIclAgent:
-    """Resolve one immutable context package when the HEART task is bound."""
+    """Resolve one immutable context package when the RoboRSI task is bound."""
 
     def __init__(
         self,

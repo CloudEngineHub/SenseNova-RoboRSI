@@ -11,24 +11,25 @@ import json
 import os
 from pathlib import Path
 
-from heart_runtime.agents.config import AgentConfig
-from heart_runtime.agents.context_package import load_package_map
-from heart_runtime.benchmarks.registry import directory_sha256
+from roborsi.agents.config import AgentConfig
+from roborsi.agents.context_package import load_package_map
+from roborsi.benchmarks.registry import directory_sha256
+from roborsi.utils.config import require_project_env
 
 _SPECS = {
     "libero_long_plus_plus": (
         "bundle:libero_long_plus_plus_v13",
-        "HEART_LIBERO_LONGPP_ICL_ROOT",
+        "ROBORSI_LIBERO_LONGPP_ICL_ROOT",
         12,
         12,
     ),
     "libero_ultra_long": (
         "bundle:libero_ultra_long_v13",
-        "HEART_LIBERO_ULTRA_ICL_ROOT",
+        "ROBORSI_LIBERO_ULTRA_ICL_ROOT",
         9,
         9,
     ),
-    "libero_pro": ("bundle:libero_pro", "HEART_LIBERO_PRO_ICL_ROOT", 80, 40),
+    "libero_pro": ("bundle:libero_pro", "ROBORSI_LIBERO_PRO_ICL_ROOT", 80, 40),
 }
 
 
@@ -43,7 +44,7 @@ def _sha256(path: Path) -> str:
 def verify(lock_path: Path) -> dict:
     """Verify installed bundles, every package payload and the local tokenizer."""
     lock = json.loads(lock_path.read_text(encoding="utf-8"))
-    tokenizer = Path(os.environ["HEART_CONTEXT_TOKENIZER_PATH"])
+    tokenizer = Path(require_project_env("ROBORSI_CONTEXT_TOKENIZER_PATH"))
     tokenizer_digest = _sha256(tokenizer)
     expected_tokenizer = lock["assets"]["context_tokenizer"]["sha256"]
     if tokenizer_digest != expected_tokenizer:

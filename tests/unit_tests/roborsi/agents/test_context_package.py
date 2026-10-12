@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from heart_runtime.agents.context_package import ContextPackage, load_package_map
+from roborsi.agents.context_package import ContextPackage, load_package_map
 
 
 def _package(root: Path) -> Path:

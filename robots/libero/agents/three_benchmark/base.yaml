@@ -31,5 +31,5 @@ parameters:
   enable_vla: false
   enable_sam3: false
 dependencies:
-  - heart-runtime[runtime]
+  - roborsi[runtime]
   - tokenizers==0.22.2

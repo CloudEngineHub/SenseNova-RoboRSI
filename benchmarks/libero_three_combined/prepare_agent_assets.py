@@ -16,9 +16,9 @@ _REPOSITORY = Path(__file__).resolve().parents[2]
 if str(_REPOSITORY) not in sys.path:
     sys.path.insert(0, str(_REPOSITORY))
 
-from heart_runtime.agents.context_package import load_package_map  # noqa: E402
-from heart_runtime.benchmarks.registry import directory_sha256  # noqa: E402
-from heart_runtime.evaluation.result import write_json_atomic  # noqa: E402
+from roborsi.agents.context_package import load_package_map  # noqa: E402
+from roborsi.benchmarks.registry import directory_sha256  # noqa: E402
+from roborsi.evaluation.result import write_json_atomic  # noqa: E402
 
 _SPECS = {
     "longpp": ("libero_long_plus_plus", 12, 12),

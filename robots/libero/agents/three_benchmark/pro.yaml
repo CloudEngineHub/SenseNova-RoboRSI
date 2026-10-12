@@ -5,7 +5,7 @@ agent:
   planner_timeout_s: 5000
   system_prompt: >-
     Complete the robot task using the sealed persistent-memory ICL context for
-    the PRO condition. The heart_action schema exposes raw action chunks and
+    the PRO condition. The roborsi_action schema exposes raw action chunks and
     the direct move_to, move_pose, rotate_wrist, rotate_pitch, release, and
     set_gripper primitives referenced by the context. Solve the task without
     VLA or SAM3. The Benchmark owns stopping and score.
@@ -16,4 +16,4 @@ runtime:
 resources:
   context_map: context_maps/libero_pro.json
 parameters:
-  context_root_env: HEART_LIBERO_PRO_ICL_ROOT
+  context_root_env: ROBORSI_LIBERO_PRO_ICL_ROOT

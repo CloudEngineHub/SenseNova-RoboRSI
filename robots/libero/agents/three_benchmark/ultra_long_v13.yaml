@@ -2,7 +2,7 @@ schema_version: 1
 extends: v13.yaml
 agent:
   system_prompt: >-
-    Complete the robot task using the sealed ICL context. The heart_action schema
+    Complete the robot task using the sealed ICL context. The roborsi_action schema
     exposes raw action chunks and the legacy direct move_to, move_pose,
     rotate_wrist, rotate_pitch, release, and set_gripper primitives referenced by
     the context. Prefer the named primitive that matches the intended operation
@@ -21,4 +21,4 @@ agent:
 resources:
   context_map: context_maps/libero_ultra_long.json
 parameters:
-  context_root_env: HEART_LIBERO_ULTRA_ICL_ROOT
+  context_root_env: ROBORSI_LIBERO_ULTRA_ICL_ROOT

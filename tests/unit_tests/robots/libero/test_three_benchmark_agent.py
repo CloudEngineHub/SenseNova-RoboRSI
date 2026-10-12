@@ -8,8 +8,8 @@ from types import SimpleNamespace
 
 import pytest
 
-from heart_runtime.agents.config import AgentConfig
-from heart_runtime.evaluation.messages import Task
+from roborsi.agents.config import AgentConfig
+from roborsi.evaluation.messages import Task
 from robots.libero.three_benchmark_agent import (
     ThreeBenchmarkIclAgent,
     _boolean,
@@ -31,9 +31,9 @@ def test_optional_tool_flags_are_explicit(monkeypatch):
 @pytest.mark.parametrize(
     ("name", "context_environment", "tool_enabled"),
     [
-        ("long_plus_plus_v13.yaml", "HEART_LIBERO_LONGPP_ICL_ROOT", False),
-        ("ultra_long_v13.yaml", "HEART_LIBERO_ULTRA_ICL_ROOT", False),
-        ("pro.yaml", "HEART_LIBERO_PRO_ICL_ROOT", False),
+        ("long_plus_plus_v13.yaml", "ROBORSI_LIBERO_LONGPP_ICL_ROOT", False),
+        ("ultra_long_v13.yaml", "ROBORSI_LIBERO_ULTRA_ICL_ROOT", False),
+        ("pro.yaml", "ROBORSI_LIBERO_PRO_ICL_ROOT", False),
     ],
 )
 def test_delivery_presets_compose_from_canonical_agent_directory(
@@ -49,7 +49,7 @@ def test_delivery_presets_compose_from_canonical_agent_directory(
     assert config.document["agent"]["reasoning_effort"] == "max"
     assert config.resources["context_map"].is_file()
     assert config.document["dependencies"] == [
-        "heart-runtime[runtime]",
+        "roborsi[runtime]",
         "tokenizers==0.22.2",
     ]
 
