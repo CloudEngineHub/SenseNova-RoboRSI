@@ -25,16 +25,19 @@ class BaseVLAClient:
     def __init__(self, client):
         self._client = client
 
-    def predict(self, obs, options=None):
+    def predict(self, obs, options=None, *, timeout_s: float | None = None):
         """Request a single VLA action chunk.
 
         Args:
             obs: observation data.
             options: optional dict.
+            timeout_s: per-call wait timeout; None preserves the 120-second default.
 
         Returns:
             actions.
         """
         return self._client.call(
-            "vla.predict", args=(obs, options), timeout_s=self._TIMEOUT_S["predict"]
+            "vla.predict",
+            args=(obs, options),
+            timeout_s=self._TIMEOUT_S["predict"] if timeout_s is None else timeout_s,
         )
