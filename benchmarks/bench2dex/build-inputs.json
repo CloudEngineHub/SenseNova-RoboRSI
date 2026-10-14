@@ -4,6 +4,8 @@
     "build.py",
     "native-requirements.txt",
     "native-environment.lock.txt",
-    "python-runtime.sh"
+    "python-runtime.sh",
+    "native-image.constraints.txt",
+    "cleanup_orphans.py"
   ]
 }

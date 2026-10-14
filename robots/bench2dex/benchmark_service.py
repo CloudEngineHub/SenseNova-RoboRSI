@@ -51,6 +51,7 @@ def adapter_digest() -> str:
         "reference/__init__.py",
         "reference/core.py",
         "reference/calibration.py",
+        "reference/kinematics_tool.py",
         "reference/robot.py",
         "reference/rendering.py",
         "reference/simulator.py",
