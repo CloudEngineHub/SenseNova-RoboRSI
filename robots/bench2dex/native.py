@@ -13,6 +13,7 @@ from __future__ import annotations
 import json
 import os
 import queue
+import signal
 import socket
 import subprocess
 import tempfile
@@ -29,6 +30,54 @@ from .contracts import PROTOCOL, file_sha256, validate_chunk, validate_task
 from .reference.core import classify_result
 from .reference.robot import kinematics
 from .reference.transport import recv_message, send_message
+
+_PROCESS_TERM_TIMEOUT_S = 15.0
+_PROCESS_KILL_TIMEOUT_S = 10.0
+
+
+def _process_group_running(process: subprocess.Popen) -> bool:
+    """Check Linux group members, reaping the launcher and ignoring dead zombies."""
+    process.poll()
+    try:
+        os.killpg(process.pid, 0)
+    except ProcessLookupError:
+        return False
+    for entry in Path("/proc").iterdir():
+        if not entry.name.isdecimal():
+            continue
+        try:
+            if os.getpgid(int(entry.name)) != process.pid:
+                continue
+            fields = (entry / "stat").read_text().rpartition(")")[2].split()
+        except (FileNotFoundError, ProcessLookupError):
+            continue
+        if fields[0] not in {"Z", "X"}:
+            return True
+    return False
+
+
+def _stop_process_group(process: subprocess.Popen) -> None:
+    """Bound TERM/KILL cleanup independently of the wrapper's exit status."""
+    for signum, timeout in (
+        (signal.SIGTERM, _PROCESS_TERM_TIMEOUT_S),
+        (signal.SIGKILL, _PROCESS_KILL_TIMEOUT_S),
+    ):
+        try:
+            # start_new_session=True makes the launcher PID our process-group ID.
+            # Its children retain this group even after the launcher exits.
+            os.killpg(process.pid, signum)
+        except ProcessLookupError:
+            process.wait(timeout=_PROCESS_KILL_TIMEOUT_S)
+            return
+        deadline = time.monotonic() + timeout
+        while _process_group_running(process):
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                break
+            time.sleep(min(0.05, remaining))
+        else:
+            return
+    raise TimeoutError("native simulator process group did not stop")
 
 
 class NativeRuntime:
@@ -59,6 +108,8 @@ class NativeRuntime:
         self._listener: socket.socket | None = None
         self._connection: socket.socket | None = None
         self._process: subprocess.Popen | None = None
+        self._process_group_closed = False
+        self._close_lock = threading.Lock()
         self._log = None
         self._kit_cache = None
         self.task: Task | None = None
@@ -343,26 +394,24 @@ class NativeRuntime:
         self.result = rows[0]
 
     def close(self) -> None:
-        """Release sockets and the native process, including failed startup."""
-        self._stop.set()
-        self._commands.put(None)
-        if self._connection is not None:
-            try:
-                self._connection.shutdown(socket.SHUT_RDWR)
-            except OSError:
-                pass
-        if self._listener is not None:
-            self._listener.close()
-        if self._process is not None and self._process.poll() is None:
-            self._process.terminate()
-            try:
-                self._process.wait(timeout=15)
-            except subprocess.TimeoutExpired:
-                self._process.kill()
-                self._process.wait(timeout=10)
-        if self._thread is not None:
-            self._thread.join(timeout=5)
-        if self._log is not None:
-            self._log.close()
-        if self._kit_cache is not None:
-            self._kit_cache.cleanup()
+        """Release the owned process group, including failed or exited launchers."""
+        with self._close_lock:
+            self._stop.set()
+            self._commands.put(None)
+            if self._connection is not None:
+                try:
+                    self._connection.shutdown(socket.SHUT_RDWR)
+                except OSError:
+                    pass
+            if self._listener is not None:
+                self._listener.close()
+            if self._process is not None and not self._process_group_closed:
+                _stop_process_group(self._process)
+                # Keep the process and cache for a retry if group cleanup fails.
+                self._process_group_closed = True
+            if self._thread is not None:
+                self._thread.join(timeout=5)
+            if self._log is not None:
+                self._log.close()
+            if self._kit_cache is not None:
+                self._kit_cache.cleanup()
