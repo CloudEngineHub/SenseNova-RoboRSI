@@ -1,0 +1,239 @@
+{
+  "upstream_commit": "f96a8b2b4eb475483af66e9e03916b35bc43f1be",
+  "tasks": [
+    {
+      "task_id": 3,
+      "scene": "03_wine_glass_plate_balance.yaml",
+      "scene_sha256": "9cda6c2b52a3f45dea0ee0ac78987ecf63c2518f478c21b1c940ecbd05dfea11",
+      "robot_key": "multi_xarm7_with_ability",
+      "instruction": "Carry three filled wine glasses to the plates of three diners without spilling or knocking over any objects.",
+      "policy_budget": 1082,
+      "dof": 26
+    },
+    {
+      "task_id": 6,
+      "scene": "06_fruit_bowl_loading.yaml",
+      "scene_sha256": "31b6263a9337e70727c1e4285a4e97fad8ea18b70a0eb1f47b355bb52c27d281",
+      "robot_key": "multi_ur5_rh56dfx_with_flange",
+      "instruction": "Use the left hand to move the bowl to the table center, the right hand to place two apples into it, and the left hand to place the banana into it.",
+      "policy_budget": 640,
+      "dof": 24
+    },
+    {
+      "task_id": 7,
+      "scene": "07_citrus_plate_loading.yaml",
+      "scene_sha256": "20a13b2d73bbfdb374dd61794af06bb5f9e894463f23eb48bac3cc8e1afbed74",
+      "robot_key": "multi_ur5_rh5dg2_with_flange",
+      "instruction": "Use the left hand to place the farther lemon onto the plate, the right hand to move the paired orange near the plate, and the left hand to place that orange onto the plate; repeat for the remaining pair.",
+      "policy_budget": 602,
+      "dof": 38
+    },
+    {
+      "task_id": 8,
+      "scene": "08_frypan_stand_pour.yaml",
+      "scene_sha256": "02df28e9d3b8880b87c377fc861dbcbb656a6995ba12fb448b2b4a76351012b5",
+      "robot_key": "multi_ur5_schunk_hand_with_flange",
+      "instruction": "Use the left hand to pick up the frypan and place it onto the display stand, then pour the soy sauce and olive oil into the frypan one by one.",
+      "policy_budget": 1144,
+      "dof": 30
+    },
+    {
+      "task_id": 9,
+      "scene": "09_cleaner_moisturizer_box_loading.yaml",
+      "scene_sha256": "0238e4691b1f0a5519c3c6ec2240d71635f1d6e850e1d28d940120777409d468",
+      "robot_key": "multi_xarm7_with_leap",
+      "instruction": "Use both hands to lift the cleaner and place it upright into the wooden box, then use the right hand to place the soap into the box.",
+      "policy_budget": 642,
+      "dof": 40
+    },
+    {
+      "task_id": 12,
+      "scene": "12_screwdriver_box_and_hammer.yaml",
+      "scene_sha256": "e37beba9ca065631bee2c97af048a51dc6e58cd76439e1ea2109cfbea06276a8",
+      "robot_key": "multi_ur5_rh56dfx_with_flange",
+      "instruction": "Use the right hand to place the right screwdriver into the box and move the box to the left, use the left hand to place the left screwdriver into the box, then pick up the hammer, strike the wooden block once, and place the hammer into the box.",
+      "policy_budget": 1149,
+      "dof": 24
+    },
+    {
+      "task_id": 21,
+      "scene": "21_condiment_box_loading.yaml",
+      "scene_sha256": "2ef531a2ebc05f189c4f3a934098cee42d0caca687ca0002b6175bba8edfe4ae",
+      "robot_key": "multi_ur5_wuji_with_flange",
+      "instruction": "Use the right hand to place the monosodium glutamate into the box and move the box to the table center; then use the left hand to place the soy sauce into the box, followed by the vinegar.",
+      "policy_budget": 827,
+      "dof": 52
+    },
+    {
+      "task_id": 22,
+      "scene": "22_tool_box_loading.yaml",
+      "scene_sha256": "0cfa5397357774783b95bffd8c45771238502d07fa42e555630524f40d2dfa41",
+      "robot_key": "multi_panda_with_orca",
+      "instruction": "Use the right hand to place the drill and flat screwdriver into the wooden box, then use the left hand to place the wrench and Phillips screwdriver into the box.",
+      "policy_budget": 681,
+      "dof": 40
+    },
+    {
+      "task_id": 24,
+      "scene": "24_stationery_category_sorting.yaml",
+      "scene_sha256": "add1d7c99c05271a2c876d80dda0983dfa02fcf0638c58af7eaef6e118cc3b97",
+      "robot_key": "multi_rm_65_with_revo2",
+      "instruction": "Right hand sorts marker and battery into pen cup and plastic box, left hand sorts gray pen and glue into pen cup and plastic box.",
+      "policy_budget": 1542,
+      "dof": 24
+    },
+    {
+      "task_id": 26,
+      "scene": "26_canned_food_tray_line_arrangement.yaml",
+      "scene_sha256": "b18414ab7df09ba4c77fcf4220a87bac835679ef0eb7505e31d1f2b1a5bb71c4",
+      "robot_key": "multi_iiwa7_with_sharpa",
+      "instruction": "Use left hand to place the master chef can and MSG onto the tray, use right hand to place the milk box and potted meat can onto the tray.",
+      "policy_budget": 871,
+      "dof": 54
+    },
+    {
+      "task_id": 27,
+      "scene": "27_ball_box_loading.yaml",
+      "scene_sha256": "a40c7001a8e2bbcf0153eb80ecbdb5c3313c91638e595261f84c53e25825ac76",
+      "robot_key": "multi_ur5_wuji_with_flange",
+      "instruction": "Place mini soccer ball into box, place tennis ball into box, place golf ball into box, place ping-pong ball into box.",
+      "policy_budget": 1190,
+      "dof": 52
+    },
+    {
+      "task_id": 32,
+      "scene": "32_baking_tray_prep_with_tools.yaml",
+      "scene_sha256": "09bb91551d42255f027b16827f3b6bb5801e455f5fe32c7192cc9a640625cdab",
+      "robot_key": "multi_iiwa7_with_sharpa",
+      "instruction": "Use the left hand to place the brush and spatula onto the tray, use the right hand to place the small pudding box then the large gelatin box onto the tray in sequence.",
+      "policy_budget": 852,
+      "dof": 54
+    },
+    {
+      "task_id": 34,
+      "scene": "34_fridge_wine_interhand_pour.yaml",
+      "scene_sha256": "c8fef48db7fba00ec8a6083332d42e258c9cc2f679cd80daad724f1ce7be2a03",
+      "robot_key": "multi_ur5_rh5dg2_with_flange",
+      "instruction": "Use the left hand to open the refrigerator and take out the wine bottle, hand it to the right hand in the air to pour a glass of wine, hand it back to the left hand to return it to the refrigerator, then close the door with the left hand.",
+      "policy_budget": 1080,
+      "dof": 38
+    },
+    {
+      "task_id": 42,
+      "scene": "42_trash_disposal.yaml",
+      "scene_sha256": "f8b5f2fd82d0e42b527258963bb68b03c8d40ae2dca0d8bc37d970703ba1f5d5",
+      "robot_key": "multi_ur5_rh56dfx_with_flange",
+      "instruction": "Open the trash can lid, throw crumpled paper into the trash can, use left hand to throw bottle and banana peel into the trash can, close the trash can lid.",
+      "policy_budget": 668,
+      "dof": 24
+    },
+    {
+      "task_id": 43,
+      "scene": "43_fridge_fruit_shelf_sorting.yaml",
+      "scene_sha256": "22f743225dcb72c88011557297c99e52f3eed420a41785fa4f28888237e023f7",
+      "robot_key": "multi_ur5_shadow_hand_with_flange",
+      "instruction": "Right hand moves banana to the left side of desk, left hand opens both fridge doors, place apple on upper shelf and banana on lower shelf, then right hand closes fridge door.",
+      "policy_budget": 1375,
+      "dof": 56
+    },
+    {
+      "task_id": 44,
+      "scene": "44_microwave_bowl_loading.yaml",
+      "scene_sha256": "f9565e92b4f8e8198021ad46e5b78221d58262ffb05d5ad431bfe113bedec0c5",
+      "robot_key": "multi_ur5_schunk_hand_with_flange",
+      "instruction": "Open microwave door with left hand, bring bowl to microwave with right hand, place baguette into bowl with left hand, place bowl into microwave with right hand, close microwave door with left hand.",
+      "policy_budget": 1061,
+      "dof": 30
+    },
+    {
+      "task_id": 51,
+      "scene": "51_toilet_lid_cleaner_pour.yaml",
+      "scene_sha256": "10ffcd97926bded6a29aec6f41ba866efd6e130ae94dfb11444a92c41e4cb3f0",
+      "robot_key": "multi_xarm7_with_leap",
+      "instruction": "Open the toilet lid with left hand, pour cleaner into toilet with right hand, close the toilet lid with left hand.",
+      "policy_budget": 1023,
+      "dof": 40
+    },
+    {
+      "task_id": 60,
+      "scene": "60_breadbasket_fast_food_loading.yaml",
+      "scene_sha256": "4da2ae83674aaab29a5841b6f3158e2faf90d3e8a2ec79262a769083fa64903d",
+      "robot_key": "multi_ur5_rh5dg2_with_flange",
+      "instruction": "Use the right hand to place the baguette and bread into the bread basket, move the basket to the center of the table, then use the left hand to place the bread and french fries into the basket as a fast-food setup.",
+      "policy_budget": 995,
+      "dof": 38
+    },
+    {
+      "task_id": 61,
+      "scene": "61_medicine_shoebox_pack.yaml",
+      "scene_sha256": "5336179d641833cbc53f86a16030e23d2ff6d28ed5e7024c83cea168f967568f",
+      "robot_key": "multi_panda_with_orca",
+      "instruction": "Use the left hand to move the shoe box to the center of the table, then use the right hand to place the pill bottle and toothpaste into the box, and use the left hand to place the hydrating oil into the box.",
+      "policy_budget": 1034,
+      "dof": 40
+    },
+    {
+      "task_id": 62,
+      "scene": "62_shoebox_accessory_pack.yaml",
+      "scene_sha256": "0c4d863e1181cffb223e4dcd3edead9b317f9d9b2142de427ff074c1d3e8dafc",
+      "robot_key": "multi_xarm7_with_leap",
+      "instruction": "Use the right hand to place the seal into the shoe box and move the box to the center of the table, then use the left hand to place the shoe and pet collar into the box.",
+      "policy_budget": 1077,
+      "dof": 40
+    },
+    {
+      "task_id": 64,
+      "scene": "64_sports_ball_cup_sort.yaml",
+      "scene_sha256": "900fc133f9382fd8165de792360cad68ae3371d679c5571992ce7d0c41e47ab1",
+      "robot_key": "multi_panda_with_allegro",
+      "instruction": "Place the tennis ball and baseball into the large cup, place the racquetball and golf ball into the small cup.",
+      "policy_budget": 665,
+      "dof": 32
+    },
+    {
+      "task_id": 67,
+      "scene": "67_faucet_cup_water_fill.yaml",
+      "scene_sha256": "8b0c376de8cfbae20890016f2fed2ce82419486efd613616434cac28bbb5d9f2",
+      "robot_key": "multi_rm_65_with_revo2",
+      "instruction": "Use the left hand to first place the spoon into the mug, use the right hand to place the mug under the faucet, use the left hand to open the faucet to fill the mug and then close it, and use the right hand to place the mug onto the tray.",
+      "policy_budget": 964,
+      "dof": 24
+    },
+    {
+      "task_id": 73,
+      "scene": "73_jigsaw_puzzle_assembly.yaml",
+      "scene_sha256": "67361d116c2be6cf674ff634d5122439e2ed27f8220eeb32d9e7b04a0a387d6d",
+      "robot_key": "multi_iiwa7_with_sharpa",
+      "instruction": "Right hand and left hand in turn assemble the green, red, blue, yellow puzzle pieces onto the fixed white puzzle piece in the center of the table, forming a rectangle.",
+      "policy_budget": 1213,
+      "dof": 54
+    },
+    {
+      "task_id": 76,
+      "scene": "76_soup_serving.yaml",
+      "scene_sha256": "f87a6bcf600695d8ba4c40bc3c1caec592fc79329c6cc18b126092c7d52481f5",
+      "robot_key": "multi_ur5_shadow_hand_with_flange",
+      "instruction": "Hold the bowl beside the pot with the left hand, use the right hand to ladle two scoops of soup from the pot into the bowl, carry the bowl with the left hand to the front-right area, and return the ladle with the right hand.",
+      "policy_budget": 986,
+      "dof": 56
+    },
+    {
+      "task_id": 79,
+      "scene": "79_bimanual_piano_melody.yaml",
+      "scene_sha256": "7bc56a4bbe00f2a984ac9eedb170cc6a2994d1386854e6ee507618ce925e03ca",
+      "robot_key": "multi_xarm7_with_ability",
+      "instruction": "Both hands play the piano key sequence C-C-G-G-A-A-G together, left hand plays the bass notes, right hand plays the treble notes.",
+      "policy_budget": 681,
+      "dof": 26
+    },
+    {
+      "task_id": 80,
+      "scene": "80_gaming_desk_setup.yaml",
+      "scene_sha256": "1ed3fc0b1c9d232a9fd81b2adcb4309bcbc180228b2e72537946f520a3dd8389",
+      "robot_key": "multi_jaka_zu7_dexhand021_with_flange",
+      "instruction": "Straighten the monitor screen forward with both hands, press the ESC key with the left index finger, move the mouse back to the left side of the keyboard with the right hand, and click the left mouse button with the index finger.",
+      "policy_budget": 593,
+      "dof": 52
+    }
+  ]
+}
