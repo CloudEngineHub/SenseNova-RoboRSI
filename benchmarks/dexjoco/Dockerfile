@@ -1,6 +1,6 @@
 # Requires the framework-owned DexJoCo runtime source registration first.
 # Build only the context produced by python -m benchmarks.package.
-ARG DEXJOCO_BASE_IMAGE
+ARG DEXJOCO_BASE_IMAGE=docker.io/library/python@sha256:db6ee5170ebce0f4d165af242e8e77addc08bd9ffc37e8b1815752cf027aa4f8
 FROM ${DEXJOCO_BASE_IMAGE}
 ARG DEXJOCO_COMMIT=8d23b0fab23b17a58c4b55f3942e17013aaf8267
 ENV MUJOCO_GL=osmesa PYOPENGL_PLATFORM=osmesa PYTHONDONTWRITEBYTECODE=1 \
