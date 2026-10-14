@@ -1,0 +1,1 @@
+{"schema_version": 1, "inputs": ["build_image.py", "build-lock.json", "requirements.in", "requirements.txt"]}
