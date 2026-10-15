@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 
 import numpy as np
@@ -16,6 +17,16 @@ from roborsi.evaluation.messages import Action
 from robots.bench2dex import contracts
 from robots.bench2dex.reference.core import CAMERAS
 from robots.bench2dex.roborsi_adapter import Bench2DexAdapter
+
+
+@pytest.mark.parametrize("size", [0, 3, 1024 * 1024 + 3])
+def test_artifact_hash_works_without_python311_file_digest(tmp_path, monkeypatch, size):
+    data = (bytes(range(256)) * (size // 256 + 1))[:size]
+    artifact = tmp_path / "artifact.bin"
+    artifact.write_bytes(data)
+    monkeypatch.delattr(hashlib, "file_digest", raising=False)
+
+    assert contracts.file_sha256(artifact) == hashlib.sha256(data).hexdigest()
 
 
 def raw_observation(task, step):
