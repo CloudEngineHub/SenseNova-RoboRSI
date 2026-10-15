@@ -296,3 +296,26 @@ def test_manifest_is_lockable_and_rejects_external_assets(tmp_path):
             runtime,
             tmp_path / "elsewhere",
         )
+
+
+@pytest.mark.parametrize("kind", ["leaf", "parent", "manifest_parent", "traversal"])
+def test_manifest_rejects_unsafe_asset_paths(tmp_path, kind):
+    from benchmarks.behavior_1k.prepare import _asset_subpath
+
+    manifest_dir = tmp_path / "registry/behavior_1k"
+    assets = manifest_dir / "snapshots/assets"
+    assets.mkdir(parents=True)
+    if kind == "leaf":
+        candidate = manifest_dir / "linked"
+        candidate.symlink_to(assets, target_is_directory=True)
+    elif kind == "parent":
+        (manifest_dir / "linked").symlink_to(assets.parent, target_is_directory=True)
+        candidate = manifest_dir / "linked/assets"
+    elif kind == "manifest_parent":
+        (tmp_path / "linked").symlink_to(manifest_dir.parent, target_is_directory=True)
+        manifest_dir = tmp_path / "linked/behavior_1k"
+        candidate = manifest_dir / "snapshots/assets"
+    else:
+        candidate = manifest_dir / "snapshots/../snapshots/assets"
+    with pytest.raises(ValueError, match="symlink|traversal"):
+        _asset_subpath(candidate, manifest_dir)

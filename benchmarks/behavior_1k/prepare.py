@@ -23,6 +23,19 @@ from robots.behavior_1k.catalog import NATIVE_COMMIT, read_catalog
 from robots.behavior_1k.roborsi_adapter import BehaviorRoboRSIAdapter
 
 
+def _asset_subpath(path: Path, manifest_dir: Path) -> str:
+    """Validate the lexical mount path before hashing or resolving symlinks."""
+    if ".." in path.parts or ".." in manifest_dir.parts:
+        raise ValueError("asset paths cannot contain parent traversal")
+    absolute = path.absolute()
+    relative = absolute.relative_to(manifest_dir.absolute())
+    if not relative.parts or "\\" in relative.as_posix():
+        raise ValueError("asset path must be a POSIX subpath of the manifest directory")
+    if any(part.is_symlink() for part in (absolute, *absolute.parents)):
+        raise ValueError("asset path contains a symlink")
+    return relative.as_posix()
+
+
 def build_manifest(
     image: str,
     assets: Path,
@@ -38,6 +51,9 @@ def build_manifest(
         or runtime.benchmark_commit != NATIVE_COMMIT
     ):
         raise ValueError("provide the actual image digest and matching runtime info")
+    paths = {
+        path: _asset_subpath(path, manifest_dir) for path in (assets, catalog_root)
+    }
     tasks = read_catalog(catalog_root / "catalog.json")
     catalog = json.loads((catalog_root / "catalog.json").read_text())
     data_hash = directory_sha256(assets)
@@ -56,7 +72,7 @@ def build_manifest(
             {
                 "name": name,
                 "kind": "directory",
-                "path": path.resolve().relative_to(manifest_dir.resolve()).as_posix(),
+                "path": paths[path],
                 "version": content_hash,
                 "sha256": content_hash,
             }
