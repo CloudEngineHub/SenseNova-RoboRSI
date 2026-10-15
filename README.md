@@ -52,19 +52,26 @@ into the next agent version, connecting task execution with continuous improveme
 
 ## Results
 
-Each table shows SenseNova-RoboRSI and four reference results. Higher is better.
+Each table shows SenseNova-RoboRSI alongside selected reference results. Higher is better.
 
 ### [RoboDojo](https://robodojo-benchmark.com/)
+
+On RoboDojo-Sim, SenseNova-RoboRSI achieves an **average score of 56.83** and a
+**success rate of 50.83%**. Compared with the **GPT-6-Astra** baseline, this is a
+gain of **27.86 score points** and **28.35 percentage points** in success rate.
 
 | Method | Average score ↑ | Success rate ↑ |
 | --- | ---: | ---: |
 | SenseNova-RoboRSI / GPT-6 Astra (ours) | **56.83** | **50.83%** |
+| EmbodiedEvo | 45.08 | 38.95% |
 | VPP2 | 39.26 | 32.26% |
 | PhysicalRSI | 36.27 | 31.38% |
 | Awomo-0.5 | 35.34 | 29.64% |
 | Simate-beta | 33.95 | 27.96% |
+| GPT-6-Astra (baseline) | 28.97 | 22.48% |
 
-Reference results: [RoboDojo simulation leaderboard](https://robodojo-benchmark.com/leaderboard).
+Reference results: [RoboDojo simulation leaderboard](https://robodojo-benchmark.com/leaderboard)
+(updated **2026-10-14**, accessed **2026-10-15**).
 
 ### [LIBERO-PRO](https://zxy-mllab.github.io/LIBERO-PRO-Webpage/)
 

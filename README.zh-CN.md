@@ -43,19 +43,25 @@
 
 ## Results
 
-每张表列出 SenseNova-RoboRSI 与四项参考结果，分数越高越好。
+每张表列出 SenseNova-RoboRSI 与部分参考结果，分数越高越好。
 
 ### [RoboDojo](https://robodojo-benchmark.com/)
+
+SenseNova-RoboRSI 在 RoboDojo-Sim 上取得 **56.83 的平均得分**和 **50.83% 的成功率**。
+相比 **GPT-6-Astra** 基线，平均得分提升 **27.86 分**，成功率提升 **28.35 个百分点**。
 
 | 方法 | 平均得分 ↑ | 成功率 ↑ |
 | --- | ---: | ---: |
 | SenseNova-RoboRSI / GPT-6 Astra（我们） | **56.83** | **50.83%** |
+| EmbodiedEvo | 45.08 | 38.95% |
 | VPP2 | 39.26 | 32.26% |
 | PhysicalRSI | 36.27 | 31.38% |
 | Awomo-0.5 | 35.34 | 29.64% |
 | Simate-beta | 33.95 | 27.96% |
+| GPT-6-Astra（基线） | 28.97 | 22.48% |
 
-参考结果：[RoboDojo 仿真榜单](https://robodojo-benchmark.com/leaderboard)。
+参考结果：[RoboDojo 仿真榜单](https://robodojo-benchmark.com/leaderboard)
+（更新于 **2026-10-14**，访问于 **2026-10-15**）。
 
 ### [LIBERO-PRO](https://zxy-mllab.github.io/LIBERO-PRO-Webpage/)
 
