@@ -96,7 +96,7 @@ SenseNova-RoboRSI 在 RoboDojo-Sim 上取得 **60.08 的平均得分**和 **54.1
 ### 发布计划
 
 - [x] 项目介绍
-- [x] [实证研究](assets/0as_gpt-6_achieved_embodied_intelligence.pdf)
+- [x] [实证研究](assets/has_gpt-6_achieved_embodied_intelligence.pdf)
 - [ ] 代码发布
 - [ ] 使用文档
 - [ ] Demo
