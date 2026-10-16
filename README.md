@@ -6,6 +6,7 @@
   <img src="assets/badges/python.svg" alt="Python 3.10–3.12" />
   <img src="assets/badges/license.svg" alt="License: Apache 2.0" />
   <img src="assets/badges/status.svg" alt="Status: Pre-Alpha" />
+  <a href="assets/has_gpt-6_achieved_embodied_intelligence.pdf"><img src="assets/badges/report.svg" alt="Report: Published" /></a>
 </p>
 
 <p align="center">
@@ -14,6 +15,8 @@
 </p>
 
 ## News
+
+- **2026-10-16** — Our technical report, [**Has GPT-6 Achieved Embodied Intelligence?**](assets/has_gpt-6_achieved_embodied_intelligence.pdf), is now published.
 
 - **2026-10-09** — SenseNova-RoboRSI achieves an **average score of 56.83** and a **success rate of 50.83%** on RoboDojo, a gain of **+27.86 points** over the GPT-6 Astra baseline (**28.97**). See [Results](#results) for benchmark comparisons.
 
@@ -102,6 +105,7 @@ Reference results: [official RoboCasa leaderboard](https://robocasa.ai/leaderboa
 ### Release plan
 
 - [x] Project introduction
+- [x] [Technical report](assets/has_gpt-6_achieved_embodied_intelligence.pdf)
 - [ ] Code release
 - [ ] Usage documentation
 - [ ] Demo
@@ -138,4 +142,4 @@ VLA policies, simulation platforms, and real robots.
 - **Licenses:** External models, simulators, and datasets retain
   their respective licenses.
 
-**This achievement reflects the joint team's continued exploration and close collaboration in embodied AI and agent systems. We will continue to advance and validate these technologies, and release a full technical report soon covering the core methods, experimental design, and evaluation results. Stay tuned.**
+**This achievement reflects the joint team's continued exploration and close collaboration in embodied AI and agent systems. Our [technical report](assets/has_gpt-6_achieved_embodied_intelligence.pdf) is now published, covering the core methods, experimental design, and evaluation results. We will continue to advance and validate these technologies.**
