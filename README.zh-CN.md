@@ -10,10 +10,14 @@
 
 <p align="center">
   <a href="README.md">English</a> · <strong>简体中文</strong> ·
-  <a href="#results">实验结果</a> · <a href="#release-plan--roadmap">发布计划</a>
+  <a href="#quick-start">快速开始</a> · <a href="docs/README.md">使用文档</a> ·
+  <a href="#modelzoo">ModelZoo</a> · <a href="#results">实验结果</a> ·
+  <a href="#release-plan--roadmap">发布计划</a>
 </p>
 
 ## News
+
+- **2026-10-16** — 本分支已提供 **LIBERO、LIBERO-PRO、LIBERO-Long++ 和 LIBERO-Ultra-Long** 的首批代码与使用指南，详见[快速开始](docs/getting-started.zh-CN.md)。
 
 - **2026-10-16** — SenseNova-RoboRSI 作为实验框架支持了实证研究 [**Has GPT-6 Achieved Embodied Intelligence?**](assets/has_gpt-6_achieved_embodied_intelligence.pdf)。
 
@@ -42,6 +46,48 @@
 
 - **从执行反馈中改进**：保持模型参数不变，优化动作预测、任务规划、执行反馈与记忆组织。
 - **复测并保留有效变化**：记录 Agent 版本，在相同任务条件下评测候选改进，并将验证有效的变化继承到后续版本。
+
+## Quick Start
+
+Agent 和评测器使用 Python 3.10–3.12。在仓库根目录执行：
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -e '.[runtime,test]'
+bench --help
+```
+
+Windows 使用 `.venv\Scripts\Activate.ps1` 激活环境。
+
+按照[安装与首次评测指南](docs/getting-started.zh-CN.md)准备 benchmark，运行固定动作
+或模型 Agent。原生 benchmark 镜像面向 Linux；连接已有 HTTP benchmark 服务时，
+无需在本机安装模拟器。
+
+- **Benchmark 配置：** [LIBERO](benchmarks/libero/README.md)、
+  [LIBERO-PRO](benchmarks/libero_pro/README.md) 和
+  [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md)。
+- **Agent 配置：** [模型、提示词、上下文与预算](docs/agents.zh-CN.md)。
+- **评测：** [批量执行、结果查看与中断恢复](docs/evaluation.zh-CN.md)。
+
+## ModelZoo
+
+按 benchmark 列出已开源的 Agent 方法与即将开源的内容。当前已开源的 LIBERO 三项
+共用可配置的 EmbodiedAgent 预设；在预设中选择模型，并按对应评测目录完成环境准备与评测。
+
+| Benchmark | 状态 |
+| --- | --- |
+| RoboDojo | 即将开源 |
+| [LIBERO-Pro](benchmarks/libero_pro/) | 已开源 |
+| [LIBERO-Long++](benchmarks/libero_lilo/) | 已开源 |
+| [LIBERO-Ultra-Long](benchmarks/libero_lilo/) | 已开源 |
+| RoboLab | 即将开源 |
+| Bench2Dex | 即将开源 |
+| DexJoCo | 即将开源 |
+| LHVLN | 即将开源 |
+| VLN-CE | 即将开源 |
+| SIMPLE | 即将开源 |
+| BEHAVIOR-1K | 即将开源 |
 
 ## Results
 
@@ -96,9 +142,9 @@ SenseNova-RoboRSI 在 RoboDojo-Sim 上取得 **60.08 的平均得分**和 **54.1
 ### 发布计划
 
 - [x] 项目介绍
-- [x] [实证研究](assets/0as_gpt-6_achieved_embodied_intelligence.pdf)
-- [ ] 代码发布
-- [ ] 使用文档
+- [x] [实证研究](assets/has_gpt-6_achieved_embodied_intelligence.pdf)
+- [x] 首批代码：Agent 运行时与 LIBERO 系列评测
+- [x] [使用文档](docs/README.md)
 - [ ] Demo
 
 ### 后续研究方向
@@ -114,13 +160,12 @@ SenseNova-RoboRSI 在 RoboDojo-Sim 上取得 **60.08 的平均得分**和 **54.1
 欢迎基础模型、VLA、仿真平台与真实机器人相关团队参与合作。
 
 - **参与贡献：** 欢迎新的接口接入、评测任务、可复现的失败案例，
-  以及 Harness 设计建议。
+  以及 Harness 设计建议。当前发布范围与检查要求见[贡献指南](CONTRIBUTING_zh.md)。
 - **问题与合作：** 通过
   [Issues](https://github.com/OpenSenseNova/SenseNova-RoboRSI/issues)
   说明所用平台、应用场景与希望参与的方向。
 - **发布进展：** 关注
   [SenseNova-RoboRSI 仓库](https://github.com/OpenSenseNova/SenseNova-RoboRSI)。
-  代码发布时将同步补充贡献说明。
 - **致谢：** 感谢
   [RoboDojo](https://robodojo-benchmark.com/)、
   [LIBERO-PRO](https://zxy-mllab.github.io/LIBERO-PRO-Webpage/)、

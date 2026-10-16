@@ -1,0 +1,5 @@
+# Shell entry points run under Bash, including from Windows checkouts.
+*.sh text eol=lf
+
+# Sealed reference hashes describe exact bytes across checkouts.
+examples/components/data/reference-package/** -text

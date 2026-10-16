@@ -1,0 +1,71 @@
+# Tests
+
+The release tests cover the shared Agent/runtime/evaluation contracts and the
+LIBERO-family adapters. Tests mirror their production modules under
+`unit_tests/roborsi/` and `unit_tests/robots/libero/`. Shared local services and
+fake native providers remain beside their tests or in `fixtures/`.
+
+## Offline checks
+
+Install from the repository root, then run:
+
+```bash
+python -m pip install -e '.[runtime,test]'
+pytest tests/unit_tests -q
+```
+
+Required CI uses Linux and Python 3.11/3.12. These tests do not contact model
+providers, download assets, start Docker or execute a native simulator. They
+exercise real local HTTP and child Python processes where appropriate. Package
+installation tests build local wheels without network dependency resolution.
+
+Focused checks:
+
+```bash
+pytest tests/unit_tests/roborsi/evaluation tests/unit_tests/roborsi/agents -q
+pytest tests/unit_tests/roborsi/benchmarks tests/unit_tests/robots/libero -q
+pytest tests/unit_tests/roborsi/runtime tests/unit_tests/roborsi/planner -q
+```
+
+Benchmark bundle checks verify that exported server imports and CLI help work
+without Agent code or model SDKs. Adapter tests use deterministic native
+facades to check actions, stopping, score preservation and artifact identity.
+These checks establish contracts, not native task success.
+
+## LIBERO CPU evaluation check
+
+Prepare Docker, scene assets and a LIBERO registry using the
+[runtime recipe](../benchmarks/libero/README.md). For the short transport and
+failure tests, generate a manifest with task 0, seed 0 and `--max-steps 3`.
+
+```bash
+ROBORSI_RUN_LIBERO_BENCHMARK=1 \
+  ROBORSI_LIBERO_REGISTRY=/absolute/path/to/registry \
+  pytest tests/integration_tests/robots/libero/test_roborsi.py \
+    tests/integration_tests/robots/libero/test_roborsi_http.py \
+    tests/integration_tests/robots/libero/test_roborsi_http_replay.py \
+    tests/integration_tests/robots/libero/test_roborsi_action_contract.py -v -s
+```
+
+These opt-in checks execute the real native runtime, compare fixed actions
+against direct LIBERO calls, verify camera/score artifacts and check cleanup.
+The fixed-action Agent is expected to fail the manipulation task. A passing
+test does not establish model performance.
+
+Other opt-in files cover failures, queryable case status, Agent isolation,
+dependency verification and batch resume. Batch resume needs tasks 0–3 at seed
+0, each with a three-step budget. Dependency/environment checks need a complete
+wheel directory selected with `ROBORSI_AGENT_WHEELS`. Read each test's module
+docstring for its prerequisites. An unset opt-in flag causes a skip; collection
+or a skip is not native validation.
+
+PRO, Long++ and Ultra-Long have offline adapter and runtime-export coverage.
+Their native runs require the assets and image prerequisites in their benchmark
+recipes. No historical native run or model score is claimed by this migration.
+
+## Adding tests
+
+Use existing fixtures and test user-visible behavior. Keep required tests
+offline and independent of a simulator or GPU. Never weaken a failing test to
+make a change pass. Report the exact checks run and distinguish fakes, native
+execution and real model calls.

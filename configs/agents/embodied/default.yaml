@@ -1,0 +1,20 @@
+# Credentials come from OPENAI_API_KEY. Set the model before running.
+schema_version: 1
+source_root: ../../..
+agent:
+  max_turns: 100
+  max_tokens: 2048
+  planner_timeout_s: 3600
+  action_timeout_s: 180
+  reasoning_effort: low
+runtime:
+  llm:
+    provider: openai
+    model: YOUR_VISION_TOOL_MODEL
+    openai_format: responses
+    parallel_tool_calls: false
+  context:
+    strategy: recent_turns
+    keep_turns: 8
+  trace:
+    mode: full
