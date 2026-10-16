@@ -17,8 +17,8 @@
 
 ## News
 
-- **2026-10-17** — [**🤗 SenseNova-RoboRSI-27B-Preview**](https://huggingface.co/sensenova/sensenova-roborsi-27b-preview) 在 RoboDojo 上取得 **26.13 的平均得分**。模型权重预计于 **2026 年 10 月 20 日**开源，技术报告随后发布。
 - **2026-10-16** — SenseNova-RoboRSI 作为实验框架支持了实证研究 [**Has GPT-6 Achieved Embodied Intelligence?**](assets/has_gpt-6_achieved_embodied_intelligence.pdf)。
+- **2026-10-16** — [**🤗 SenseNova-RoboRSI-27B-Preview**](https://huggingface.co/sensenova/sensenova-roborsi-27b-preview) 即将发布。模型权重预计于 **2026 年 10 月 20 日**开源，技术报告随后发布。
 
 - **2026-10-09** — SenseNova-RoboRSI 在 RoboDojo 上取得 **60.08 的平均得分**和 **54.17% 的成功率**，平均得分较 GPT-6 Astra 基线（**28.97**）提升 **+31.11 分**。结果正在提交至 RoboDojo 官方榜单。更多评测对比见 [Harness 结果](#harness-results)。
 
@@ -117,14 +117,19 @@ RoboRSI-27B-Preview 通过模型与 Harness 的协同 RSI，将经过验证的�
 
 ![SenseNova-RoboRSI-27B-Preview 在 RoboDojo、LIBERO-Pro 与 RoboCasa365 上的评测结果](assets/roborsi-27b-preview-benchmarks.webp)
 
-- **RoboDojo：** 在配合 VLA 执行的设置下取得 **26.13 的平均得分**和 **20.83% 的任务成功率**；作为参照，GPT-6 Astra 的原生基线平均得分为 **28.97**。模型能够主动观察视觉细节、推理空间关系，并根据执行反馈纠正动作，展现了解决复杂操作任务的能力。
+- **RoboDojo：** 在配合 VLA 执行的设置下取得 **26.13 的平均得分**和 **20.83% 的任务成功率**，平均得分仅比 RoboDojo 团队评测的 GPT-6 Astra 低 **2.84 分**。模型能够主动观察视觉细节、推理空间关系，并根据执行反馈纠正动作，展现了解决复杂操作任务的能力。
 - **LIBERO-Pro：** 在 VLA 配合执行（System-2 + System-1）与 VLM 直接控制（System-2）两种架构下，成功率分别达到 **95.0%** 和 **96.1%**，在图中两种设置的对比模型中均仅次于 GPT-6 Astra，展现了跨执行架构的具身规划与决策能力。
 - **RoboCasa365：** 相较于 Qwen3.8-27B 基座模型，RSI 训练后成功率由 **26.0% 提升至 46.5%**，平均输出 Token 由 **59.5K 降至 15.9K**，减少 **73.3%**。模型将交互经验转化为更强任务能力，同时提升推理效率。
 
 ### 演示视频
 
-- [▶ 仿真演示 · RoboDojo](https://github.com/user-attachments/assets/96db7f38-d36f-4fc6-84d1-ecea27f396d6)
-- [▶ 真机演示](https://github.com/user-attachments/assets/7bf0a718-6dca-4cde-8cf1-4359620b65f2)
+**仿真演示 · RoboDojo**
+
+![仿真演示 · RoboDojo](assets/robodojo-27b-preview.webp)
+
+**真机演示**
+
+![真机演示](assets/real-robot-27b-preview.webp)
 
 ## Release Plan & Roadmap
 

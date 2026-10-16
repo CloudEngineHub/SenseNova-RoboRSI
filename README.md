@@ -17,8 +17,8 @@
 
 ## News
 
-- **2026-10-17** — [**🤗 SenseNova-RoboRSI-27B-Preview**](https://huggingface.co/sensenova/sensenova-roborsi-27b-preview) achieves an **average score of 26.13** on RoboDojo. The open-weight release is expected on **October 20, 2026**, with the technical report to follow.
 - **2026-10-16** — SenseNova-RoboRSI has been used in the empirical report [**Has GPT-6 Achieved Embodied Intelligence?**](assets/has_gpt-6_achieved_embodied_intelligence.pdf).
+- **2026-10-16** — [**🤗 SenseNova-RoboRSI-27B-Preview**](https://huggingface.co/sensenova/sensenova-roborsi-27b-preview) is coming. The open-weight release is expected on **October 20, 2026**, with the technical report to follow.
 
 - **2026-10-09** — SenseNova-RoboRSI achieves an **average score of 60.08** and a **success rate of 54.17%** on RoboDojo, a gain of **+31.11 points** over the GPT-6 Astra baseline (**28.97**). Results are being submitted to the official RoboDojo leaderboard. See [Harness Results](#harness-results) for benchmark comparisons.
 
@@ -130,10 +130,10 @@ community deployment, reproduction, and continued training.
 ![SenseNova-RoboRSI-27B-Preview results on RoboDojo, LIBERO-Pro, and RoboCasa365](assets/roborsi-27b-preview-benchmarks.webp)
 
 - **RoboDojo:** Achieves an **average score of 26.13** and a **task success rate of
-  20.83%** with VLA-assisted execution. GPT-6 Astra's native baseline scores
-  **28.97** for reference. The model actively inspects visual details, reasons
-  about spatial relationships, and corrects actions based on execution feedback
-  during complex manipulation tasks.
+  20.83%** with VLA-assisted execution. Its average score is just **2.84 points**
+  below GPT-6 Astra's score in the RoboDojo team's evaluation. The model actively
+  inspects visual details, reasons about spatial relationships, and corrects
+  actions based on execution feedback during complex manipulation tasks.
 - **LIBERO-Pro:** Reaches **95.0% success** with VLA-assisted execution
   (System 2 + System 1) and **96.1%** with direct VLM control (System 2), ranking
   second to GPT-6 Astra among the compared models in both settings. These results
@@ -146,8 +146,13 @@ community deployment, reproduction, and continued training.
 
 ### Demonstrations
 
-- [▶ Simulation · RoboDojo](https://github.com/user-attachments/assets/96db7f38-d36f-4fc6-84d1-ecea27f396d6)
-- [▶ Real-robot demonstration](https://github.com/user-attachments/assets/7bf0a718-6dca-4cde-8cf1-4359620b65f2)
+**Simulation · RoboDojo**
+
+![Simulation · RoboDojo](assets/robodojo-27b-preview.webp)
+
+**Real-robot demonstration**
+
+![Real-robot demonstration](assets/real-robot-27b-preview.webp)
 
 ## Release Plan & Roadmap
 
