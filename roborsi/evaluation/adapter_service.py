@@ -70,6 +70,7 @@ class AdapterFacade(RoboRSIFacade):
         self._ended = False
         self._started = False
         self._closed = False
+        self._cleanup_complete = False
         self._rpc.update(
             {
                 "start": self.start,
@@ -271,7 +272,8 @@ class AdapterFacade(RoboRSIFacade):
         return encoded
 
     def close_episode(self) -> dict[str, bool]:
-        if not self._closed:
+        """Reject new episode work immediately, but retry incomplete cleanup."""
+        if not self._cleanup_complete:
             self._closed = True
             try:
                 self._adapter.close()
@@ -279,6 +281,7 @@ class AdapterFacade(RoboRSIFacade):
                 self._identity = None
                 self._task = None
                 self._ended = False
+            self._cleanup_complete = True
         return {"ok": True}
 
     def close(self) -> None:
