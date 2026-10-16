@@ -1,0 +1,8 @@
+# Minimal RoboRSI protocol and fixed-action example. Add model/tool packages to your image.
+numpy==1.26.4
+pydantic==2.13.5
+PyYAML==6.0.3
+pillow==12.3.0
+jsonschema==4.26.0
+setuptools
+wheel

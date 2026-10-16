@@ -1,0 +1,6 @@
+# Reuse the model, budgets and trace settings from the shared preset.
+schema_version: 1
+extends: default.yaml
+runtime:
+  context:
+    keep_turns: 4

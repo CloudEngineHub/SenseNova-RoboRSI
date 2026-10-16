@@ -1,0 +1,21 @@
+# Install and pin the CLI in the Agent environment before running this preset.
+# Replace the expected version with the exact output of that executable --version.
+schema_version: 1
+source_root: ../../..
+agent:
+  planner: codex_cli
+  model: YOUR_CODEX_MODEL
+  reasoning_effort: low
+  max_turns: null
+  max_tokens: null
+  planner_timeout_s: 1200
+  action_timeout_s: 180
+  codex_cli:
+    executable: codex
+    expected_version: "codex-cli REPLACE_WITH_PINNED_VERSION"
+    cli_args:
+      - --skip-git-repo-check
+      - --sandbox
+      - workspace-write
+    config_overrides:
+      approval_policy: never

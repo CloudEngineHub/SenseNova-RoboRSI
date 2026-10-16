@@ -1,0 +1,7 @@
+# Select Benchmarks/tasks/seeds through the existing bench eval arguments.
+schema_version: 1
+agents:
+  baseline:
+    config: ../agents/embodied/default.yaml
+  short_context:
+    config: ../agents/embodied/short_context.yaml

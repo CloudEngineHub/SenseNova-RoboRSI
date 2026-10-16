@@ -1,0 +1,10 @@
+# Credentials: ANTHROPIC_API_KEY or an existing Claude login in the Agent environment.
+schema_version: 1
+source_root: ../../..
+agent:
+  planner: claude_code
+  model: YOUR_CLAUDE_MODEL
+  max_turns: 100
+  planner_timeout_s: 1200
+  action_timeout_s: 180
+  reasoning_effort: low

@@ -1,0 +1,800 @@
+# Copyright 2026 The HEART Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+from __future__ import annotations
+
+import asyncio
+import base64
+import json
+import queue
+from pathlib import Path
+from types import SimpleNamespace
+from typing import Any
+
+import pytest
+from pydantic_ai import BinaryContent, ToolReturn
+from pydantic_ai.exceptions import ModelHTTPError
+from pydantic_ai.messages import (
+    CachePoint,
+    ModelRequest,
+    ModelResponse,
+    TextPart,
+    ToolCallPart,
+    ToolReturnPart,
+    UserPromptPart,
+)
+from pydantic_ai.models.function import FunctionModel
+from pydantic_ai.usage import RequestUsage
+
+from roborsi.dashboard.events import TranscriptEvent, UsageEvent
+from roborsi.llm.retry import RetryLoggingModel, RetryPolicy
+from roborsi.planner.api_loop import (
+    ApiAgentLoop,
+    _api_error_text,
+    _build_tools,
+    _content_blocks_to_pydantic,
+    _make_tool_function,
+    _MaximumOpenAIThinking,
+    _prune_history_images,
+)
+from roborsi.runtime import (
+    CacheBreakpoint,
+    ContextResult,
+    RuntimeConfig,
+    SubAgentConfig,
+)
+from roborsi.tools.toolkit import ToolResult
+
+
+class RecordingSink:
+    def __init__(self) -> None:
+        self.events: list[Any] = []
+
+    @property
+    def enabled(self) -> bool:
+        return True
+
+    def emit(self, event: Any) -> None:
+        self.events.append(event)
+
+
+class FakeToolkit:
+    state = None
+
+    def __init__(self, result: dict[str, Any] | None = None) -> None:
+        self.result = result or {"ok": True}
+        self.calls: list[tuple[str, dict[str, Any]]] = []
+        self.cancel_calls = 0
+
+    def get_tools_spec(self) -> list[dict[str, Any]]:
+        return [
+            {
+                "name": "finish",
+                "description": "Finish after the environment accepts the result.",
+                "input_schema": {
+                    "type": "object",
+                    "properties": {
+                        "status": {"type": "string"},
+                        "summary": {"type": "string"},
+                    },
+                    "required": ["status", "summary"],
+                },
+            }
+        ]
+
+    def execute_tool(self, name: str, args: dict[str, Any]) -> ToolResult:
+        self.calls.append((name, args))
+        return ToolResult(name, dict(self.result))
+
+    def cancel_active_and_wait(self) -> None:
+        self.cancel_calls += 1
+
+
+def test_max_reasoning_retains_gateway_setting_and_rejects_other_providers() -> None:
+    assert _MaximumOpenAIThinking().get_model_settings() == {
+        "openai_reasoning_effort": "max"
+    }
+    with pytest.raises(ValueError, match="OpenAI-compatible"):
+        ApiAgentLoop(
+            FunctionModel(lambda _messages, _info: ModelResponse()),
+            reasoning_effort="max",
+            dashboard_events=RecordingSink(),
+        )
+
+
+def solve_with_model(
+    function: Any,
+    toolkit: FakeToolkit,
+    sink: RecordingSink,
+    *,
+    timeout_s: float = 5,
+):
+    planner = ApiAgentLoop(
+        FunctionModel(function),
+        max_tokens=321,
+        dashboard_events=sink,
+        timeout_s=timeout_s,
+    )
+    return planner.solve(
+        system_prompt="Use tools carefully.",
+        user_message="complete the task",
+        toolkit=toolkit,
+        max_turns=3,
+    )
+
+
+def test_configured_delegate_returns_to_parent_before_finish() -> None:
+    def model(messages, info):
+        if info.instructions == "CHILD":
+            assert info.function_tools == []
+            return ModelResponse(parts=[TextPart("grasp from above")])
+        returned = [
+            part
+            for message in messages
+            for part in message.parts
+            if isinstance(part, ToolReturnPart)
+        ]
+        if not returned:
+            return ModelResponse(
+                parts=[
+                    ToolCallPart(
+                        "delegate_task",
+                        {"agent_name": "reviewer", "task": "Choose a grasp"},
+                        "delegate",
+                    )
+                ]
+            )
+        assert returned[0].content == "grasp from above"
+        return ModelResponse(
+            parts=[
+                ToolCallPart(
+                    "finish",
+                    {"status": "success", "summary": returned[0].content},
+                    "finish",
+                )
+            ]
+        )
+
+    toolkit = FakeToolkit()
+    planner = ApiAgentLoop(
+        FunctionModel(model),
+        dashboard_events=RecordingSink(),
+        runtime=RuntimeConfig(
+            subagents={"reviewer": SubAgentConfig(instructions="CHILD")}
+        ),
+    )
+    result = planner.solve(
+        system_prompt="ROOT", user_message="Task", toolkit=toolkit, max_turns=10
+    )
+    assert result.error is None
+    assert result.finish_result["summary"] == "grasp from above"
+    assert result.stats["requests"] == 3
+    assert toolkit.calls == [
+        ("finish", {"status": "success", "summary": "grasp from above"})
+    ]
+
+
+def test_delegate_requests_share_limit_and_preserve_usage_on_exhaustion() -> None:
+    calls = []
+
+    def model(messages, info):
+        calls.append(info.instructions)
+        if info.instructions == "CHILD":
+            return ModelResponse(
+                parts=[
+                    ToolCallPart(
+                        "read_image", {"name": "absent.png"}, f"read-{len(calls)}"
+                    )
+                ]
+            )
+        return ModelResponse(
+            parts=[
+                ToolCallPart(
+                    "delegate_task",
+                    {"agent_name": "reader", "task": "Read"},
+                    "delegate",
+                )
+            ]
+        )
+
+    planner = ApiAgentLoop(
+        FunctionModel(model),
+        dashboard_events=RecordingSink(),
+        runtime=RuntimeConfig(
+            subagents={
+                "reader": SubAgentConfig(instructions="CHILD", tools=("read_image",))
+            }
+        ),
+    )
+    result = planner.solve(
+        system_prompt="ROOT", user_message="Task", toolkit=FakeToolkit(), max_turns=2
+    )
+    assert len(calls) == 3
+    assert result.stats["requests"] == 3
+    assert result.finish_result is None
+
+
+@pytest.mark.parametrize("startup_delay", [0, 0.3])
+def test_planner_timeout_drains_delegate_before_toolkit_cleanup(
+    monkeypatch, startup_delay
+) -> None:
+    child_started = []
+    child_exited = []
+    child_ready = asyncio.Event()
+
+    async def wait_for_running_child(awaitable, timeout):
+        # Exercise timeout cleanup after delegation starts, independently of
+        # model initialization speed. Keep a separate bounded startup watchdog.
+        await asyncio.wait_for(child_ready.wait(), timeout=10)
+        return await asyncio.wait_for(awaitable, timeout=timeout)
+
+    monkeypatch.setattr(
+        "roborsi.planner.api_loop.asyncio",
+        SimpleNamespace(**{**vars(asyncio), "wait_for": wait_for_running_child}),
+    )
+
+    async def model(messages, info):
+        if info.instructions == "CHILD":
+            child_started.append(True)
+            child_ready.set()
+            try:
+                await asyncio.Event().wait()
+            finally:
+                child_exited.append(True)
+        # Include startup slower than the planner's 0.2 second timeout.
+        await asyncio.sleep(startup_delay)
+        return ModelResponse(
+            parts=[
+                ToolCallPart(
+                    "delegate_task",
+                    {"agent_name": "reader", "task": "Read"},
+                    "delegate",
+                )
+            ]
+        )
+
+    class TimeoutToolkit(FakeToolkit):
+        def cancel_active_and_wait(self):
+            assert child_exited == [True]
+            super().cancel_active_and_wait()
+
+    toolkit = TimeoutToolkit()
+    planner = ApiAgentLoop(
+        FunctionModel(model),
+        dashboard_events=RecordingSink(),
+        timeout_s=0.2,
+        runtime=RuntimeConfig(
+            subagents={"reader": SubAgentConfig(instructions="CHILD")}
+        ),
+    )
+    result = planner.solve(
+        system_prompt="ROOT", user_message="Task", toolkit=toolkit, max_turns=10
+    )
+    assert child_started == [True]
+    assert child_exited == [True]
+    assert "timed out" in result.error
+    assert result.stop_reason == "timeout"
+    assert toolkit.cancel_calls == 1
+
+
+@pytest.mark.parametrize("backend", ["codex", "claude_code", "flash"])
+def test_non_api_planner_rejects_runtime_before_construction(tmp_path, backend):
+    from roborsi.planner.base import build_planner
+
+    with pytest.raises(ValueError, match="runtime.*api"):
+        build_planner(
+            backend,
+            output_dir=tmp_path,
+            recipe_tag="test",
+            robot_name="test",
+            dashboard_events=RecordingSink(),
+            runtime=RuntimeConfig(),
+        )
+
+
+def test_successful_finish_waits_for_its_tool_result() -> None:
+    seen_instructions: list[str | None] = []
+
+    def model(messages: list[Any], info: Any) -> ModelResponse:
+        seen_instructions.append(info.instructions)
+        assert info.model_settings["max_tokens"] == 321
+        assert not any(
+            isinstance(part, ToolReturnPart)
+            for message in messages
+            for part in message.parts
+        )
+        return ModelResponse(
+            parts=[
+                ToolCallPart(
+                    "finish",
+                    {"status": "success", "summary": "done"},
+                    "finish-call",
+                )
+            ],
+            usage=RequestUsage(input_tokens=7, output_tokens=3),
+        )
+
+    toolkit = FakeToolkit()
+    sink = RecordingSink()
+    result = solve_with_model(model, toolkit, sink)
+
+    assert seen_instructions == ["Use tools carefully."]
+    assert toolkit.calls == [("finish", {"status": "success", "summary": "done"})]
+    assert result.finish_result == {
+        "_finish": True,
+        "status": "success",
+        "summary": "done",
+    }
+    assert result.error is None
+    assert result.stats == {
+        "turns_used": 1,
+        "tool_calls": 1,
+        "total_input_tokens": 7,
+        "total_output_tokens": 3,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "requests": 1,
+    }
+    assert any(isinstance(event, TranscriptEvent) for event in sink.events)
+    assert any(isinstance(event, UsageEvent) for event in sink.events)
+
+
+def test_task_breakpoint_precedes_multimodal_initial_context() -> None:
+    image = BinaryContent(data=b"jpeg-data", media_type="image/jpeg")
+
+    def context_engine(ctx, messages):
+        del ctx
+        return ContextResult(
+            messages,
+            (
+                CacheBreakpoint(0, 0, 0),
+                CacheBreakpoint(0, 0, 2),
+            ),
+        )
+
+    def model(messages: list[Any], info: Any) -> ModelResponse:
+        del info
+        user = next(
+            part
+            for message in messages
+            for part in message.parts
+            if isinstance(part, UserPromptPart)
+        )
+        assert user.content == [
+            "task",
+            CachePoint(),
+            "stable demo",
+            image,
+            CachePoint(),
+        ]
+        return ModelResponse(
+            parts=[
+                ToolCallPart(
+                    "finish", {"status": "success", "summary": "done"}, "finish-call"
+                )
+            ]
+        )
+
+    planner = ApiAgentLoop(
+        FunctionModel(model),
+        dashboard_events=RecordingSink(),
+        runtime=RuntimeConfig(context_engine=context_engine),
+    )
+    result = planner.solve(
+        system_prompt="Use tools.",
+        user_message=["task", "stable demo", image],
+        toolkit=FakeToolkit(),
+        max_turns=2,
+    )
+    assert result.error is None
+    assert result.messages[0]["content"] == "task\nstable demo\n[image]"
+
+
+def test_transient_model_failure_does_not_repeat_robot_tool_call(
+    tmp_path: Path,
+) -> None:
+    attempts = 0
+
+    def model(messages: list[Any], info: Any) -> ModelResponse:
+        nonlocal attempts
+        attempts += 1
+        if attempts == 1:
+            raise ModelHTTPError(503, "offline")
+        return ModelResponse(
+            parts=[
+                ToolCallPart(
+                    "finish", {"status": "success", "summary": "done"}, "finish-call"
+                )
+            ],
+            usage=RequestUsage(input_tokens=7, output_tokens=3),
+        )
+
+    toolkit = FakeToolkit()
+    planner = ApiAgentLoop(
+        RetryLoggingModel(
+            FunctionModel(model),
+            policy=RetryPolicy(max_retries=1, initial_delay_s=0, max_delay_s=0),
+            log_path=tmp_path / "llm_errors.jsonl",
+        ),
+        max_tokens=32,
+        dashboard_events=RecordingSink(),
+        timeout_s=5,
+    )
+    result = planner.solve(
+        system_prompt="Use tools.",
+        user_message="Complete task.",
+        toolkit=toolkit,
+        max_turns=3,
+    )
+    assert result.error is None
+    assert attempts == 2
+    assert len(toolkit.calls) == 1
+    assert len((tmp_path / "llm_errors.jsonl").read_text().splitlines()) == 1
+
+
+@pytest.mark.parametrize(
+    "error", ["finish refused by environment", "invalid finish arguments"]
+)
+def test_rejected_finish_does_not_end_the_run(error: str) -> None:
+    def model(messages: list[Any], info: Any) -> ModelResponse:
+        del info
+        if any(
+            isinstance(part, ToolReturnPart)
+            for message in messages
+            for part in message.parts
+        ):
+            return ModelResponse(parts=[TextPart("I could not finish.")])
+        return ModelResponse(
+            parts=[
+                ToolCallPart(
+                    "finish",
+                    {"status": "success", "summary": "too early"},
+                    "rejected-finish",
+                )
+            ]
+        )
+
+    toolkit = FakeToolkit({"error": error})
+    result = solve_with_model(model, toolkit, RecordingSink())
+
+    assert result.finish_result is None
+    assert result.error is None
+    assert result.stats["tool_calls"] == 1
+    assert any(
+        message.get("role") == "tool"
+        and message.get("content") == json.dumps({"error": error}, indent=2)
+        for message in result.messages
+    )
+
+
+def test_required_tool_call_repairs_text_reply_in_same_history() -> None:
+    requests = 0
+
+    def model(messages: list[Any], info: Any) -> ModelResponse:
+        nonlocal requests
+        del info
+        requests += 1
+        if requests == 1:
+            return ModelResponse(
+                parts=[TextPart("I will move the arm.")],
+                usage=RequestUsage(input_tokens=10, output_tokens=2),
+            )
+        assert "I will move the arm" in str(messages)
+        assert "Reply with exactly one tool call" in str(messages)
+        return ModelResponse(
+            parts=[
+                ToolCallPart(
+                    "finish", {"status": "success", "summary": "done"}, "finish-call"
+                )
+            ],
+            usage=RequestUsage(input_tokens=12, output_tokens=3),
+        )
+
+    planner = ApiAgentLoop(
+        FunctionModel(model),
+        dashboard_events=RecordingSink(),
+        require_tool_call=True,
+    )
+    result = planner.solve(
+        system_prompt="Use tools.",
+        user_message="task",
+        toolkit=FakeToolkit(),
+        max_turns=3,
+    )
+    assert result.error is None
+    assert requests == 2
+    assert result.stats["requests"] == 2
+    assert result.stats["total_input_tokens"] == 22
+    assert result.finish_result["status"] == "success"
+    assert result.stats["tool_calls"] == 1
+
+
+def test_backend_failure_is_returned_without_escaping() -> None:
+    def model(messages: list[Any], info: Any) -> ModelResponse:
+        del messages, info
+        raise RuntimeError("provider failed")
+
+    result = solve_with_model(model, FakeToolkit(), RecordingSink())
+
+    assert result.finish_result is None
+    assert result.error == "RuntimeError: provider failed"
+    assert result.messages == [{"role": "user", "content": "complete the task"}]
+
+
+def test_backend_failure_retains_usage_from_earlier_response() -> None:
+    attempts = 0
+
+    def model(messages: list[Any], info: Any) -> ModelResponse:
+        nonlocal attempts
+        del messages, info
+        attempts += 1
+        if attempts == 1:
+            return ModelResponse(
+                parts=[
+                    ToolCallPart(
+                        "finish",
+                        {"status": "success", "summary": "too early"},
+                        "rejected-finish",
+                    )
+                ],
+                usage=RequestUsage(input_tokens=7, output_tokens=3),
+            )
+        raise ModelHTTPError(500, "provider failed")
+
+    result = solve_with_model(
+        model,
+        FakeToolkit({"error": "finish refused by environment"}),
+        RecordingSink(),
+    )
+
+    assert result.error is not None
+    assert "500" in result.error
+    assert result.stats["requests"] == 1
+    assert result.stats["total_input_tokens"] == 7
+    assert result.stats["total_output_tokens"] == 3
+
+
+def test_image_policy_error_is_not_misdiagnosed_as_text_only_model() -> None:
+    error = ModelHTTPError(
+        400,
+        "Image processing blocked due to content policy violation. "
+        "code: content_policy_violation",
+    )
+    message = _api_error_text(error, no_images=False)
+    assert "content_policy_violation" in message
+    assert "text-only model" not in message
+
+
+def test_unsupported_image_type_gets_text_only_hint() -> None:
+    error = ModelHTTPError(400, "message type 'image_url' is not supported")
+    assert "text-only model" in _api_error_text(error, no_images=False)
+
+
+def test_timeout_cancels_active_toolkit_work() -> None:
+    async def model(messages: list[Any], info: Any) -> ModelResponse:
+        del messages, info
+        await asyncio.sleep(10)
+        return ModelResponse(parts=[TextPart("unreachable")])
+
+    toolkit = FakeToolkit()
+    result = solve_with_model(
+        model,
+        toolkit,
+        RecordingSink(),
+        timeout_s=0.01,
+    )
+
+    assert result.error == "API planner timed out after 0.01s"
+    assert toolkit.cancel_calls == 1
+    assert result.messages == [{"role": "user", "content": "complete the task"}]
+
+
+def test_queue_and_dashboard_inputs_are_rejected_before_model_use() -> None:
+    calls = 0
+
+    def model(messages: list[Any], info: Any) -> ModelResponse:
+        nonlocal calls
+        del messages, info
+        calls += 1
+        return ModelResponse(parts=[TextPart("unused")])
+
+    planner = ApiAgentLoop(
+        FunctionModel(model),
+        dashboard_events=RecordingSink(),
+    )
+
+    with pytest.raises(ValueError, match="cannot be used together"):
+        planner.solve(
+            system_prompt="",
+            user_message="task",
+            toolkit=FakeToolkit(),
+            max_turns=1,
+            input_queue=queue.Queue(),
+            dashboard_interaction=object(),
+        )
+
+    assert calls == 0
+
+
+def test_tool_schema_and_dispatch_are_mapped_to_pydantic_ai() -> None:
+    toolkit = FakeToolkit()
+
+    tools = _build_tools(toolkit)
+
+    assert [tool.name for tool in tools] == ["read_image", "finish"]
+    assert all(tool.sequential for tool in tools)
+    finish = tools[1]
+    assert finish.description == "Finish after the environment accepts the result."
+    assert (
+        finish.function_schema.json_schema
+        == toolkit.get_tools_spec()[0]["input_schema"]
+    )
+    assert [
+        tool.name for tool in _build_tools(toolkit, include_image_reader=False)
+    ] == ["finish"]
+
+
+def test_tool_result_conversion_keeps_text_and_images_separate() -> None:
+    raw_image = b"\x89PNG\r\ncontract-image"
+    encoded = base64.b64encode(raw_image).decode()
+    blocks = [
+        {"type": "text", "text": "observation"},
+        {
+            "type": "image",
+            "source": {
+                "type": "base64",
+                "media_type": "image/png",
+                "data": encoded,
+            },
+        },
+    ]
+
+    text, images = _content_blocks_to_pydantic(blocks)
+
+    assert text == "observation"
+    assert images == [BinaryContent(data=raw_image, media_type="image/png")]
+    assert blocks[1]["source"]["data"] == encoded
+
+
+def test_tool_result_preserves_state_camera_label_order() -> None:
+    encoded = base64.b64encode(b"frame").decode()
+    blocks = [
+        {"type": "text", "text": "accepted"},
+        {"type": "text", "text": "state"},
+        {"type": "text", "text": "camera 'head':"},
+        {
+            "type": "image",
+            "source": {
+                "type": "base64",
+                "media_type": "image/jpeg",
+                "data": encoded,
+            },
+        },
+        {"type": "text", "text": "camera 'left_wrist':"},
+    ]
+    text, content = _content_blocks_to_pydantic(blocks)
+    assert text == "accepted"
+    assert content[:2] == ["state", "camera 'head':"]
+    assert isinstance(content[2], BinaryContent)
+    assert content[3] == "camera 'left_wrist':"
+
+
+def test_no_images_mode_suppresses_binary_tool_content() -> None:
+    toolkit = FakeToolkit({"value": "visible", "_image_bytes": b"secret pixels"})
+
+    multimodal = _make_tool_function(toolkit, "finish")(
+        status="success",
+        summary="done",
+    )
+    text_only = _make_tool_function(toolkit, "finish", no_images=True)(
+        status="success",
+        summary="done",
+    )
+
+    assert isinstance(multimodal, ToolReturn)
+    assert multimodal.return_value == '{\n  "value": "visible"\n}'
+    assert len(multimodal.content or []) == 1
+    assert isinstance(multimodal.content[0], BinaryContent)
+    assert text_only == '{\n  "value": "visible"\n}'
+    assert "secret" not in text_only
+
+
+def test_multimodal_tool_feedback_keeps_camera_content_separate() -> None:
+    toolkit = FakeToolkit({"value": "visible", "_image_bytes": b"pixels"})
+    result = _make_tool_function(toolkit, "snapshot")()
+    assert isinstance(result, ToolReturn)
+    assert isinstance(result.content[0], BinaryContent)
+    assert len(result.content) == 1
+
+
+def test_terminal_tool_signal_survives_custom_observation_text() -> None:
+    class TerminalToolkit(FakeToolkit):
+        def execute_tool(self, name: str, args: dict[str, Any]) -> ToolResult:
+            result = ToolResult(name, {"_finish": True, "status": "native_end"})
+            result.content_blocks = [{"type": "text", "text": "final camera state"}]
+            return result
+
+    result = _make_tool_function(TerminalToolkit(), "move_eef")()
+    assert json.loads(result)["_finish"] is True
+
+
+def test_image_history_keeps_only_two_recent_observation_groups() -> None:
+    messages = [
+        ModelRequest(
+            parts=[
+                UserPromptPart(
+                    content=[BinaryContent(data=bytes([index]), media_type="image/png")]
+                )
+            ]
+        )
+        for index in range(3)
+    ]
+    pruned = _prune_history_images(messages, max_groups=2)
+    assert isinstance(pruned[0].parts[0].content[0], str)
+    assert all(
+        isinstance(message.parts[0].content[0], BinaryContent) for message in pruned[1:]
+    )
+    assert isinstance(messages[0].parts[0].content[0], BinaryContent)
+
+
+def test_image_history_preserves_initial_demonstration_prefix() -> None:
+    messages = [
+        ModelRequest(
+            parts=[
+                UserPromptPart(
+                    content=[BinaryContent(data=bytes([index]), media_type="image/png")]
+                )
+            ]
+        )
+        for index in range(4)
+    ]
+    pruned = _prune_history_images(
+        messages, max_groups=2, preserve_initial_image_count=1
+    )
+    assert isinstance(pruned[0].parts[0].content[0], BinaryContent)
+    assert isinstance(pruned[1].parts[0].content[0], str)
+    assert all(
+        isinstance(message.parts[0].content[0], BinaryContent) for message in pruned[2:]
+    )
+
+
+def test_initial_live_image_ages_out_after_two_tool_observations() -> None:
+    initial = ModelRequest(
+        parts=[
+            UserPromptPart(
+                content=[
+                    "demo",
+                    BinaryContent(data=b"demo", media_type="image/png"),
+                    "live",
+                    BinaryContent(data=b"first", media_type="image/png"),
+                ]
+            )
+        ]
+    )
+    updates = [
+        ModelRequest(
+            parts=[
+                UserPromptPart(
+                    content=[BinaryContent(data=b"camera", media_type="image/png")]
+                )
+            ]
+        )
+        for _ in range(2)
+    ]
+    pruned = _prune_history_images(
+        [initial, *updates], max_groups=2, preserve_initial_image_count=1
+    )
+    initial_content = pruned[0].parts[0].content
+    assert isinstance(initial_content[1], BinaryContent)
+    assert isinstance(initial_content[3], str)

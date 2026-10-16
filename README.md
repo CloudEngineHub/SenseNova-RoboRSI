@@ -10,12 +10,16 @@
 
 <p align="center">
   <strong>English</strong> · <a href="README.zh-CN.md">简体中文</a> ·
+  <a href="#quick-start">Quick Start</a> · <a href="docs/README.md">Docs</a> ·
+  <a href="#modelzoo">ModelZoo</a> ·
   <a href="#harness-results">Harness Results</a> ·
   <a href="#sensenova-roborsi-27b-preview">RoboRSI-27B-Preview</a> ·
   <a href="#release-plan--roadmap">Release plan</a>
 </p>
 
 ## News
+
+- **2026-10-16** — Initial code and usage guides for **LIBERO, LIBERO-PRO, LIBERO-Long++ and LIBERO-Ultra-Long** are available in this branch. See the [getting started guide](docs/getting-started.md).
 
 - **2026-10-16** — SenseNova-RoboRSI has been used in the empirical report [**Has GPT-6 Achieved Embodied Intelligence?**](assets/has_gpt-6_achieved_embodied_intelligence.pdf).
 - **2026-10-16** — [**🤗 SenseNova-RoboRSI-27B-Preview**](https://huggingface.co/sensenova/sensenova-roborsi-27b-preview) now runs across different environments, including on real robots and in simulation! The open-weight release is expected on **October 20, 2026**, with the technical report to follow.
@@ -69,6 +73,50 @@ and Harness improvement through shared experience and joint retesting.
   feedback, and memory organization while keeping model parameters fixed.
 - **Retest and retain improvements.** Track agent versions, evaluate candidate
   changes under the same task conditions, and carry validated improvements forward.
+
+## Quick Start
+
+Use Python 3.10–3.12 for the Agent and evaluator. From the repository root:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -e '.[runtime,test]'
+bench --help
+```
+
+On Windows, activate with `.venv\Scripts\Activate.ps1`.
+
+Follow the [installation and first evaluation guide](docs/getting-started.md)
+to prepare a benchmark and run a fixed-action or model Agent. Native benchmark
+images target Linux; connecting to an existing HTTP benchmark requires no local
+simulator installation.
+
+- **Benchmark setup:** [LIBERO](benchmarks/libero/README.md),
+  [LIBERO-PRO](benchmarks/libero_pro/README.md), and
+  [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md).
+- **Agent configuration:** [Models, prompts, context and budgets](docs/agents.md).
+- **Evaluation:** [Batch execution, results and resume](docs/evaluation.md).
+
+## ModelZoo
+
+Available Agent methods and upcoming releases by benchmark. The released LIBERO
+entries share configurable EmbodiedAgent presets; select your model in the
+preset and follow the corresponding benchmark directory for setup and evaluation.
+
+| Benchmark | Status |
+| --- | --- |
+| RoboDojo | Coming soon |
+| [LIBERO-Pro](benchmarks/libero_pro/) | Released |
+| [LIBERO-Long++](benchmarks/libero_lilo/) | Released |
+| [LIBERO-Ultra-Long](benchmarks/libero_lilo/) | Released |
+| RoboLab | Coming soon |
+| Bench2Dex | Coming soon |
+| DexJoCo | Coming soon |
+| LHVLN | Coming soon |
+| VLN-CE | Coming soon |
+| SIMPLE | Coming soon |
+| BEHAVIOR-1K | Coming soon |
 
 ## Harness Results
 
@@ -160,8 +208,8 @@ community deployment, reproduction, and continued training.
 
 - [x] Project introduction
 - [x] [Empirical Study](assets/has_gpt-6_achieved_embodied_intelligence.pdf)
-- [ ] Code release
-- [ ] Usage documentation
+- [x] Initial code release: Agent runtime and LIBERO-family evaluation
+- [x] [Usage documentation](docs/README.md)
 - [ ] Harness demo
 - [ ] SenseNova-RoboRSI-27B-Preview weights — expected October 20, 2026
 - [ ] RoboRSI Technical Report
@@ -186,13 +234,13 @@ We welcome collaboration with teams working on foundation models,
 VLA policies, simulation platforms, and real robots.
 
 - **Contributions:** We welcome new integrations, evaluation tasks,
-  reproducible failure cases, and suggestions for Harness design.
+  reproducible failure cases, and suggestions for Harness design. See the
+  [contribution guide](CONTRIBUTING.md) for the current release scope and checks.
 - **Questions & collaboration:** Open an
   [issue](https://github.com/OpenSenseNova/SenseNova-RoboRSI/issues)
   describing your platform, use case, and proposed contribution.
 - **Release updates:** Watch the
   [SenseNova-RoboRSI repository](https://github.com/OpenSenseNova/SenseNova-RoboRSI).
-  Contribution instructions will accompany the code release.
 - **Acknowledgements:** We thank
   [RoboDojo](https://robodojo-benchmark.com/),
   [LIBERO-PRO](https://zxy-mllab.github.io/LIBERO-PRO-Webpage/),

@@ -1,0 +1,13 @@
+# Configure a vision model that supports the Responses API and tool calls.
+# Credentials come from OPENAI_API_KEY; an optional endpoint comes from OPENAI_BASE_URL.
+llm:
+  provider: openai
+  model: YOUR_VISION_TOOL_MODEL
+  openai_format: responses
+  prompt_cache_key: roborsi-model-agent-v1
+  prompt_cache_mode: explicit
+  prompt_cache_static_prefix: true
+  parallel_tool_calls: false
+output_retries: 8
+trace:
+  mode: full
