@@ -6,7 +6,6 @@
   <img src="assets/badges/python.svg" alt="Python 3.10–3.12" />
   <img src="assets/badges/license.svg" alt="License: Apache 2.0" />
   <img src="assets/badges/status.svg" alt="Status: Pre-Alpha" />
-  <a href="assets/has_gpt-6_achieved_embodied_intelligence.pdf"><img src="assets/badges/report.svg" alt="Report: Published" /></a>
 </p>
 
 <p align="center">
@@ -16,9 +15,9 @@
 
 ## News
 
-- **2026-10-16** — Our technical report, [**Has GPT-6 Achieved Embodied Intelligence?**](assets/has_gpt-6_achieved_embodied_intelligence.pdf), is now published.
+- **2026-10-16** — SenseNova-RoboRSI has been used in the empirical report [**Has GPT-6 Achieved Embodied Intelligence?**](assets/has_gpt-6_achieved_embodied_intelligence.pdf).
 
-- **2026-10-09** — SenseNova-RoboRSI achieves an **average score of 56.83** and a **success rate of 50.83%** on RoboDojo, a gain of **+27.86 points** over the GPT-6 Astra baseline (**28.97**). See [Results](#results) for benchmark comparisons.
+- **2026-10-09** — SenseNova-RoboRSI achieves an **average score of 60.08** and a **success rate of 54.17%** on RoboDojo, a gain of **+31.11 points** over the GPT-6 Astra baseline (**28.97**). Results are being submitted to the official RoboDojo leaderboard. See [Results](#results) for benchmark comparisons.
 
 ## Overview
 
@@ -59,13 +58,15 @@ Each table shows SenseNova-RoboRSI alongside selected reference results. Higher 
 
 ### [RoboDojo](https://robodojo-benchmark.com/)
 
-On RoboDojo-Sim, SenseNova-RoboRSI achieves an **average score of 56.83** and a
-**success rate of 50.83%**. Compared with the **GPT-6-Astra** baseline, this is a
-gain of **27.86 score points** and **28.35 percentage points** in success rate.
+On RoboDojo-Sim, SenseNova-RoboRSI achieves an **average score of 60.08** and a
+**success rate of 54.17%**. Compared with the **GPT-6-Astra** baseline, this is a
+gain of **31.11 score points** and **31.69 percentage points** in success rate.
+
+**Leaderboard submission:** Our results are being submitted to the official RoboDojo leaderboard. The official results may vary slightly; we will update the results here once they are available.
 
 | Method | Average score ↑ | Success rate ↑ |
 | --- | ---: | ---: |
-| SenseNova-RoboRSI / GPT-6 Astra (ours) | **56.83** | **50.83%** |
+| SenseNova-RoboRSI / GPT-6 Astra (ours) | **60.08** | **54.17%** |
 | EmbodiedEvo | 45.08 | 38.95% |
 | VPP2 | 39.26 | 32.26% |
 | PhysicalRSI | 36.27 | 31.38% |
@@ -105,7 +106,7 @@ Reference results: [official RoboCasa leaderboard](https://robocasa.ai/leaderboa
 ### Release plan
 
 - [x] Project introduction
-- [x] [Technical report](assets/has_gpt-6_achieved_embodied_intelligence.pdf)
+- [x] [Empirical Study](assets/has_gpt-6_achieved_embodied_intelligence.pdf)
 - [ ] Code release
 - [ ] Usage documentation
 - [ ] Demo
@@ -142,4 +143,4 @@ VLA policies, simulation platforms, and real robots.
 - **Licenses:** External models, simulators, and datasets retain
   their respective licenses.
 
-**This achievement reflects the joint team's continued exploration and close collaboration in embodied AI and agent systems. Our [technical report](assets/has_gpt-6_achieved_embodied_intelligence.pdf) is now published, covering the core methods, experimental design, and evaluation results. We will continue to advance and validate these technologies.**
+**This achievement reflects the joint team's continued exploration and close collaboration in embodied AI and agent systems. SenseNova-RoboRSI has been used in the published report [Has GPT-6 Achieved Embodied Intelligence?](assets/has_gpt-6_achieved_embodied_intelligence.pdf). We will continue to advance and validate these technologies.**
