@@ -10,14 +10,26 @@
 
 <p align="center">
   <strong>English</strong> · <a href="README.zh-CN.md">简体中文</a> ·
-  <a href="#results">Results</a> · <a href="#release-plan--roadmap">Release plan</a>
+  <a href="#harness-results">Harness Results</a> ·
+  <a href="#sensenova-roborsi-27b-preview">RoboRSI-27B-Preview</a> ·
+  <a href="#release-plan--roadmap">Release plan</a>
 </p>
 
 ## News
 
 - **2026-10-16** — SenseNova-RoboRSI has been used in the empirical report [**Has GPT-6 Achieved Embodied Intelligence?**](assets/has_gpt-6_achieved_embodied_intelligence.pdf).
+- **2026-10-16** — [**🤗 SenseNova-RoboRSI-27B-Preview**](https://huggingface.co/sensenova/sensenova-roborsi-27b-preview) now runs across different environments, including on real robots and in simulation! The open-weight release is expected on **October 20, 2026**, with the technical report to follow.
 
-- **2026-10-09** — SenseNova-RoboRSI achieves an **average score of 60.08** and a **success rate of 54.17%** on RoboDojo, a gain of **+31.11 points** over the GPT-6 Astra baseline (**28.97**). Results are being submitted to the official RoboDojo leaderboard. See [Results](#results) for benchmark comparisons.
+- **2026-10-09** — SenseNova-RoboRSI achieves an **average score of 60.08** and a **success rate of 54.17%** on RoboDojo, a gain of **+31.11 points** over the GPT-6 Astra baseline (**28.97**). Results are being submitted to the official RoboDojo leaderboard. See [Harness Results](#harness-results) for benchmark comparisons.
+
+## Contributors
+
+- **Project leads:** Hanming Deng, Zhongang Cai, Haiwen Diao, Zhi Hou, Zhonghua Wu, Qingyi Tao
+- **Model team:** Silei Wu\*, Weiye Xu, Bo Liu, Pengfei Liu, Tailai Chen, Chenjing Ding, Jiahao Wang, Changxu Wei, Zongpu Zhang
+- **Harness team:** Jiapeng Luo\*, Yuyao Shao, Linjun Dai, Quanzhou Li, Ziyi Shang, Wanqi Yin, Xiaowan Li, Donghao Wu, Tianbo Zhong
+- **Advisor:** Dahua Lin, Xiaogang Wang, Ziwei Liu, Lewei Lu, Lei Yang
+
+\* denotes team leads.
 
 ## Overview
 
@@ -29,6 +41,12 @@ On top of this runtime, **recursive self-improvement (RSI)** uses execution
 traces and task feedback to improve the Harness while keeping model parameters
 fixed. Candidate changes are retested, and validated improvements are carried
 into the next agent version, connecting task execution with continuous improvement.
+
+🎉 **[SenseNova-RoboRSI-27B-Preview](#sensenova-roborsi-27b-preview)** extends this work to model training. Validated
+interaction experience becomes multimodal supervision for goal understanding,
+action decisions, and feedback-based correction. Updated models return to the
+same runtime for evaluation and further exploration, connecting model training
+and Harness improvement through shared experience and joint retesting.
 
 <p align="center">
   <img src="assets/sensenova-roborsi-overview-en.webp" alt="SenseNova-RoboRSI agent interfaces, execution loop, benchmark integration, and RSI workflow" width="75%" />
@@ -52,7 +70,7 @@ into the next agent version, connecting task execution with continuous improveme
 - **Retest and retain improvements.** Track agent versions, evaluate candidate
   changes under the same task conditions, and carry validated improvements forward.
 
-## Results
+## Harness Results
 
 Each table shows SenseNova-RoboRSI alongside selected reference results. Higher is better.
 
@@ -101,6 +119,41 @@ The reference scores above, including GPT-6 Astra's 92.63%, are reported by [RPe
 
 Reference results: [official RoboCasa leaderboard](https://robocasa.ai/leaderboard.html). SenseNova-RoboRSI uses the Target50 setting; the official entries use pretraining kitchens. These results provide context across different evaluation settings and do not establish a ranking under the same protocol.
 
+## SenseNova-RoboRSI-27B-Preview
+
+[🤗 The open-weight of SenseNova-RoboRSI-27B-Preview](https://huggingface.co/sensenova/sensenova-roborsi-27b-preview) is expected on **October 20, 2026**. A detailed **RoboRSI report** will follow the model release.
+
+RoboRSI-27B-Preview turns validated interaction experience into reusable model
+capabilities through joint model–Harness RSI. The open-weight release will support
+community deployment, reproduction, and continued training.
+
+![SenseNova-RoboRSI-27B-Preview results on RoboDojo, LIBERO-Pro, and RoboCasa365](assets/roborsi-27b-preview-benchmarks.webp)
+
+- **RoboDojo:** Achieves an **average score of 26.13** and a **task success rate of
+  20.83%** with VLA-assisted execution. Its average score is just **2.84 points**
+  below GPT-6 Astra's score in the RoboDojo team's evaluation. The model actively
+  inspects visual details, reasons about spatial relationships, and corrects
+  actions based on execution feedback during complex manipulation tasks.
+- **LIBERO-Pro:** Reaches **95.0% success** with VLA-assisted execution
+  (System 2 + System 1) and **96.1%** with direct VLM control (System 2), ranking
+  second to GPT-6 Astra among the compared models in both settings. These results
+  demonstrate embodied planning and decision-making across different execution
+  architectures.
+- **RoboCasa365:** RSI training raises success from **26.0% to 46.5%** over the
+  Qwen3.8-27B base model, while reducing average output tokens from **59.5K to
+  15.9K**, a **73.3% reduction**. Learning from interaction experience improves
+  both task performance and inference efficiency.
+
+### Demonstrations
+
+**Simulation · RoboDojo**
+
+![Simulation · RoboDojo](assets/robodojo-27b-preview.webp)
+
+**Real-robot demonstration**
+
+![Real-robot demonstration](assets/real-robot-27b-preview.webp)
+
 ## Release Plan & Roadmap
 
 ### Release plan
@@ -109,7 +162,9 @@ Reference results: [official RoboCasa leaderboard](https://robocasa.ai/leaderboa
 - [x] [Empirical Study](assets/has_gpt-6_achieved_embodied_intelligence.pdf)
 - [ ] Code release
 - [ ] Usage documentation
-- [ ] Demo
+- [ ] Harness demo
+- [ ] SenseNova-RoboRSI-27B-Preview weights — expected October 20, 2026
+- [ ] RoboRSI Technical Report
 
 ### Research roadmap
 
@@ -121,6 +176,9 @@ Reference results: [official RoboCasa leaderboard](https://robocasa.ai/leaderboa
 - **More robot platforms and real-world scenarios.** We aim to extend integration
   and evaluation to more robot embodiments and physical settings, and examine the
   reliability of feedback-driven improvement in those environments.
+- **Joint model–Harness RSI.** Continue converting validated interaction
+  experience into training supervision, retest model and system changes together,
+  and measure capability and efficiency across improvement rounds.
 
 ## Community & Acknowledgements
 
