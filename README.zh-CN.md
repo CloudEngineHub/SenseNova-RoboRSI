@@ -6,7 +6,6 @@
   <img src="assets/badges/python.svg" alt="Python 3.10–3.12" />
   <img src="assets/badges/license.svg" alt="License: Apache 2.0" />
   <img src="assets/badges/status.svg" alt="Status: Pre-Alpha" />
-  <a href="assets/has_gpt-6_achieved_embodied_intelligence.pdf"><img src="assets/badges/report.svg" alt="技术报告：已发布" /></a>
 </p>
 
 <p align="center">
@@ -16,9 +15,9 @@
 
 ## News
 
-- **2026-10-16** — 技术报告 [**Has GPT-6 Achieved Embodied Intelligence?**](assets/has_gpt-6_achieved_embodied_intelligence.pdf) 已正式发布。
+- **2026-10-16** — SenseNova-RoboRSI 作为实验框架支持了实证研究 [**Has GPT-6 Achieved Embodied Intelligence?**](assets/has_gpt-6_achieved_embodied_intelligence.pdf)。
 
-- **2026-10-09** — SenseNova-RoboRSI 在 RoboDojo 上取得 **56.83 的平均得分**和 **50.83% 的成功率**，平均得分较 GPT-6 Astra 基线（**28.97**）提升 **+27.86 分**。更多评测对比见 [Results](#results)。
+- **2026-10-09** — SenseNova-RoboRSI 在 RoboDojo 上取得 **60.08 的平均得分**和 **54.17% 的成功率**，平均得分较 GPT-6 Astra 基线（**28.97**）提升 **+31.11 分**。结果正在提交至 RoboDojo 官方榜单。更多评测对比见 [Results](#results)。
 
 ## Overview
 
@@ -50,12 +49,14 @@
 
 ### [RoboDojo](https://robodojo-benchmark.com/)
 
-SenseNova-RoboRSI 在 RoboDojo-Sim 上取得 **56.83 的平均得分**和 **50.83% 的成功率**。
-相比 **GPT-6-Astra** 基线，平均得分提升 **27.86 分**，成功率提升 **28.35 个百分点**。
+SenseNova-RoboRSI 在 RoboDojo-Sim 上取得 **60.08 的平均得分**和 **54.17% 的成功率**。
+相比 **GPT-6-Astra** 基线，平均得分提升 **31.11 分**，成功率提升 **31.69 个百分点**。
+
+**榜单提交：** 我们的结果正在提交至 RoboDojo 官方榜单。官方结果可能略有差异；待官方结果公布后，我们将更新此处的结果。
 
 | 方法 | 平均得分 ↑ | 成功率 ↑ |
 | --- | ---: | ---: |
-| SenseNova-RoboRSI / GPT-6 Astra（我们） | **56.83** | **50.83%** |
+| SenseNova-RoboRSI / GPT-6 Astra（我们） | **60.08** | **54.17%** |
 | EmbodiedEvo | 45.08 | 38.95% |
 | VPP2 | 39.26 | 32.26% |
 | PhysicalRSI | 36.27 | 31.38% |
@@ -95,7 +96,7 @@ SenseNova-RoboRSI 在 RoboDojo-Sim 上取得 **56.83 的平均得分**和 **50.8
 ### 发布计划
 
 - [x] 项目介绍
-- [x] [技术报告](assets/has_gpt-6_achieved_embodied_intelligence.pdf)
+- [x] [实证研究](assets/0as_gpt-6_achieved_embodied_intelligence.pdf)
 - [ ] 代码发布
 - [ ] 使用文档
 - [ ] Demo
@@ -127,4 +128,4 @@ SenseNova-RoboRSI 在 RoboDojo-Sim 上取得 **56.83 的平均得分**和 **50.8
   对具身 Agent 研究的支持。
 - **许可证：** 外部模型、模拟器与数据集遵循各自的许可证。
 
-**这一成果凝聚了联合团队在具身智能与 Agent 系统方向上的持续探索和紧密协作。[完整技术报告](assets/has_gpt-6_achieved_embodied_intelligence.pdf)现已发布，系统介绍核心方法、实验设计与评测结果。未来，我们将继续推动相关技术的迭代与验证。**
+**这一成果凝聚了联合团队在具身智能与 Agent 系统方向上的持续探索和紧密协作。SenseNova-RoboRSI 已用于现已发布的实证研究 [Has GPT-6 Achieved Embodied Intelligence?](assets/has_gpt-6_achieved_embodied_intelligence.pdf)。未来，我们将继续推动相关技术的迭代与验证。**
