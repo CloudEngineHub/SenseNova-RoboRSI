@@ -18,7 +18,7 @@
 ## News
 
 - **2026-10-16** — SenseNova-RoboRSI 作为实验框架支持了实证研究 [**Has GPT-6 Achieved Embodied Intelligence?**](assets/has_gpt-6_achieved_embodied_intelligence.pdf)。
-- **2026-10-16** — [**🤗 SenseNova-RoboRSI-27B-Preview**](https://huggingface.co/sensenova/sensenova-roborsi-27b-preview) 即将发布。模型权重预计于 **2026 年 10 月 20 日**开源，技术报告随后发布。
+- **2026-10-16** — [**🤗 SenseNova-RoboRSI-27B-Preview**](https://huggingface.co/sensenova/sensenova-roborsi-27b-preview) 已在包括真机与仿真在内的不同环境中运行！模型权重预计于 **2026 年 10 月 20 日**开源，技术报告随后发布。
 
 - **2026-10-09** — SenseNova-RoboRSI 在 RoboDojo 上取得 **60.08 的平均得分**和 **54.17% 的成功率**，平均得分较 GPT-6 Astra 基线（**28.97**）提升 **+31.11 分**。结果正在提交至 RoboDojo 官方榜单。更多评测对比见 [Harness 结果](#harness-results)。
 
