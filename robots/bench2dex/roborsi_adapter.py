@@ -254,7 +254,7 @@ class Bench2DexAdapter:
         )
 
     def close(self) -> None:
-        """Release simulator resources once, including cancelled episodes."""
+        """Mark closed only after cleanup succeeds; retain failed cleanup for retry."""
         if not self.closed:
-            self.closed = True
             self.runtime.close()
+            self.closed = True
