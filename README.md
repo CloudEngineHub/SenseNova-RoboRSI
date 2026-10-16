@@ -127,7 +127,7 @@ RoboRSI-27B-Preview turns validated interaction experience into reusable model
 capabilities through joint model–Harness RSI. The open-weight release will support
 community deployment, reproduction, and continued training.
 
-![SenseNova-RoboRSI-27B-Preview results on RoboDojo, LIBERO-Pro, and RoboCasa365](assets/roborsi-27b-preview-benchmarks.png)
+![SenseNova-RoboRSI-27B-Preview results on RoboDojo, LIBERO-Pro, and RoboCasa365](assets/roborsi-27b-preview-benchmarks.webp)
 
 - **RoboDojo:** Achieves an **average score of 26.13** and a **task success rate of
   20.83%** with VLA-assisted execution. GPT-6 Astra's native baseline scores
@@ -146,13 +146,8 @@ community deployment, reproduction, and continued training.
 
 ### Demonstrations
 
-**Simulation · RoboDojo**
-
-<video src="https://github.com/user-attachments/assets/96db7f38-d36f-4fc6-84d1-ecea27f396d6" controls></video>
-
-**Real-robot demonstration**
-
-<video src="https://github.com/user-attachments/assets/7bf0a718-6dca-4cde-8cf1-4359620b65f2" controls></video>
+- [▶ Simulation · RoboDojo](https://github.com/user-attachments/assets/96db7f38-d36f-4fc6-84d1-ecea27f396d6)
+- [▶ Real-robot demonstration](https://github.com/user-attachments/assets/7bf0a718-6dca-4cde-8cf1-4359620b65f2)
 
 ## Release Plan & Roadmap
 

@@ -115,7 +115,7 @@ SenseNova-RoboRSI 在 RoboDojo-Sim 上取得 **60.08 的平均得分**和 **54.1
 RoboRSI-27B-Preview 通过模型与 Harness 的协同 RSI，将经过验证的交互经验转化为
 可复用的模型能力。模型权重开放后将支持社区部署、复现和继续训练。
 
-![SenseNova-RoboRSI-27B-Preview 在 RoboDojo、LIBERO-Pro 与 RoboCasa365 上的评测结果](assets/roborsi-27b-preview-benchmarks.png)
+![SenseNova-RoboRSI-27B-Preview 在 RoboDojo、LIBERO-Pro 与 RoboCasa365 上的评测结果](assets/roborsi-27b-preview-benchmarks.webp)
 
 - **RoboDojo：** 在配合 VLA 执行的设置下取得 **26.13 的平均得分**和 **20.83% 的任务成功率**；作为参照，GPT-6 Astra 的原生基线平均得分为 **28.97**。模型能够主动观察视觉细节、推理空间关系，并根据执行反馈纠正动作，展现了解决复杂操作任务的能力。
 - **LIBERO-Pro：** 在 VLA 配合执行（System-2 + System-1）与 VLM 直接控制（System-2）两种架构下，成功率分别达到 **95.0%** 和 **96.1%**，在图中两种设置的对比模型中均仅次于 GPT-6 Astra，展现了跨执行架构的具身规划与决策能力。
@@ -123,13 +123,8 @@ RoboRSI-27B-Preview 通过模型与 Harness 的协同 RSI，将经过验证的�
 
 ### 演示视频
 
-**仿真演示 · RoboDojo**
-
-<video src="https://github.com/user-attachments/assets/96db7f38-d36f-4fc6-84d1-ecea27f396d6" controls></video>
-
-**真机演示**
-
-<video src="https://github.com/user-attachments/assets/7bf0a718-6dca-4cde-8cf1-4359620b65f2" controls></video>
+- [▶ 仿真演示 · RoboDojo](https://github.com/user-attachments/assets/96db7f38-d36f-4fc6-84d1-ecea27f396d6)
+- [▶ 真机演示](https://github.com/user-attachments/assets/7bf0a718-6dca-4cde-8cf1-4359620b65f2)
 
 ## Release Plan & Roadmap
 
