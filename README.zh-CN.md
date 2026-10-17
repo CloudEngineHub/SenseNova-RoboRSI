@@ -9,9 +9,15 @@
 </p>
 
 <p align="center">
+  <a href="assets/has_gpt-6_achieved_embodied_intelligence.pdf"><img src="assets/badges/report.svg" alt="研究报告：Has GPT-6 Achieved Embodied Intelligence?" /></a>
+  <a href="https://huggingface.co/sensenova/sensenova-roborsi-27b-preview"><img src="assets/badges/model.svg" alt="Model：SenseNova-RoboRSI-27B-Preview" /></a>
+</p>
+
+<p align="center">
   <a href="README.md">English</a> · <strong>简体中文</strong> ·
   <a href="#quick-start">快速开始</a> · <a href="docs/README.md">使用文档</a> ·
-  <a href="#modelzoo">ModelZoo</a> ·
+  <a href="assets/has_gpt-6_achieved_embodied_intelligence.pdf">研究报告</a> ·
+  <a href="#benchzoo">BenchZoo</a> ·
   <a href="#harness-results">Harness 结果</a> ·
   <a href="#sensenova-roborsi-27b-preview">RoboRSI-27B-Preview</a> ·
   <a href="#release-plan--roadmap">发布计划</a>
@@ -87,7 +93,7 @@ Windows 使用 `.venv\Scripts\Activate.ps1` 激活环境。
 - **Agent 配置：** [模型、提示词、上下文与预算](docs/agents.zh-CN.md)。
 - **评测：** [批量执行、结果查看与中断恢复](docs/evaluation.zh-CN.md)。
 
-## ModelZoo
+## BenchZoo
 
 按 benchmark 列出已开源的 Agent 方法与即将开源的内容。当前已开源的 LIBERO 三项
 共用可配置的 EmbodiedAgent 预设；在预设中选择模型，并按对应评测目录完成环境准备与评测。
@@ -212,7 +218,8 @@ RoboRSI-27B-Preview 通过模型与 Harness 的协同 RSI，将经过验证的�
 - **致谢：** 感谢
   [RoboDojo](https://robodojo-benchmark.com/)、
   [LIBERO-PRO](https://zxy-mllab.github.io/LIBERO-PRO-Webpage/)、
-  [RoboCasa](https://robocasa.ai/) 和相关开源社区
+  [RoboCasa](https://robocasa.ai/)、
+  [RPent](https://rpent.readthedocs.io/zh-cn/latest/) 和相关开源社区
   对具身 Agent 研究的支持。
 - **许可证：** 外部模型、模拟器与数据集遵循各自的许可证。
 
