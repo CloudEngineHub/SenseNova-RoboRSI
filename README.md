@@ -9,9 +9,15 @@
 </p>
 
 <p align="center">
+  <a href="assets/has_gpt-6_achieved_embodied_intelligence.pdf"><img src="assets/badges/report.svg" alt="Report: Has GPT-6 Achieved Embodied Intelligence?" /></a>
+  <a href="https://huggingface.co/sensenova/sensenova-roborsi-27b-preview"><img src="assets/badges/model.svg" alt="Model: SenseNova-RoboRSI-27B-Preview" /></a>
+</p>
+
+<p align="center">
   <strong>English</strong> · <a href="README.zh-CN.md">简体中文</a> ·
   <a href="#quick-start">Quick Start</a> · <a href="docs/README.md">Docs</a> ·
-  <a href="#modelzoo">ModelZoo</a> ·
+  <a href="assets/has_gpt-6_achieved_embodied_intelligence.pdf">Report</a> ·
+  <a href="#benchzoo">BenchZoo</a> ·
   <a href="#harness-results">Harness Results</a> ·
   <a href="#sensenova-roborsi-27b-preview">RoboRSI-27B-Preview</a> ·
   <a href="#release-plan--roadmap">Release plan</a>
@@ -98,7 +104,7 @@ simulator installation.
 - **Agent configuration:** [Models, prompts, context and budgets](docs/agents.md).
 - **Evaluation:** [Batch execution, results and resume](docs/evaluation.md).
 
-## ModelZoo
+## BenchZoo
 
 Available Agent methods and upcoming releases by benchmark. The released LIBERO
 entries share configurable EmbodiedAgent presets; select your model in the
@@ -244,7 +250,8 @@ VLA policies, simulation platforms, and real robots.
 - **Acknowledgements:** We thank
   [RoboDojo](https://robodojo-benchmark.com/),
   [LIBERO-PRO](https://zxy-mllab.github.io/LIBERO-PRO-Webpage/),
-  [RoboCasa](https://robocasa.ai/), and the broader open-source
+  [RoboCasa](https://robocasa.ai/),
+  [RPent](https://rpent.readthedocs.io/zh-cn/latest/), and the broader open-source
   community supporting embodied-agent research.
 - **Licenses:** External models, simulators, and datasets retain
   their respective licenses.
