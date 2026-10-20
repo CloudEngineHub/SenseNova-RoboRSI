@@ -397,8 +397,16 @@ docker pull "$PRO_IMAGE"
 
 只能为每个作业指定一个镜像的调度平台，可使用
 [`benchmarks/libero_three_combined/`](../benchmarks/libero_three_combined/README.md)
-中的合成配方。Long++ 和 Ultra-Long 共用一个 LiLo+Agent 镜像，PRO 使用一个
-PRO+Agent 镜像。镜像内包含 Benchmark、Agent bundle、ICL 和 tokenizer；运行时只需
+中的合成配方。已发布的不可变镜像为：
+
+```bash
+export LONGPP_COMBINED_IMAGE='ghcr.io/opensensenova/sensenova-roborsi-libero-long-plus-plus@sha256:4463b6a247617a51653e1b170cc1cbcbae1a2c773a06f21afdf8626aea5a11c9'
+export ULTRA_COMBINED_IMAGE='ghcr.io/opensensenova/sensenova-roborsi-libero-ultra-long@sha256:4463b6a247617a51653e1b170cc1cbcbae1a2c773a06f21afdf8626aea5a11c9'
+export PRO_COMBINED_IMAGE='ghcr.io/opensensenova/sensenova-roborsi-libero-pro@sha256:fd84be8ca67100624dac4a3ddf0de06e74e46c5d1d1b7c8088e6e0713fe70e29'
+```
+
+Long++ 和 Ultra-Long 按规范使用独立 GHCR Package，但二者有意复用完全相同的
+LiLo+Agent 镜像内容；PRO 使用 PRO+Agent 镜像。镜像内包含 Benchmark、Agent bundle、ICL 和 tokenizer；运行时只需
 模型 endpoint、只读 API key 文件和可写结果目录。由于凭证和 Benchmark 同容器，该模式
 隔离性弱于标准双容器部署。
 
@@ -408,7 +416,7 @@ PRO+Agent 镜像。镜像内包含 Benchmark、Agent bundle、ICL 和 tokenizer�
 docker run --rm --gpus all \
   --entrypoint /opt/roborsi/benchmarks/libero_three_combined/run_combined_subset.py \
   -v /path/to/model_api.key:/run/secrets/model_api.key:ro \
-  -v "$RUN_ROOT/results:/results" COMBINED_IMAGE \
+  -v "$RUN_ROOT/results:/results" "$LONGPP_COMBINED_IMAGE" \
   --benchmark libero_long_plus_plus --run-id longpp-subset \
   --results-root /results/longpp-subset --max-concurrent 16 --gpu-count 1 \
   --api-key-file /run/secrets/model_api.key \
