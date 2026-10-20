@@ -10,7 +10,8 @@ policies are supplied separately through the standard evaluation interface.
 Native execution requires Linux x86-64, a supported NVIDIA RTX GPU, its driver,
 Docker with GPU support, and access to the pinned Isaac Sim image and upstream
 repositories. The image uses Isaac Sim, Isaac Lab and Bench2Dex; their licenses
-and access requirements apply independently. Assets are downloaded separately.
+and access requirements apply independently. Assets are downloaded separately;
+installing RoboRSI does not provide the native runtime or assets.
 The custom reference harness is licensed under
 [Apache-2.0](../../robots/bench2dex/reference/LICENSE_NOTICE.md).
 This migration does not establish native task success or model performance.
@@ -81,9 +82,14 @@ bench eval --registry-root work/bench2dex/registry \
   --timeout-s 900 --case-timeout-s 86400 --max-concurrent 1
 ```
 
-The preset is a generic interface example, not a reproduction policy. Set its
-model, context and decision budgets for your run. Actions contain finite
-absolute joint-position targets: `{"actions": [[...], ...]}` with one value per
+The preset is a generic interface example, not a reproduction policy.
+Benchmark-specific Agent policies and historical ICL packages are not included,
+and this configuration does not reproduce historical scores. The fixed-action
+LIBERO example in [Getting started](../../docs/getting-started.md) applies only
+to LIBERO. Set the model, context and decision budgets for your run.
+
+The service exposes Bench2Dex's native action schema and scoring. Actions
+contain finite absolute joint-position targets: `{"actions": [[...], ...]}` with one value per
 active joint. Use `{"continue": true}` while a previously submitted chunk still
 has actions. RGB images and calibrated robot information are policy-visible;
 native success and detailed scoring are returned only when finishing a case.

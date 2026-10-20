@@ -136,6 +136,9 @@ class Bench2DexAdapter:
                 sha256=reference.sha256,
                 size_bytes=reference.size_bytes,
             )
+            # The native input path is private; advertise the file transferred
+            # by the common media channel so HTTP Agents can resolve each camera.
+            camera["path"] = reference.ref
             references.append(reference)
         return Observation(
             benchmark="bench2dex",

@@ -141,6 +141,9 @@ def test_sensor_whitelist_and_terminal_score_separation(tmp_path, task):
     start = boundary.start(task, "episode-1")
     assert "PRIVATE" not in json.dumps(start.observation.data)
     assert len(start.observation.media) == 4
+    assert [
+        camera["path"] for camera in start.observation.data["sample"]["cameras"]
+    ] == [reference.ref for reference in start.observation.media]
     assert start.observation.data["sample"]["physics_step"] == 0
     for index in range(4):
         result = boundary.step(
@@ -212,9 +215,21 @@ def test_public_http_preserves_images_score_and_cleanup(tmp_path, task):
     thread.start()
     client = BenchmarkClient(f"http://127.0.0.1:{server.server_port}")
     channel = CaseMediaChannel(tmp_path / "runner/media")
+
+    def verify_camera_paths(observation):
+        cameras = observation.data["sample"]["cameras"]
+        assert [camera["name"] for camera in cameras] == list(CAMERAS["baseline_4cam"])
+        assert [camera["path"] for camera in cameras] == [
+            reference.ref for reference in observation.media
+        ]
+        for camera in cameras:
+            path = channel.media_dir.parent / camera["path"]
+            assert hashlib.sha256(path.read_bytes()).hexdigest() == camera["sha256"]
+
     try:
         start = client.start(task, "http-case", timeout_s=5)
         client.collect_observation(start.observation, channel, timeout_s=5)
+        verify_camera_paths(start.observation)
         for i in range(task.max_steps):
             result = client.step(
                 Action(
@@ -227,6 +242,7 @@ def test_public_http_preserves_images_score_and_cleanup(tmp_path, task):
             )
             if not result.terminated:
                 client.collect_observation(result.observation, channel, timeout_s=5)
+                verify_camera_paths(result.observation)
         assert result.observation.data == {"episode_done": True}
         scored = client.finish(timeout_s=5)
         client.collect_native(scored, channel.media_dir.parent, timeout_s=5)

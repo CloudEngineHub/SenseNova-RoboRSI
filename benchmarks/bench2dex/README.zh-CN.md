@@ -8,7 +8,8 @@ Agent 策略通过标准评测接口单独提供。
 
 原生运行需要 Linux x86-64、受支持的 NVIDIA RTX GPU 及驱动、支持 GPU 的
 Docker，以及固定 Isaac Sim 镜像和上游仓库的访问权限。镜像使用 Isaac Sim、
-Isaac Lab 和 Bench2Dex，分别适用其许可与访问要求。资产单独下载。
+Isaac Lab 和 Bench2Dex，分别适用其许可与访问要求。资产单独下载；
+安装 RoboRSI 不会自动提供原生运行环境或资产。
 自定义参考 harness 采用
 [Apache-2.0](../../robots/bench2dex/reference/LICENSE_NOTICE.md) 许可证。
 本次迁移不构成原生任务成功或模型性能的验证。
@@ -74,9 +75,12 @@ bench eval --registry-root work/bench2dex/registry \
   --timeout-s 900 --case-timeout-s 86400 --max-concurrent 1
 ```
 
-该预设用于演示通用接口，不是复现策略。请为实际运行设置模型、上下文和决策预算。
-动作使用有限数值的绝对关节位置目标：`{"actions": [[...], ...]}`，每个动作的
-维度与活跃关节数一致。上一动作块仍有剩余动作时使用 `{"continue": true}`。
+该预设用于演示通用接口，不是复现策略。本次不包含专用 Agent 策略或历史 ICL 包，
+通用配置不代表能够复现历史成绩。[快速开始](../../docs/getting-started.zh-CN.md)
+中的 LIBERO 固定动作示例仅适用于 LIBERO。请为实际运行设置模型、上下文和决策预算。
+
+服务提供 Bench2Dex 原生动作协议和评分规则。动作使用有限数值的绝对关节位置目标：
+`{"actions": [[...], ...]}`，每个动作的维度与活跃关节数一致。上一动作块仍有剩余动作时使用 `{"continue": true}`。
 Agent 可见 RGB 图像和经过标定的机器人信息；原生成功状态和评分详情仅在结束
 case 时返回。
 

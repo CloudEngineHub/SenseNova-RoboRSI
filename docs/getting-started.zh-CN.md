@@ -35,9 +35,6 @@ pytest tests/unit_tests -q
 LIBERO-PRO 需要另外获取完整的评测资产目录，且校验和必须符合构建说明。
 本仓库不提供这份数据或自动下载入口。完成源码安装并不代表已经具备运行 PRO 的资产。
 
-Bench2Dex 需要准备原生运行环境与资产，安装框架不会自动提供这些依赖。
-请阅读其构建说明中的许可与归属声明。
-
 ## 检查评测流程
 
 按 LIBERO 构建说明准备好 registry 后，运行固定动作示例：
@@ -75,7 +72,3 @@ bench eval --registry-root /absolute/path/to/registry \
 
 上下文和执行预算见 [Agent 配置](agents.zh-CN.md)；结果、并发与恢复见
 [评测指南](evaluation.zh-CN.md)。
-
-运行 Bench2Dex 时，可使用同一份通用 Agent 配置，并按其构建说明替换
-benchmark 名称与任务 ID。服务提供原生动作协议和评分规则。上面的固定动作示例仅适用
-LIBERO。本次不包含专用 Agent 策略或历史 ICL 包，通用配置不代表能够复现历史成绩。
