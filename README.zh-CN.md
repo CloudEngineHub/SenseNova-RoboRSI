@@ -25,11 +25,7 @@
 
 ## News
 
-- **2026-10-20** — **BEHAVIOR-1K** benchmark 代码与配置指南已开源，支持官方 21 维动作接口、RGB-D 观测与原生评分，详见[评测指南](benchmarks/behavior_1k/README.zh-CN.md)。
-
-- **2026-10-20** — 新增 [**Bench2Dex**](benchmarks/bench2dex/README.zh-CN.md) 的 benchmark 服务、原生适配器和构建指南。
-
-- **2026-10-20** — 新增 [**DexJoCo**](benchmarks/dexjoco/README.zh-CN.md) 的 benchmark 服务、原生适配器和构建指南。
+- **2026-10-20** — [**BEHAVIOR-1K**](benchmarks/behavior_1k/README.zh-CN.md) benchmark 代码与配置指南已开源，支持官方 21 维动作接口、RGB-D 观测与原生评分；同时新增 [**Bench2Dex**](benchmarks/bench2dex/README.zh-CN.md) 和 [**DexJoCo**](benchmarks/dexjoco/README.zh-CN.md) 的 benchmark 服务、原生适配器和构建指南。
 
 - **2026-10-16** — 本分支已提供 **LIBERO、LIBERO-PRO、LIBERO-Long++ 和 LIBERO-Ultra-Long** 的首批代码与使用指南，详见[快速开始](docs/getting-started.zh-CN.md)。
 

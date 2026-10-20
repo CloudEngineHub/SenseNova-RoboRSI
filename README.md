@@ -25,11 +25,7 @@
 
 ## News
 
-- **2026-10-20** — **BEHAVIOR-1K** benchmark code and setup instructions are released. The integration provides the official 21D action interface, RGB-D observations and native scoring. See the [benchmark guide](benchmarks/behavior_1k/README.md).
-
-- **2026-10-20** — Benchmark services, native adapters and build guides for [**Bench2Dex**](benchmarks/bench2dex/README.md) are now included.
-
-- **2026-10-20** — The benchmark service, native adapter and build guide for [**DexJoCo**](benchmarks/dexjoco/README.md) are now included.
+- **2026-10-20** — Released [**BEHAVIOR-1K**](benchmarks/behavior_1k/README.md) benchmark code and setup instructions, with the official 21D action interface, RGB-D observations and native scoring, alongside benchmark services, native adapters and build guides for [**Bench2Dex**](benchmarks/bench2dex/README.md) and [**DexJoCo**](benchmarks/dexjoco/README.md).
 
 - **2026-10-16** — Initial code and usage guides for **LIBERO, LIBERO-PRO, LIBERO-Long++ and LIBERO-Ultra-Long** are available in this branch. See the [getting started guide](docs/getting-started.md).
 
