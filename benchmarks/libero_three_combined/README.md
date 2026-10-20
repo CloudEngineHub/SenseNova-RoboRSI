@@ -51,11 +51,13 @@ docker run --rm --gpus all \
   --base-url https://your-responses-endpoint.example/v1
 ```
 
-For the fixed 12/9/80 subsets, override the entrypoint with
-`/opt/roborsi/benchmarks/libero_three_combined/run_combined_subset.py`. The runner defaults
-to 16 concurrent cases and one shared GPU, preserves every attempt, reuses only
-cases with a native `success` or `task_failure`, and exits nonzero while any case
-lacks a legal terminal result.
+For the fixed 12/9/80 subsets, use `--entrypoint python` and pass
+`-B /opt/roborsi/benchmarks/libero_three_combined/run_combined_subset.py` immediately after
+the image reference. The runner defaults to 16 concurrent cases and one shared
+GPU. It preserves every attempt and reuses a result only after matching the
+image/code, Agent, ICL, model endpoint and timeout fingerprint, the previous
+zero process exit, task/seed identity, and the native score file digest. It
+exits nonzero while any case lacks a verified native terminal result.
 
 # LIBERO-PRO, Long++ and Ultra-Long
 
@@ -577,9 +579,10 @@ Run the fixed subsets by overriding the entrypoint:
 
 ```bash
 docker run --rm --gpus all \
-  --entrypoint /opt/roborsi/benchmarks/libero_three_combined/run_combined_subset.py \
+  --entrypoint python \
   -v /path/to/model_api.key:/run/secrets/model_api.key:ro \
   -v "$RUN_ROOT/results:/results" "$LONGPP_COMBINED_IMAGE" \
+  -B /opt/roborsi/benchmarks/libero_three_combined/run_combined_subset.py \
   --benchmark libero_long_plus_plus --run-id longpp-subset \
   --results-root /results/longpp-subset --max-concurrent 16 --gpu-count 1 \
   --api-key-file /run/secrets/model_api.key \

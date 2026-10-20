@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import subprocess
@@ -14,12 +15,41 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
+from roborsi.agents.config import AgentConfig
+from roborsi.evaluation.result import write_json_atomic
+from roborsi.evaluation.store import ResultStore
+from benchmarks.libero_three_combined.run_combined import _CASES
+
 _EXPECTED = {
     "libero_long_plus_plus": 12,
     "libero_ultra_long": 9,
     "libero_pro": 80,
 }
 _VALID_TERMINALS = {"success", "task_failure"}
+_ASSET_MANIFEST = Path("/opt/roborsi-agent-assets/asset.json")
+_COMPLETION = "attempt-completion.json"
+
+
+def _file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _json_sha256(document: dict[str, Any]) -> str:
+    encoded = json.dumps(
+        document, ensure_ascii=False, separators=(",", ":"), sort_keys=True
+    ).encode()
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def _object(path: Path) -> dict[str, Any]:
+    document = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(document, dict):
+        raise ValueError(f"expected JSON object: {path}")
+    return document
 
 
 def _tasks(repository: Path, benchmark: str) -> tuple[str, ...]:
@@ -38,20 +68,157 @@ def _tasks(repository: Path, benchmark: str) -> tuple[str, ...]:
     return tasks
 
 
-def _record_result(root: Path) -> dict[str, Any]:
-    matches = list(root.rglob("result.json"))
+def _validated_result(
+    root: Path, *, benchmark: str, task_id: str, seed: int
+) -> dict[str, Any]:
+    evaluation = root / "evaluation"
+    matches = list(evaluation.glob("*/*/result.json"))
     if len(matches) != 1:
-        return {"status": "missing", "result_count": len(matches)}
-    result = json.loads(matches[0].read_text(encoding="utf-8"))
-    return {key: result.get(key) for key in ("status", "success", "score", "error")}
+        raise ValueError(f"expected one published result, found {len(matches)}")
+    result_path = matches[0]
+    relative = result_path.relative_to(evaluation)
+    if len(relative.parts) != 3:
+        raise ValueError("published result has an unexpected storage path")
+    run_id, case_id, _ = relative.parts
+    result = ResultStore(evaluation).load(run_id, case_id)
+    if (
+        result.task.benchmark != benchmark
+        or result.task.task_id != task_id
+        or result.task.seed != seed
+    ):
+        raise ValueError("published result belongs to another task or seed")
+    if result.status not in _VALID_TERMINALS:
+        raise ValueError(f"published result is not a native terminal: {result.status}")
+    if result.native_score_source is None or result.native_score_sha256 is None:
+        raise ValueError("published result lacks native score evidence")
+    return {
+        "status": result.status,
+        "success": result.success,
+        "score": result.score,
+        "error": result.error.as_dict() if result.error is not None else None,
+        "task": result.task.as_dict(),
+        "provenance": result.provenance.as_dict(),
+        "native_score_source": result.native_score_source,
+        "native_score_sha256": result.native_score_sha256,
+        "result_path": relative.as_posix(),
+        "result_sha256": _file_sha256(result_path),
+    }
 
 
-def _completed_attempt(case_root: Path) -> tuple[Path, dict[str, Any]] | None:
+def _record_result(
+    root: Path, *, benchmark: str, task_id: str, seed: int
+) -> dict[str, Any]:
+    try:
+        return _validated_result(root, benchmark=benchmark, task_id=task_id, seed=seed)
+    except (OSError, ValueError) as exc:
+        return {"status": "invalid", "validation_error": str(exc)}
+
+
+def _conditions(
+    repository: Path,
+    benchmark: str,
+    *,
+    base_url: str,
+    timeout_s: float,
+    case_timeout_s: float,
+) -> dict[str, Any]:
+    environment = {}
+    for name in (
+        "ROBORSI_IMAGE_REVISION",
+        "ROBORSI_AGENT_IMAGE",
+        "ROBORSI_BENCHMARK_IMAGE",
+    ):
+        value = os.environ.get(name)
+        if not value:
+            raise ValueError(f"combined image is missing {name}")
+        environment[name] = value
+    asset_manifest = Path(
+        os.environ.get("ROBORSI_AGENT_ASSET_MANIFEST", str(_ASSET_MANIFEST))
+    )
+    assets = _object(asset_manifest)
+    if assets.get("schema_version") != 1:
+        raise ValueError("Agent asset manifest has an unsupported schema")
+    bundle = _CASES[benchmark][0]
+    config = AgentConfig.load(bundle)
+    return {
+        "schema_version": 1,
+        "source_revision": environment["ROBORSI_IMAGE_REVISION"],
+        "agent_parent_image": environment["ROBORSI_AGENT_IMAGE"],
+        "benchmark_parent_image": environment["ROBORSI_BENCHMARK_IMAGE"],
+        "agent_config": bundle,
+        "agent_config_sha256": config.fingerprint,
+        "agent_assets": assets,
+        "agent_assets_manifest_sha256": _file_sha256(asset_manifest),
+        "model_endpoint_sha256": hashlib.sha256(
+            base_url.rstrip("/").encode()
+        ).hexdigest(),
+        "run_combined_sha256": _file_sha256(
+            repository / "benchmarks/libero_three_combined/run_combined.py"
+        ),
+        "subset_runner_sha256": _file_sha256(Path(__file__).resolve()),
+        "context_map_sha256": _file_sha256(
+            repository / "robots/libero/agents/three_benchmark/context_maps" / f"{benchmark}.json"
+        ),
+        "profile": "migration_subset",
+        "plus9_on_failure": False,
+        "seed": 0,
+        "timeout_s": timeout_s,
+        "case_timeout_s": case_timeout_s,
+    }
+
+
+def _completed_attempt(
+    case_root: Path, *, benchmark: str, task_id: str, condition_sha256: str
+) -> tuple[Path, dict[str, Any]] | None:
     for attempt in sorted(case_root.glob("attempt-*"), reverse=True):
-        record = _record_result(attempt)
-        if record.get("status") in _VALID_TERMINALS:
+        try:
+            completion = _object(attempt / _COMPLETION)
+            if (
+                completion.get("schema_version") != 1
+                or completion.get("benchmark") != benchmark
+                or completion.get("task_id") != task_id
+                or completion.get("seed") != 0
+                or completion.get("condition_sha256") != condition_sha256
+                or completion.get("returncode") != 0
+            ):
+                continue
+            record = _validated_result(
+                attempt, benchmark=benchmark, task_id=task_id, seed=0
+            )
+            if (
+                completion.get("result_path") != record["result_path"]
+                or completion.get("result_sha256") != record["result_sha256"]
+            ):
+                continue
             return attempt, record
+        except (OSError, ValueError):
+            continue
     return None
+
+
+def _write_completion(
+    attempt: Path,
+    *,
+    benchmark: str,
+    task_id: str,
+    condition_sha256: str,
+    returncode: int,
+    record: dict[str, Any],
+) -> None:
+    attempt.mkdir(parents=True, exist_ok=True)
+    write_json_atomic(
+        attempt / _COMPLETION,
+        {
+            "schema_version": 1,
+            "benchmark": benchmark,
+            "task_id": task_id,
+            "seed": 0,
+            "condition_sha256": condition_sha256,
+            "returncode": returncode,
+            "result_path": record.get("result_path"),
+            "result_sha256": record.get("result_sha256"),
+        },
+    )
 
 
 def _next_attempt(case_root: Path) -> Path:
@@ -125,6 +292,14 @@ def main() -> int:
 
     root = args.results_root.resolve()
     root.mkdir(parents=True, exist_ok=True)
+    conditions = _conditions(
+        repository,
+        args.benchmark,
+        base_url=args.base_url,
+        timeout_s=args.timeout_s,
+        case_timeout_s=args.case_timeout_s,
+    )
+    condition_sha256 = _json_sha256(conditions)
     plan = {
         "schema_version": 1,
         "benchmark": args.benchmark,
@@ -132,6 +307,8 @@ def main() -> int:
         "tasks": list(selected),
         "max_concurrent": args.max_concurrent,
         "gpu_count": args.gpu_count,
+        "conditions": conditions,
+        "condition_sha256": condition_sha256,
     }
     plan_path = root / "subset-plan.json"
     if plan_path.exists():
@@ -146,7 +323,12 @@ def main() -> int:
     def run(index_task: tuple[int, str]) -> tuple[str, dict[str, Any]]:
         index, task = index_task
         case_root = root / "cases" / task
-        completed = _completed_attempt(case_root)
+        completed = _completed_attempt(
+            case_root,
+            benchmark=args.benchmark,
+            task_id=task,
+            condition_sha256=condition_sha256,
+        )
         if completed is not None:
             attempt, record = completed
             return task, {
@@ -197,12 +379,21 @@ def main() -> int:
                 stderr=subprocess.STDOUT,
                 check=False,
             )
+        record = _record_result(attempt, benchmark=args.benchmark, task_id=task, seed=0)
+        _write_completion(
+            attempt,
+            benchmark=args.benchmark,
+            task_id=task,
+            condition_sha256=condition_sha256,
+            returncode=completed_process.returncode,
+            record=record,
+        )
         return task, {
             "task_id": task,
             "returncode": completed_process.returncode,
             "attempt": attempt.name,
             "cached": False,
-            **_record_result(attempt),
+            **record,
         }
 
     records: dict[str, dict[str, Any]] = {}

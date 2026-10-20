@@ -414,9 +414,10 @@ LiLo+Agent 镜像内容；PRO 使用 PRO+Agent 镜像。镜像内包含 Benchmar
 
 ```bash
 docker run --rm --gpus all \
-  --entrypoint /opt/roborsi/benchmarks/libero_three_combined/run_combined_subset.py \
+  --entrypoint python \
   -v /path/to/model_api.key:/run/secrets/model_api.key:ro \
   -v "$RUN_ROOT/results:/results" "$LONGPP_COMBINED_IMAGE" \
+  -B /opt/roborsi/benchmarks/libero_three_combined/run_combined_subset.py \
   --benchmark libero_long_plus_plus --run-id longpp-subset \
   --results-root /results/longpp-subset --max-concurrent 16 --gpu-count 1 \
   --api-key-file /run/secrets/model_api.key \

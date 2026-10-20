@@ -4,12 +4,23 @@
 """Tests for the three-LIBERO source-runtime preflight."""
 
 import json
+from hashlib import sha256
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
+from roborsi.evaluation.messages import EvaluationResult, Provenance, Task
+from roborsi.evaluation.store import ResultStore
 from benchmarks.libero_three_combined.prepare_agent_assets import prepare as prepare_agent_assets
 from benchmarks.libero_three_combined.run_combined import _CASES as _COMBINED_CASES
+from benchmarks.libero_three_combined.run_combined_subset import (
+    _completed_attempt,
+    _conditions,
+    _json_sha256,
+    _validated_result,
+    _write_completion,
+)
 from benchmarks.libero_three_combined.run_combined_subset import _summary as _combined_summary
 from benchmarks.libero_three_combined.run_combined_subset import _tasks as _combined_tasks
 
@@ -77,6 +88,155 @@ def test_combined_image_uses_only_roborsi_runtime_names() -> None:
     assert "ROBORSI_CONTEXT_TOKENIZER_PATH" in dockerfile
     assert "roborsi.evaluation.cli" not in dockerfile
     assert "/opt/heart" not in dockerfile
+
+
+def test_combined_subset_documentation_uses_python_entrypoint() -> None:
+    repository = Path(__file__).resolve().parents[4]
+
+    for relative in (
+        "benchmarks/libero_three_combined/README.md",
+        "benchmarks/libero_three_combined/README.md",
+        "benchmarks/libero_three_combined/README.zh-CN.md",
+    ):
+        document = (repository / relative).read_text(encoding="utf-8")
+        assert "--entrypoint /opt/roborsi/scripts/libero_three" not in document
+        assert "--entrypoint python" in document
+        assert "-B /opt/roborsi/benchmarks/libero_three_combined/run_combined_subset.py" in document
+
+
+def test_combined_conditions_bind_runtime_without_api_secret(
+    monkeypatch, tmp_path: Path
+) -> None:
+    repository = Path(__file__).resolve().parents[4]
+    manifest = tmp_path / "asset.json"
+    manifest.write_text(
+        json.dumps({"schema_version": 1, "assets": {"icl": "snapshot"}}),
+        encoding="utf-8",
+    )
+    monkeypatch.setenv("ROBORSI_IMAGE_REVISION", "a" * 40)
+    monkeypatch.setenv("ROBORSI_AGENT_IMAGE", "sha256:" + "b" * 64)
+    monkeypatch.setenv("ROBORSI_BENCHMARK_IMAGE", "image@sha256:" + "c" * 64)
+    monkeypatch.setenv("ROBORSI_AGENT_ASSET_MANIFEST", str(manifest))
+    monkeypatch.setattr(
+        "benchmarks.libero_three_combined.run_combined_subset.AgentConfig.load",
+        lambda _reference: SimpleNamespace(fingerprint="d" * 64),
+    )
+
+    first = _conditions(
+        repository,
+        "libero_pro",
+        base_url="https://model.example/v1/",
+        timeout_s=120.0,
+        case_timeout_s=3600.0,
+    )
+    second = _conditions(
+        repository,
+        "libero_pro",
+        base_url="https://other.example/v1",
+        timeout_s=120.0,
+        case_timeout_s=3600.0,
+    )
+
+    assert first["source_revision"] == "a" * 40
+    assert first["agent_config_sha256"] == "d" * 64
+    assert "model.example" not in json.dumps(first)
+    assert _json_sha256(first) != _json_sha256(second)
+
+
+def test_combined_cache_requires_completion_and_verified_native_evidence(
+    tmp_path: Path,
+) -> None:
+    attempt = tmp_path / "cases" / "task-a" / "attempt-001"
+    store = ResultStore(attempt / "evaluation")
+    task = Task(
+        benchmark="libero_pro",
+        task_id="task-a",
+        seed=0,
+        instruction="test",
+        max_steps=10,
+    )
+    provenance = Provenance(agent_version="agent-v1")
+    case = store.claim("run", "case", task, provenance)
+    native = case / "native" / "score.json"
+    native.parent.mkdir()
+    native.write_text('{"score": 1.0}', encoding="utf-8")
+    result = EvaluationResult(
+        task=task,
+        episode_id="episode",
+        status="success",
+        success=True,
+        score=1.0,
+        native_score_source="native/score.json",
+        native_score_sha256=sha256(native.read_bytes()).hexdigest(),
+        provenance=provenance,
+    )
+    store.publish("run", "case", result)
+    condition = "e" * 64
+
+    assert (
+        _completed_attempt(
+            attempt.parent,
+            benchmark="libero_pro",
+            task_id="task-a",
+            condition_sha256=condition,
+        )
+        is None
+    )
+    record = _validated_result(
+        attempt, benchmark="libero_pro", task_id="task-a", seed=0
+    )
+    _write_completion(
+        attempt,
+        benchmark="libero_pro",
+        task_id="task-a",
+        condition_sha256=condition,
+        returncode=0,
+        record=record,
+    )
+
+    completed = _completed_attempt(
+        attempt.parent,
+        benchmark="libero_pro",
+        task_id="task-a",
+        condition_sha256=condition,
+    )
+    assert completed is not None
+    assert completed[1]["native_score_sha256"] == result.native_score_sha256
+    assert (
+        _completed_attempt(
+            attempt.parent,
+            benchmark="libero_pro",
+            task_id="task-a",
+            condition_sha256="f" * 64,
+        )
+        is None
+    )
+
+    completion = attempt / "attempt-completion.json"
+    completion_document = json.loads(completion.read_text(encoding="utf-8"))
+    completion_document["returncode"] = 1
+    completion.write_text(json.dumps(completion_document), encoding="utf-8")
+    assert (
+        _completed_attempt(
+            attempt.parent,
+            benchmark="libero_pro",
+            task_id="task-a",
+            condition_sha256=condition,
+        )
+        is None
+    )
+    completion_document["returncode"] = 0
+    completion.write_text(json.dumps(completion_document), encoding="utf-8")
+    native.write_text('{"score": 0.0}', encoding="utf-8")
+    assert (
+        _completed_attempt(
+            attempt.parent,
+            benchmark="libero_pro",
+            task_id="task-a",
+            condition_sha256=condition,
+        )
+        is None
+    )
 
 
 def test_agent_asset_lock_records_content_snapshots() -> None:
