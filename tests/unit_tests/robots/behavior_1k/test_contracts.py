@@ -131,6 +131,78 @@ def test_wrong_identity_and_stop_does_not_step(episode):
     assert episode.runtime.actions == []
 
 
+@pytest.mark.parametrize("steps", [0, 1])
+def test_stop_uses_native_task_metric_without_adding_a_step(
+    episode, monkeypatch, steps
+):
+    import sys
+    from types import SimpleNamespace
+
+    from robots.behavior_1k.native import Behavior1KEpisode
+
+    class TaskMetric:
+        # The pinned MetricBase.aggregate skips empty reset state:
+        # https://github.com/StanfordVL/BEHAVIOR-1K/blob/b1979916ec1549b10a4e65e630bc6504a9af1b00/OmniGibson/omnigibson/metrics/metric_base.py#L85-L101
+        def __init__(self):
+            self.timesteps = steps
+            self.state = {"scene": {"timesteps": [steps]} if steps else {}}
+            self.aggregate_calls = 0
+            self.compute_calls = 0
+
+        def aggregate(self, env):
+            self.aggregate_calls += 1
+            state = self.state[env.scene]
+            return self._compute_episode_metrics(env, state) if state else {}
+
+        def _compute_episode_metrics(self, env, episode_info):
+            # TaskMetric's final calculation accepts empty episode_info and
+            # falls back to its own reset timesteps; it does not step physics.
+            # https://github.com/StanfordVL/BEHAVIOR-1K/blob/b1979916ec1549b10a4e65e630bc6504a9af1b00/OmniGibson/omnigibson/metrics/task_metric.py#L28-L51
+            self.compute_calls += 1
+            timesteps = (
+                episode_info["timesteps"][-1]
+                if episode_info.get("timesteps")
+                else self.timesteps
+            )
+            return {
+                "q_score": {"final": 1.0 if env.task.success else 0.0},
+                "time": {"simulator_steps": timesteps},
+            }
+
+    monkeypatch.setitem(
+        sys.modules, "omnigibson.metrics", SimpleNamespace(TaskMetric=TaskMetric)
+    )
+    metric = TaskMetric()
+    runtime = Behavior1KEpisode()
+    runtime.evaluator = SimpleNamespace(
+        metrics=[metric],
+        env=SimpleNamespace(scene="scene", task=SimpleNamespace(success=True)),
+        n_trials=0,
+        n_success_trials=0,
+    )
+    if steps:
+        episode.step(action())
+    runtime.steps = steps
+    episode.runtime.evaluate = runtime.evaluate
+    episode.stop(
+        EpisodeStop(
+            benchmark="behavior_1k",
+            episode_id="test",
+            step_index=steps,
+            reason="agent_finished",
+        )
+    )
+    result = episode.finish()
+    assert result.success and result.score == 1.0
+    assert result.details["steps"] == steps
+    assert result.details["metrics"]["time"]["simulator_steps"] == steps
+    assert len(episode.runtime.actions) == steps
+    assert metric.timesteps == steps
+    assert metric.compute_calls == 1
+    if steps:
+        assert metric.aggregate_calls == 1
+
+
 def test_native_failure_cannot_be_scored_or_retried(episode):
     episode.runtime.fail = True
     with pytest.raises(RuntimeError):

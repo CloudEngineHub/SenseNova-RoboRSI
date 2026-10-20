@@ -484,9 +484,19 @@ class Behavior1KEpisode:
             return {"status": "stopped"}
         metrics: dict[str, Any] = {}
         errors: dict[str, str] = {}
+        if self.steps == 0:
+            from omnigibson.metrics import TaskMetric
+
         for metric in self.evaluator.metrics:
             try:
-                metrics.update(_plain_metric(metric.aggregate(self.evaluator.env)))
+                if self.steps == 0 and isinstance(metric, TaskMetric):
+                    # The pinned MetricBase.aggregate skips empty reset state.
+                    # Compute the official final predicates/time directly; a
+                    # synthetic metric.step would incorrectly count one action.
+                    values = metric._compute_episode_metrics(self.evaluator.env, {})
+                else:
+                    values = metric.aggregate(self.evaluator.env)
+                metrics.update(_plain_metric(values))
             except Exception as exc:
                 errors[type(metric).__name__] = str(exc)
         q_score = None

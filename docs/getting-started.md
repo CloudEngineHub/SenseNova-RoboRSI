@@ -40,10 +40,6 @@ digest specified in its recipe. This repository does not provide that dataset
 or an automatic download for it. A successful source installation alone does
 not make the PRO image runnable.
 
-The BEHAVIOR-1K catalog selects tasks from the 100-task list at `public_test`
-instance 301, seed 0. Use the BEHAVIOR-1K guide's evaluation example for the
-21D action interface and RGB-D input.
-
 ## Check the evaluation path
 
 With a LIBERO registry prepared by the recipe, use the fixed-action example:

@@ -35,9 +35,6 @@ pytest tests/unit_tests -q
 LIBERO-PRO 需要另外获取完整的评测资产目录，且校验和必须符合构建说明。
 本仓库不提供这份数据或自动下载入口。完成源码安装并不代表已经具备运行 PRO 的资产。
 
-BEHAVIOR-1K 的 catalog 从 100 个任务中选择，使用 `public_test` instance 301、
-seed 0；21 维动作接口与 RGB-D 输入的运行方式见 BEHAVIOR-1K 指南中的评测示例。
-
 ## 检查评测流程
 
 按 LIBERO 构建说明准备好 registry 后，运行固定动作示例：
