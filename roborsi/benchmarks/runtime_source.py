@@ -94,6 +94,15 @@ _BENCHMARK = {
         "robots/bench2dex/reference/SOURCES.json",
         "robots/bench2dex/reference/LICENSE_NOTICE.md",
     ),
+    "dexjoco": (
+        "robots/dexjoco/contracts.py",
+        "robots/dexjoco/horizon.py",
+        "robots/dexjoco/native.py",
+        "robots/dexjoco/roborsi_adapter.py",
+        "robots/dexjoco/benchmark_service.py",
+        "benchmarks/dexjoco/manifest.py",
+        "benchmarks/dexjoco/LICENSE.reference",
+    ),
     "libero": (
         *_ENV_FACADE,
         "roborsi/utils/egl.py",

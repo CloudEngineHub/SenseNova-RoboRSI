@@ -30,7 +30,8 @@ pytest tests/unit_tests -q
 Choose [LIBERO](../benchmarks/libero/README.md),
 [LIBERO-PRO](../benchmarks/libero_pro/README.md),
 [Long++ / Ultra-Long](../benchmarks/libero_lilo/README.md),
-[Bench2Dex](../benchmarks/bench2dex/README.md), or
+[Bench2Dex](../benchmarks/bench2dex/README.md),
+[DexJoCo](../benchmarks/dexjoco/README.md), or
 [BEHAVIOR-1K](../benchmarks/behavior_1k/README.md). Follow its recipe to
 build an image, obtain the required assets, and write a manifest under a local
 registry directory. A manifest identifies the image digest, tasks, seeds,
