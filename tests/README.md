@@ -1,8 +1,8 @@
 # Tests
 
 The release tests cover the shared Agent/runtime/evaluation contracts and the
-LIBERO-family, Bench2Dex and DexJoCo adapters. Tests mirror their production
-modules under `unit_tests/roborsi/` and `unit_tests/robots/<benchmark>/`. Shared
+LIBERO-family, Bench2Dex, DexJoCo and BEHAVIOR-1K adapters. Tests mirror their
+production modules under `unit_tests/roborsi/` and `unit_tests/robots/<benchmark>/`. Shared
 local services and fake native providers remain beside their tests or in
 `fixtures/`.
 
@@ -28,6 +28,7 @@ pytest tests/unit_tests/roborsi/benchmarks tests/unit_tests/robots/libero -q
 pytest tests/unit_tests/robots/bench2dex -q
 pytest tests/unit_tests/robots/dexjoco -q
 pytest tests/unit_tests/roborsi/runtime tests/unit_tests/roborsi/planner -q
+pytest tests/unit_tests/robots/behavior_1k -q
 ```
 
 Benchmark bundle checks verify that exported server imports and CLI help work
@@ -64,7 +65,17 @@ or a skip is not native validation.
 
 PRO, Long++ and Ultra-Long have offline adapter and runtime-export coverage.
 Their native runs require the assets and image prerequisites in their benchmark
-recipes. No historical native run or model score is claimed by this migration.
+recipes.
+
+## BEHAVIOR-1K checks
+
+Offline tests cover the 21D action contract, RGB-D conversion, task catalogs,
+native metric handling, isolated worker cleanup and exported build inputs.
+Follow the [benchmark guide](../benchmarks/behavior_1k/README.md) to build an
+image and prepare licensed assets. Catalog generation performs a native reset
+for each selected task and records its instruction and step limit. Native
+evaluation needs the image, RTX GPU, asset snapshot and generated registry.
+Record the actual image digest and native score alongside the run artifacts.
 
 ## Bench2Dex
 

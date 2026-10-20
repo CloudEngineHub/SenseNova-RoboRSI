@@ -25,6 +25,8 @@
 
 ## News
 
+- **2026-10-20** — **BEHAVIOR-1K** benchmark code and setup instructions are released. The integration provides the official 21D action interface, RGB-D observations and native scoring. See the [benchmark guide](benchmarks/behavior_1k/README.md).
+
 - **2026-10-20** — Benchmark services, native adapters and build guides for [**Bench2Dex**](benchmarks/bench2dex/README.md) are now included.
 
 - **2026-10-20** — The benchmark service, native adapter and build guide for [**DexJoCo**](benchmarks/dexjoco/README.md) are now included.
@@ -105,8 +107,9 @@ simulator installation.
 - **Benchmark setup:** [LIBERO](benchmarks/libero/README.md),
   [LIBERO-PRO](benchmarks/libero_pro/README.md),
   [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md),
-  [Bench2Dex](benchmarks/bench2dex/README.md), and
-  [DexJoCo](benchmarks/dexjoco/README.md).
+  [Bench2Dex](benchmarks/bench2dex/README.md),
+  [DexJoCo](benchmarks/dexjoco/README.md), and
+  [BEHAVIOR-1K](benchmarks/behavior_1k/README.md).
 - **Agent configuration:** [Models, prompts, context and budgets](docs/agents.md).
 - **Evaluation:** [Batch execution, results and resume](docs/evaluation.md).
 
@@ -128,7 +131,7 @@ benchmark directory for setup and evaluation.
 | LHVLN | Coming soon |
 | VLN-CE | Coming soon |
 | SIMPLE | Coming soon |
-| BEHAVIOR-1K | Coming soon |
+| [BEHAVIOR-1K](benchmarks/behavior_1k/) | Released |
 
 ## Harness Results
 

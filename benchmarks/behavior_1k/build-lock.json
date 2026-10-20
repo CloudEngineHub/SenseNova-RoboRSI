@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "base_image": "stanfordvl/behavior@sha256:2702900192741904e69a573aa7869ea51c592586f9791050796efc37faa893fb",
+  "platform": "linux/amd64",
+  "upstream_tag": "3.9.2",
+  "native_commit": "b1979916ec1549b10a4e65e630bc6504a9af1b00",
+  "compressed_bytes": 14699507359
+}

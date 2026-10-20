@@ -58,6 +58,20 @@ _ENV_FACADE = (
     "roborsi/robots/components/env_facade_base.py",
 )
 _BENCHMARK = {
+    "behavior_1k": (
+        "robots/behavior_1k/benchmark_service.py",
+        "robots/behavior_1k/catalog.py",
+        "robots/behavior_1k/contracts.py",
+        "robots/behavior_1k/episode.py",
+        "robots/behavior_1k/native.py",
+        "robots/behavior_1k/official.py",
+        "robots/behavior_1k/provenance.py",
+        "robots/behavior_1k/roborsi_adapter.py",
+        "robots/behavior_1k/worker.py",
+        "benchmarks/behavior_1k/__init__.py",
+        "benchmarks/behavior_1k/prepare.py",
+        "benchmarks/behavior_1k/official_tasks.json",
+    ),
     "bench2dex": (
         "LICENSE",
         "robots/bench2dex/benchmark_service.py",
