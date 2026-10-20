@@ -25,6 +25,8 @@
 
 ## News
 
+- **2026-10-20** — The benchmark service, native adapter and build guide for [**DexJoCo**](benchmarks/dexjoco/README.md) are now included.
+
 - **2026-10-16** — Initial code and usage guides for **LIBERO, LIBERO-PRO, LIBERO-Long++ and LIBERO-Ultra-Long** are available in this branch. See the [getting started guide](docs/getting-started.md).
 
 - **2026-10-16** — SenseNova-RoboRSI has been used in the empirical report [**Has GPT-6 Achieved Embodied Intelligence?**](https://www.sensenova.ai/gpt-6/assets/docs/has_gpt-6_achieved_embodied_intelligence.pdf).
@@ -99,16 +101,17 @@ images target Linux; connecting to an existing HTTP benchmark requires no local
 simulator installation.
 
 - **Benchmark setup:** [LIBERO](benchmarks/libero/README.md),
-  [LIBERO-PRO](benchmarks/libero_pro/README.md), and
-  [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md).
+  [LIBERO-PRO](benchmarks/libero_pro/README.md),
+  [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md), and
+  [DexJoCo](benchmarks/dexjoco/README.md).
 - **Agent configuration:** [Models, prompts, context and budgets](docs/agents.md).
 - **Evaluation:** [Batch execution, results and resume](docs/evaluation.md).
 
 ## BenchZoo
 
-Available Agent methods and upcoming releases by benchmark. The released LIBERO
-entries share configurable EmbodiedAgent presets; select your model in the
-preset and follow the corresponding benchmark directory for setup and evaluation.
+Available benchmark integrations and upcoming releases. Supported services share
+configurable EmbodiedAgent presets; select your model and follow the corresponding
+benchmark directory for setup and evaluation.
 
 | Benchmark | Status |
 | --- | --- |
@@ -118,7 +121,7 @@ preset and follow the corresponding benchmark directory for setup and evaluation
 | [LIBERO-Ultra-Long](benchmarks/libero_lilo/) | Released |
 | RoboLab | Coming soon |
 | Bench2Dex | Coming soon |
-| DexJoCo | Coming soon |
+| [DexJoCo](benchmarks/dexjoco/) | Released |
 | LHVLN | Coming soon |
 | VLN-CE | Coming soon |
 | SIMPLE | Coming soon |
@@ -253,7 +256,7 @@ VLA policies, simulation platforms, and real robots.
   [RoboCasa](https://robocasa.ai/),
   [RPent](https://rpent.readthedocs.io/zh-cn/latest/), and the broader open-source
   community supporting embodied-agent research.
-- **Licenses:** External models, simulators, and datasets retain
-  their respective licenses.
+- **Licenses:** External models, simulators, and datasets retain their respective
+  licenses.
 
 **This achievement reflects the joint team's continued exploration and close collaboration in embodied AI and agent systems. SenseNova-RoboRSI has been used in the published report [Has GPT-6 Achieved Embodied Intelligence?](https://www.sensenova.ai/gpt-6/assets/docs/has_gpt-6_achieved_embodied_intelligence.pdf). We will continue to advance and validate these technologies.**

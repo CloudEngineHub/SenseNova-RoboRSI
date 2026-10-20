@@ -12,17 +12,48 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Regression checks against the actual frozen evaluator, not copied examples."""
+"""Benchmark action and observation contracts without historical policy assets."""
 
+import math
 
 import numpy as np
 import pytest
 
 from robots.dexjoco.contracts import (
+    LIMITS,
     environment_action,
     public_observation,
     validate_vector,
 )
+
+
+@pytest.mark.parametrize("dual", [False, True])
+def test_action_conversion_preserves_scalar_first_quaternions_and_hand_order(dual):
+    row = [1.0, 2.0, 3.0, 0.0, 0.0, math.pi, *range(10, 26)]
+    expected = [1.0, 2.0, 3.0, 0.0, 0.0, 0.0, 1.0, *range(10, 26)]
+    if dual:
+        row += [4.0, 5.0, 6.0, math.pi / 2, 0.0, 0.0, *range(40, 56)]
+        expected = [
+            1.0,
+            2.0,
+            3.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            4.0,
+            5.0,
+            6.0,
+            math.sqrt(0.5),
+            math.sqrt(0.5),
+            0.0,
+            0.0,
+            *range(10, 26),
+            *range(40, 56),
+        ]
+    np.testing.assert_allclose(
+        environment_action(row, dual), expected, atol=1e-15, rtol=0
+    )
 
 
 @pytest.mark.parametrize("bad", [True, "1", float("nan"), float("inf")])
@@ -31,3 +62,20 @@ def test_bad_row_fails_before_conversion(bad):
     row[7] = bad
     with pytest.raises(ValueError):
         validate_vector({"vector": row}, False)
+
+
+@pytest.mark.parametrize("dual,width", [(False, 23), (True, 46)])
+def test_no_privileged_state_or_camera_leaks(dual, width):
+    raw = {
+        "state": np.arange(100),
+        "ego": np.arange(8 * 9 * 3, dtype=np.uint8).reshape(8, 9, 3),
+        "segmentation": np.ones((8, 9)),
+        "seed": 100000,
+        "succeed": True,
+    }
+    public, images = public_observation(raw, {"base": "ego"}, dual, "Task")
+    assert public == {"prompt": "Task", "state": list(range(width))}
+    assert set(images) == {"ego"}
+    np.testing.assert_array_equal(images["ego"], raw["ego"])
+    assert not np.shares_memory(images["ego"], raw["ego"])
+    assert LIMITS["water_plant"] == 1000

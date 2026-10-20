@@ -26,13 +26,17 @@ pytest tests/unit_tests -q
 ## 准备 benchmark
 
 选择 [LIBERO](../benchmarks/libero/README.md)、
-[LIBERO-PRO](../benchmarks/libero_pro/README.md) 或
-[Long++ / Ultra-Long](../benchmarks/libero_lilo/README.md)，按对应说明构建镜像、
+[LIBERO-PRO](../benchmarks/libero_pro/README.md)、
+[Long++ / Ultra-Long](../benchmarks/libero_lilo/README.md) 或
+[DexJoCo](../benchmarks/dexjoco/README.zh-CN.md)，按对应说明构建镜像、
 获取所需资产，并在本地 registry 目录写入 manifest。Manifest 记录镜像摘要、任务、
 种子、动作协议、评测步数及原生评分规则。
 
 LIBERO-PRO 需要另外获取完整的评测资产目录，且校验和必须符合构建说明。
 本仓库不提供这份数据或自动下载入口。完成源码安装并不代表已经具备运行 PRO 的资产。
+
+DexJoCo 需要准备原生运行环境与资产，安装框架不会自动提供这些依赖。
+请阅读构建说明中的许可与归属声明。
 
 ## 检查评测流程
 
@@ -71,3 +75,7 @@ bench eval --registry-root /absolute/path/to/registry \
 
 上下文和执行预算见 [Agent 配置](agents.zh-CN.md)；结果、并发与恢复见
 [评测指南](evaluation.zh-CN.md)。
+
+运行 DexJoCo 时，可使用同一份通用 Agent 配置，并按其构建说明替换
+benchmark 名称与任务 ID。服务提供原生动作协议和评分规则。上面的固定动作示例仅适用
+LIBERO。本次不包含专用 Agent 策略或历史 ICL 包，通用配置不代表能够复现历史成绩。

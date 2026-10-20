@@ -67,10 +67,8 @@ run fewer cases. Use `libero_ultra_long` to select the other family. The
 `hold_agent.py` factory also accepts both names for transport checks.
 
 `--plus9-on-failure` is an explicitly named diagnostic that continues failed
-1x episodes; it never changes the recorded 1x score. Historical private Agent
-policies and ICL packages are not included. General Agent use is documented in
+1x episodes; it never changes the recorded 1x score. General Agent use is documented in
 [English](../../docs/agents.md) and [Chinese](../../docs/agents.zh-CN.md).
-No historical model result is a validation claim for this release.
 
 See [Evaluation](../../docs/evaluation.md), [tests](../../tests/README.md), and
 [third-party notices](THIRD_PARTY_NOTICES.md).
