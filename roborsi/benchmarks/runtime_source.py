@@ -58,6 +58,28 @@ _ENV_FACADE = (
     "roborsi/robots/components/env_facade_base.py",
 )
 _BENCHMARK = {
+    "bench2dex": (
+        "LICENSE",
+        "robots/bench2dex/benchmark_service.py",
+        "robots/bench2dex/roborsi_adapter.py",
+        "robots/bench2dex/native.py",
+        "robots/bench2dex/native_entry.py",
+        "robots/bench2dex/contracts.py",
+        "robots/bench2dex/protocol.json",
+        "robots/bench2dex/tasks.json",
+        "robots/bench2dex/reference/__init__.py",
+        "robots/bench2dex/reference/core.py",
+        "robots/bench2dex/reference/robot.py",
+        "robots/bench2dex/reference/calibration.py",
+        "robots/bench2dex/reference/kinematics_tool.py",
+        "robots/bench2dex/reference/trajectory.py",
+        "robots/bench2dex/reference/rendering.py",
+        "robots/bench2dex/reference/transport.py",
+        "robots/bench2dex/reference/throughput.py",
+        "robots/bench2dex/reference/simulator.py",
+        "robots/bench2dex/reference/SOURCES.json",
+        "robots/bench2dex/reference/LICENSE_NOTICE.md",
+    ),
     "libero": (
         *_ENV_FACADE,
         "roborsi/utils/egl.py",

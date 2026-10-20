@@ -532,3 +532,52 @@ def test_lost_native_failure_replays_the_original_error_code() -> None:
         assert failure.value.code == "adapter_error"
         assert len(flaky.requests) == 2
         assert flaky.requests[0] == flaky.requests[1]
+
+
+def test_adapter_close_failure_retries_cleanup_without_reopening_episode() -> None:
+    class RetryClose:
+        closes = 0
+
+        def start(self, task, episode_id):
+            return StartResult(
+                task=task,
+                observation=Observation(
+                    benchmark=task.benchmark, episode_id=episode_id, step_index=0
+                ),
+            )
+
+        def close(self):
+            self.closes += 1
+            if self.closes < 3:
+                raise TimeoutError("native cleanup incomplete")
+
+    native = RetryClose()
+    facade = AdapterFacade(native)
+    task = Task(
+        benchmark="demo", task_id="place", seed=7, instruction="Place", max_steps=2
+    )
+
+    def wire(message, request_id):
+        return json.dumps(
+            to_envelope(
+                message, benchmark="demo", episode_id="ep", request_id=request_id
+            ).as_dict()
+        )
+
+    facade.start(wire(task, "start"))
+    for attempt in (1, 2):
+        with pytest.raises(TimeoutError, match="native cleanup incomplete"):
+            facade.close_episode()
+        assert native.closes == attempt
+        with pytest.raises(RoboRSIRequestError, match="one episode"):
+            facade.start(wire(task, f"restart-{attempt}"))
+        with pytest.raises(RoboRSIRequestError, match="identity"):
+            facade.step(
+                wire(
+                    Action(benchmark="demo", episode_id="ep", step_index=0, data={}),
+                    "step",
+                )
+            )
+    assert facade.close_episode() == {"ok": True}
+    facade.close()
+    assert native.closes == 3

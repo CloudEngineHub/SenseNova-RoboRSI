@@ -521,3 +521,41 @@ def test_provider_can_publish_other_intermediate_files(tmp_path, monkeypatch):
         ).read_text() == "native diagnostic"
         assert files[0] in client.artifact_records
         client.close()
+
+
+@pytest.mark.parametrize("cancel_first", [False, True], ids=["close", "cancel"])
+def test_http_close_retries_failed_adapter_cleanup(tmp_path, monkeypatch, cancel_first):
+    attempts = []
+    original = Adapter.close
+
+    def fail_once(self):
+        attempts.append(self)
+        if len(attempts) == 1:
+            raise TimeoutError("native cleanup incomplete")
+        original(self)
+
+    monkeypatch.setattr(Adapter, "close", fail_once)
+    with server(tmp_path) as (provider, _, client):
+        client.start(task(), "retry-close", timeout_s=3)
+        if cancel_first:
+            client.cancel("retry-close")
+            deadline = time.monotonic() + 3
+            while client.status("retry-close")["state"] == "cancelling":
+                assert time.monotonic() < deadline
+                time.sleep(0.01)
+            assert client.status("retry-close")["state"] == "failed"
+        else:
+            with pytest.raises(RpcError):
+                client.transport.request(
+                    "POST", "/v1/episodes/retry-close/close", body={}
+                )
+        assert len(attempts) == 1 and provider.closed == 0
+        code, reply = client.transport.request(
+            "POST", "/v1/episodes/retry-close/close", body={}
+        )
+        assert code == 200 and len(attempts) == 2 and provider.closed == 1
+        assert reply["state"] == ("failed" if cancel_first else "closed")
+        if cancel_first:
+            assert reply["error"]["code"] == "infrastructure_error"
+        client.transport.request("POST", "/v1/episodes/retry-close/close", body={})
+        assert len(attempts) == 2

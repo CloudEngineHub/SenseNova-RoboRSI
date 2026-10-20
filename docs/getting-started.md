@@ -28,8 +28,9 @@ pytest tests/unit_tests -q
 ## Prepare a benchmark
 
 Choose [LIBERO](../benchmarks/libero/README.md),
-[LIBERO-PRO](../benchmarks/libero_pro/README.md), or
-[Long++ / Ultra-Long](../benchmarks/libero_lilo/README.md). Follow its recipe to
+[LIBERO-PRO](../benchmarks/libero_pro/README.md),
+[Long++ / Ultra-Long](../benchmarks/libero_lilo/README.md),
+or [Bench2Dex](../benchmarks/bench2dex/README.md). Follow its recipe to
 build an image, obtain the required assets, and write a manifest under a local
 registry directory. A manifest identifies the image digest, tasks, seeds,
 action schema, evaluation limits and native score rules.
