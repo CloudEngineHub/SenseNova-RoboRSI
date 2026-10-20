@@ -15,7 +15,7 @@ from roborsi.benchmarks.registry import directory_sha256, snapshot_directory
 from roborsi.evaluation.result import write_json_atomic
 
 ASSET_VERSION = "zxy-libero-pro-eafdb809426b13153aa1e4c42d6601844217dfec-eval-v1"
-ASSET_SHA256 = "381f91eec4ec26bc2a0bd06e32da8713f56367c5431d7a8cfa74d69439b57be9"
+ASSET_SHA256 = "04ae2020acf89315108a68743f99f8fe9c4cb9fc47e67712298a25a7179d616a"
 
 
 def prepare_asset(source: Path, output: Path) -> dict[str, str]:

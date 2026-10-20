@@ -17,21 +17,21 @@
       "version": "zxy-libero-pro-eafdb809426b13153aa1e4c42d6601844217dfec-eval-v1",
       "bddl_files_sha256": "108c3a0ab35380eb8e774e827efdb2fa84fb9ad0a5c1cd589abcbf9689c7aabd",
       "init_files_sha256": "9623a664e5ef6f62801d6768b17ff5b5f73ee80a8df64847df03130ee27f1fef",
-      "snapshot_sha256": "381f91eec4ec26bc2a0bd06e32da8713f56367c5431d7a8cfa74d69439b57be9"
+      "snapshot_sha256": "04ae2020acf89315108a68743f99f8fe9c4cb9fc47e67712298a25a7179d616a"
     },
     "libero_long_plus_plus_icl": {
       "environment": "ROBORSI_LIBERO_LONGPP_ICL_ROOT",
       "package_count": 12,
       "source_version": "v12-efficiency-aligned",
       "source_revision": "7d7816a00c98fd75b02ad2fb1da843c5e9ff3b1e",
-      "snapshot_sha256": "81b2f47538282f22a16f7d915e71a1a0ae50a7ec73090f41b4274f7bf0293c55"
+      "snapshot_sha256": "78980eab0e2f344ee3dfc3417a6bc401eff600e78dbfc53a513b3a84a93f58e7"
     },
     "libero_ultra_long_icl": {
       "environment": "ROBORSI_LIBERO_ULTRA_ICL_ROOT",
       "package_count": 9,
       "source_version": "v12-efficiency-aligned",
       "source_revision": "7d7816a00c98fd75b02ad2fb1da843c5e9ff3b1e",
-      "snapshot_sha256": "d2fed2c6d6d4f209d1c03d11b98b7ceae55f5c65d072eee691ea9b42738151fd"
+      "snapshot_sha256": "198433bb51b276182da28184d3c1ebc3844459daacc5d10f71b7336f0f02b3de"
     },
     "libero_pro_icl": {
       "environment": "ROBORSI_LIBERO_PRO_ICL_ROOT",
@@ -40,7 +40,7 @@
       "source_policy": "persistent-memory",
       "package_audit_sha256": "8ec3ac433d86b089a3eb562745c20e40bc964b96f8dd133610d386ead666bc4f",
       "memory_audit_sha256": "4e07afb250ca025103bc16911f8fa847f25c3921b6e0487292c252d8f3dba676",
-      "snapshot_sha256": "bcc6603d3006160e1eb650ef923fe51ebe46754a31519037e81dd0b39ea1985f"
+      "snapshot_sha256": "f6ab1bf600c78cc8d9361c58b8cf8a5049ef1fe49967d7e80a6f439529f5ac4c"
     },
     "context_tokenizer": {
       "environment": "ROBORSI_CONTEXT_TOKENIZER_PATH",
