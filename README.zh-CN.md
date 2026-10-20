@@ -25,6 +25,8 @@
 
 ## News
 
+- **2026-10-20** — **BEHAVIOR-1K** benchmark 代码与配置指南已开源，支持官方 21 维动作接口、RGB-D 观测与原生评分，详见[评测指南](benchmarks/behavior_1k/README.zh-CN.md)。
+
 - **2026-10-16** — 本分支已提供 **LIBERO、LIBERO-PRO、LIBERO-Long++ 和 LIBERO-Ultra-Long** 的首批代码与使用指南，详见[快速开始](docs/getting-started.zh-CN.md)。
 
 - **2026-10-16** — SenseNova-RoboRSI 作为实验框架支持了实证研究 [**Has GPT-6 Achieved Embodied Intelligence?**](https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence)。
@@ -88,15 +90,16 @@ Windows 使用 `.venv\Scripts\Activate.ps1` 激活环境。
 无需在本机安装模拟器。
 
 - **Benchmark 配置：** [LIBERO](benchmarks/libero/README.md)、
-  [LIBERO-PRO](benchmarks/libero_pro/README.md) 和
-  [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md)。
+  [LIBERO-PRO](benchmarks/libero_pro/README.md)、
+  [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md) 和
+  [BEHAVIOR-1K](benchmarks/behavior_1k/README.zh-CN.md)。
 - **Agent 配置：** [模型、提示词、上下文与预算](docs/agents.zh-CN.md)。
 - **评测：** [批量执行、结果查看与中断恢复](docs/evaluation.zh-CN.md)。
 
 ## BenchZoo
 
-按 benchmark 列出已开源的 Agent 方法与即将开源的内容。当前已开源的 LIBERO 三项
-共用可配置的 EmbodiedAgent 预设；在预设中选择模型，并按对应评测目录完成环境准备与评测。
+按 benchmark 列出已开源与即将接入的评测环境。LIBERO 系列与 BEHAVIOR-1K 支持通用的
+EmbodiedAgent 预设；在预设中选择模型，并按对应评测指南完成环境准备与评测。
 
 | Benchmark | 状态 |
 | --- | --- |
@@ -110,7 +113,7 @@ Windows 使用 `.venv\Scripts\Activate.ps1` 激活环境。
 | LHVLN | 即将开源 |
 | VLN-CE | 即将开源 |
 | SIMPLE | 即将开源 |
-| BEHAVIOR-1K | 即将开源 |
+| [BEHAVIOR-1K](benchmarks/behavior_1k/) | 已开源 |
 
 ## Harness Results
 

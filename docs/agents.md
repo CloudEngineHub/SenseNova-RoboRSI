@@ -4,7 +4,7 @@
 
 An Agent receives the task, current observation and action schema. It returns
 actions; the benchmark owns environment stepping, stopping and scoring. The
-same Agent preset can target each supported LIBERO service.
+same Agent preset can target the supported LIBERO and BEHAVIOR-1K services.
 
 ## Select a preset
 

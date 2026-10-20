@@ -36,7 +36,9 @@ def test_evaluation_help_exposes_evaluation_without_rsi_or_cluster(capsys):
     assert "--sco-config" not in capsys.readouterr().out
 
 
-@pytest.mark.parametrize("name", ["robotwin", "robodojo"])
+@pytest.mark.parametrize(
+    "name", ["robotwin", "robodojo", "simple", "bench2dex", "dexjoco"]
+)
 def test_unreleased_benchmark_build_is_rejected(name):
     with pytest.raises(ValueError, match="unsupported Benchmark"):
         benchmark_source_files(name)
@@ -62,8 +64,9 @@ def test_lightweight_import_and_cli_do_not_load_native_simulators():
             "import sys; import roborsi; "
             "from roborsi.evaluation import cli; "
             "from robots.libero import benchmark_service, three_benchmark_service; "
+            "from robots.behavior_1k import benchmark_service as behavior_service; "
             "assert not ({'torch', 'mujoco', 'robosuite', 'libero', 'rlinf', "
-            "'lilo_vla'} & set(sys.modules))",
+            "'lilo_vla', 'omnigibson', 'bddl', 'omni', 'isaacsim'} & set(sys.modules))",
         ],
         cwd=root,
         capture_output=True,

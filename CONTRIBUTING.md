@@ -2,15 +2,15 @@
 
 [简体中文](CONTRIBUTING_zh.md)
 
-This release covers the Agent runtime and LIBERO-family evaluation. Keep
-contributions focused on this scope and preserve supported interfaces.
+This release covers the Agent runtime, LIBERO-family evaluation and BEHAVIOR-1K.
+Keep contributions focused on this scope and preserve supported interfaces.
 
 1. Verify the actual Git remote, branch and upstream before editing. Read the
    implementation and callers on both sides of a changed interface.
 2. Start from what users need to observe and control. Keep framework mechanisms
    separate from replaceable Agent policies; reuse configuration, RPC, runtime
    and artifact helpers.
-3. Keep native LIBERO behavior under `robots/libero/`. Import simulator and
+3. Keep native benchmark behavior under `robots/<benchmark>/`. Import simulator and
    model dependencies where used so package imports and CLI help stay available
    without native stacks.
 4. Follow neighboring types, Google-style docstrings and project logging.

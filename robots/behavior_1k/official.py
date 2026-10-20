@@ -1,10 +1,9 @@
 # Copyright 2026 The HEART Authors.
 # Licensed under the Apache License, Version 2.0 (the "License");
 
-"""Official R1Pro 21D control and offline 23D demonstration conversion."""
+"""Official R1Pro 21D control configuration."""
 
 import copy
-
 
 EEF21 = "r1pro_eef21_v1"
 

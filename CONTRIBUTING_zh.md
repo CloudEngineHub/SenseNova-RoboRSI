@@ -2,12 +2,13 @@
 
 [English](CONTRIBUTING.md)
 
-本次发布包含 Agent 运行时与 LIBERO 系列评测。请围绕该范围提交改动，并保持现有接口契约。
+本次发布包含 Agent 运行时、LIBERO 系列评测与 BEHAVIOR-1K。
+请围绕该范围提交改动，并保持现有接口契约。
 
 1. 修改前核对实际 Git remote、分支和 upstream，阅读接口实现与两侧调用方。
 2. 从用户需要观察的信息与控制的行为出发。将框架机制与可替换的 Agent 策略分开，
    复用已有配置、RPC、运行时和产物管理工具。
-3. 原生 LIBERO 行为放在 `robots/libero/`。在使用处导入模拟器与模型依赖，
+3. 原生 benchmark 行为放在 `robots/<benchmark>/`。在使用处导入模拟器与模型依赖，
    使基础包导入和 CLI help 不要求安装原生栈。
 4. 遵循邻近代码的类型、Google 风格 docstring 与项目日志约定；在输入所属边界校验，
    明确资源清理责任。

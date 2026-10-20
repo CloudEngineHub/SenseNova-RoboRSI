@@ -28,8 +28,9 @@ pytest tests/unit_tests -q
 ## Prepare a benchmark
 
 Choose [LIBERO](../benchmarks/libero/README.md),
-[LIBERO-PRO](../benchmarks/libero_pro/README.md), or
-[Long++ / Ultra-Long](../benchmarks/libero_lilo/README.md). Follow its recipe to
+[LIBERO-PRO](../benchmarks/libero_pro/README.md),
+[Long++ / Ultra-Long](../benchmarks/libero_lilo/README.md), or
+[BEHAVIOR-1K](../benchmarks/behavior_1k/README.md). Follow its recipe to
 build an image, obtain the required assets, and write a manifest under a local
 registry directory. A manifest identifies the image digest, tasks, seeds,
 action schema, evaluation limits and native score rules.
@@ -38,6 +39,10 @@ LIBERO-PRO requires a separately obtained evaluation asset tree with the exact
 digest specified in its recipe. This repository does not provide that dataset
 or an automatic download for it. A successful source installation alone does
 not make the PRO image runnable.
+
+The BEHAVIOR-1K catalog selects tasks from the 100-task list at `public_test`
+instance 301, seed 0. Use the BEHAVIOR-1K guide's evaluation example for the
+21D action interface and RGB-D input.
 
 ## Check the evaluation path
 

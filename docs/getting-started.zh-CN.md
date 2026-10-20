@@ -26,13 +26,17 @@ pytest tests/unit_tests -q
 ## 准备 benchmark
 
 选择 [LIBERO](../benchmarks/libero/README.md)、
-[LIBERO-PRO](../benchmarks/libero_pro/README.md) 或
-[Long++ / Ultra-Long](../benchmarks/libero_lilo/README.md)，按对应说明构建镜像、
+[LIBERO-PRO](../benchmarks/libero_pro/README.md)、
+[Long++ / Ultra-Long](../benchmarks/libero_lilo/README.md) 或
+[BEHAVIOR-1K](../benchmarks/behavior_1k/README.zh-CN.md)，按对应说明构建镜像、
 获取所需资产，并在本地 registry 目录写入 manifest。Manifest 记录镜像摘要、任务、
 种子、动作协议、评测步数及原生评分规则。
 
 LIBERO-PRO 需要另外获取完整的评测资产目录，且校验和必须符合构建说明。
 本仓库不提供这份数据或自动下载入口。完成源码安装并不代表已经具备运行 PRO 的资产。
+
+BEHAVIOR-1K 的 catalog 从 100 个任务中选择，使用 `public_test` instance 301、
+seed 0；21 维动作接口与 RGB-D 输入的运行方式见 BEHAVIOR-1K 指南中的评测示例。
 
 ## 检查评测流程
 

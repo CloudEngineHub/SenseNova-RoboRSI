@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "roborsi"
 version = "0.0.0"
 authors = [{ name = "RoboRSI Contributors" }]
-description = "SenseNova-RoboRSI — Embodied agents and LIBERO evaluation"
+description = "SenseNova-RoboRSI — Embodied agents and benchmark evaluation"
 readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.10,<3.13"
 license = {file = "LICENSE"}

@@ -37,7 +37,7 @@ sys.meta_path.insert(0, Guard())
 """
 
 
-@pytest.mark.parametrize("benchmark", ["libero"])
+@pytest.mark.parametrize("benchmark", ["libero", "behavior_1k"])
 def test_bundle_imports_and_service_help_without_agent_code(tmp_path, benchmark):
     context = prepare_context(benchmark, tmp_path / "context", source_root=ROOT)
     runtime = context / "benchmark-runtime"
@@ -124,7 +124,9 @@ main(['--kind', 'benchmark', '--help'])
         assert "NUMBA_CACHE_DIR=/tmp/numba" in dockerfile
 
 
-@pytest.mark.parametrize("benchmark", ["libero", "libero_pro", "libero_lilo"])
+@pytest.mark.parametrize(
+    "benchmark", ["libero", "libero_pro", "libero_lilo", "behavior_1k"]
+)
 def test_exported_manifest_help_does_not_import_native_dependencies(
     tmp_path, benchmark
 ):
@@ -134,15 +136,16 @@ def test_exported_manifest_help_does_not_import_native_dependencies(
         _IMPORT_GUARD
         + r"""
 from pathlib import Path
-native = ('rlinf', 'libero', 'liberopro', 'lilo_vla', 'robosuite', 'mujoco', 'torch')
+native = ('rlinf', 'libero', 'liberopro', 'lilo_vla', 'robosuite', 'mujoco', 'torch', 'omnigibson', 'bddl', 'omni', 'isaacsim')
 class NativeGuard(importlib.abc.MetaPathFinder):
     def find_spec(self, fullname, path=None, target=None):
         if fullname.split('.')[0] in native:
             raise AssertionError('Native import during manifest help: ' + fullname)
 sys.meta_path.insert(0, NativeGuard())
-module = importlib.import_module('benchmarks.' + sys.argv[2] + '.manifest')
+behavior = sys.argv[2] == 'behavior_1k'
+module = importlib.import_module('benchmarks.' + sys.argv[2] + ('.prepare' if behavior else '.manifest'))
 assert Path(module.__file__).is_relative_to(sys.argv[1]), module.__file__
-sys.argv = ['manifest', '--help']
+sys.argv = ['prepare', 'manifest', '--help'] if behavior else ['manifest', '--help']
 module.main()
 """
     )

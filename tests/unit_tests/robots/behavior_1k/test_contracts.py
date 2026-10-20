@@ -1,7 +1,7 @@
 # Copyright 2026 The HEART Authors.
 # Licensed under the Apache License, Version 2.0 (the "License");
 
-"""Offline native lifecycle, public sensors, scoring and ICL packaging checks."""
+"""Offline native lifecycle, public sensors, scoring and manifest checks."""
 
 import json
 from pathlib import Path
@@ -319,3 +319,104 @@ def test_manifest_rejects_unsafe_asset_paths(tmp_path, kind):
         candidate = manifest_dir / "snapshots/../snapshots/assets"
     with pytest.raises(ValueError, match="symlink|traversal"):
         _asset_subpath(candidate, manifest_dir)
+
+
+def test_official_21d_config_preserves_input_and_replaces_joint_controllers():
+    import copy
+
+    from robots.behavior_1k.official import robot_config_for_profile
+
+    source = {
+        "action_normalize": True,
+        "controller_config": {
+            "base": {"name": "JointController", "mode": "velocity"},
+            "arm_left": {"name": "JointController", "motor_type": "position"},
+            "arm_right": {"name": "JointController", "motor_type": "position"},
+        },
+    }
+    original = copy.deepcopy(source)
+    result = robot_config_for_profile(source)
+    assert source == original
+    assert result["action_normalize"] is False
+    assert result["controller_config"]["base"] == source["controller_config"]["base"]
+    for arm in ("left", "right"):
+        assert result["controller_config"][f"arm_{arm}"] == {
+            "name": "InverseKinematicsController",
+            "mode": "absolute_pose",
+            "command_input_limits": None,
+            "command_output_limits": None,
+            "use_impedances": False,
+            "pos_kp": 150,
+            "smoothing_filter_size": 2,
+        }
+    result["controller_config"]["base"]["mode"] = "changed"
+    assert source == original
+
+
+@pytest.mark.parametrize(
+    ("options", "error"),
+    [
+        ({"action_profile": "r1pro_joint23_v1"}, "action_profile"),
+        ({"include_depth": False}, "RGBDFullResWrapper"),
+        ({"include_depth": 1}, "include_depth must be boolean"),
+    ],
+)
+def test_native_rejects_nonofficial_controls_before_simulator_start(
+    tmp_path, options, error
+):
+    from robots.behavior_1k.native import Behavior1KEpisode
+
+    native = Behavior1KEpisode()
+    with pytest.raises(ValueError, match=error):
+        native.start(
+            repo_root=str(tmp_path),
+            data_root=str(tmp_path),
+            task_name="turning_on_radio",
+            mode="public_test",
+            instance_id=301,
+            max_steps=None,
+            **options,
+        )
+
+
+@pytest.mark.parametrize("failure", ["daemon", "rpc"])
+def test_failed_process_cleanup_can_retry_without_accepting_new_work(failure):
+    from robots.behavior_1k.roborsi_adapter import BehaviorRoboRSIAdapter
+
+    class Daemon:
+        stops = 0
+
+        def poll(self):
+            return 0
+
+        def stop(self, *, timeout):
+            self.stops += 1
+            if failure == "daemon" and self.stops == 1:
+                raise RuntimeError("cleanup failed")
+
+    class Rpc:
+        closes = 0
+
+        def call(self, *args, **kwargs):
+            raise AssertionError("closed adapter sent new RPC work")
+
+        def close(self):
+            self.closes += 1
+            if failure == "rpc" and self.closes == 1:
+                raise RuntimeError("cleanup failed")
+
+    adapter = BehaviorRoboRSIAdapter.__new__(BehaviorRoboRSIAdapter)
+    adapter._closed = False
+    adapter._cleanup_complete = False
+    adapter.daemon = Daemon()
+    adapter._rpc = Rpc()
+    with pytest.raises(RuntimeError, match="cleanup failed"):
+        adapter.close()
+    with pytest.raises(RuntimeError, match="process is closed"):
+        adapter.inspect({"task_id": "turning_on_radio"})
+    adapter.close()
+    adapter.close()
+    assert adapter.daemon.stops == 2
+    assert adapter._rpc.closes == 2
+    with pytest.raises(RuntimeError, match="process is closed"):
+        adapter.inspect({"task_id": "turning_on_radio"})

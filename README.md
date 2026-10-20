@@ -25,6 +25,8 @@
 
 ## News
 
+- **2026-10-20** — **BEHAVIOR-1K** benchmark code and setup instructions are released. The integration provides the official 21D action interface, RGB-D observations and native scoring. See the [benchmark guide](benchmarks/behavior_1k/README.md).
+
 - **2026-10-16** — Initial code and usage guides for **LIBERO, LIBERO-PRO, LIBERO-Long++ and LIBERO-Ultra-Long** are available in this branch. See the [getting started guide](docs/getting-started.md).
 
 - **2026-10-16** — SenseNova-RoboRSI has been used in the empirical report [**Has GPT-6 Achieved Embodied Intelligence?**](https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence).
@@ -99,16 +101,17 @@ images target Linux; connecting to an existing HTTP benchmark requires no local
 simulator installation.
 
 - **Benchmark setup:** [LIBERO](benchmarks/libero/README.md),
-  [LIBERO-PRO](benchmarks/libero_pro/README.md), and
-  [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md).
+  [LIBERO-PRO](benchmarks/libero_pro/README.md),
+  [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md), and
+  [BEHAVIOR-1K](benchmarks/behavior_1k/README.md).
 - **Agent configuration:** [Models, prompts, context and budgets](docs/agents.md).
 - **Evaluation:** [Batch execution, results and resume](docs/evaluation.md).
 
 ## BenchZoo
 
-Available Agent methods and upcoming releases by benchmark. The released LIBERO
-entries share configurable EmbodiedAgent presets; select your model in the
-preset and follow the corresponding benchmark directory for setup and evaluation.
+Released benchmarks and upcoming integrations. LIBERO and BEHAVIOR-1K support
+the shared configurable EmbodiedAgent presets; select your model in the preset
+and follow the corresponding benchmark guide for setup and evaluation.
 
 | Benchmark | Status |
 | --- | --- |
@@ -122,7 +125,7 @@ preset and follow the corresponding benchmark directory for setup and evaluation
 | LHVLN | Coming soon |
 | VLN-CE | Coming soon |
 | SIMPLE | Coming soon |
-| BEHAVIOR-1K | Coming soon |
+| [BEHAVIOR-1K](benchmarks/behavior_1k/) | Released |
 
 ## Harness Results
 

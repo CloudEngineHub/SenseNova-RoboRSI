@@ -3,7 +3,7 @@
 [English](agents.md) · [全部指南](README.md)
 
 Agent 接收任务、当前观测和动作 schema，并返回动作。Benchmark 负责环境推进、
-停止和评分。同一份通用 Agent 配置可用于各个受支持的 LIBERO 服务。
+停止和评分。同一份通用 Agent 配置可用于受支持的 LIBERO 与 BEHAVIOR-1K 服务。
 
 ## 选择配置
 
