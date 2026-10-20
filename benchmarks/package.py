@@ -98,7 +98,7 @@ def main() -> None:
     parser.add_argument(
         "--benchmark",
         required=True,
-        choices=("libero", "libero_pro", "libero_lilo", "bench2dex"),
+        choices=("libero", "libero_pro", "libero_lilo", "bench2dex", "dexjoco"),
         help="Benchmark source bundle name",
     )
     parser.add_argument("--output", type=Path, required=True)

@@ -27,6 +27,8 @@
 
 - **2026-10-20** — 新增 [**Bench2Dex**](benchmarks/bench2dex/README.zh-CN.md) 的 benchmark 服务、原生适配器和构建指南。
 
+- **2026-10-20** — 新增 [**DexJoCo**](benchmarks/dexjoco/README.zh-CN.md) 的 benchmark 服务、原生适配器和构建指南。
+
 - **2026-10-16** — 本分支已提供 **LIBERO、LIBERO-PRO、LIBERO-Long++ 和 LIBERO-Ultra-Long** 的首批代码与使用指南，详见[快速开始](docs/getting-started.zh-CN.md)。
 
 - **2026-10-16** — SenseNova-RoboRSI 作为实验框架支持了实证研究 [**Has GPT-6 Achieved Embodied Intelligence?**](https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence)。
@@ -92,7 +94,8 @@ Windows 使用 `.venv\Scripts\Activate.ps1` 激活环境。
 - **Benchmark 配置：** [LIBERO](benchmarks/libero/README.md)、
   [LIBERO-PRO](benchmarks/libero_pro/README.md)、
   [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md)、
-  [Bench2Dex](benchmarks/bench2dex/README.zh-CN.md)。
+  [Bench2Dex](benchmarks/bench2dex/README.zh-CN.md) 和
+  [DexJoCo](benchmarks/dexjoco/README.zh-CN.md)。
 - **Agent 配置：** [模型、提示词、上下文与预算](docs/agents.zh-CN.md)。
 - **评测：** [批量执行、结果查看与中断恢复](docs/evaluation.zh-CN.md)。
 
@@ -109,7 +112,7 @@ Windows 使用 `.venv\Scripts\Activate.ps1` 激活环境。
 | [LIBERO-Ultra-Long](benchmarks/libero_lilo/) | 已开源 |
 | RoboLab | 即将开源 |
 | [Bench2Dex](benchmarks/bench2dex/) | 已开源 |
-| DexJoCo | 即将开源 |
+| [DexJoCo](benchmarks/dexjoco/) | 已开源 |
 | LHVLN | 即将开源 |
 | VLN-CE | 即将开源 |
 | SIMPLE | 即将开源 |

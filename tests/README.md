@@ -1,7 +1,7 @@
 # Tests
 
 The release tests cover the shared Agent/runtime/evaluation contracts and the
-LIBERO-family and Bench2Dex adapters. Tests mirror their production
+LIBERO-family, Bench2Dex and DexJoCo adapters. Tests mirror their production
 modules under `unit_tests/roborsi/` and `unit_tests/robots/<benchmark>/`. Shared
 local services and fake native providers remain beside their tests or in
 `fixtures/`.
@@ -26,6 +26,7 @@ Focused checks:
 pytest tests/unit_tests/roborsi/evaluation tests/unit_tests/roborsi/agents -q
 pytest tests/unit_tests/roborsi/benchmarks tests/unit_tests/robots/libero -q
 pytest tests/unit_tests/robots/bench2dex -q
+pytest tests/unit_tests/robots/dexjoco -q
 pytest tests/unit_tests/roborsi/runtime tests/unit_tests/roborsi/planner -q
 ```
 
@@ -70,6 +71,14 @@ recipes. No historical native run or model score is claimed by this migration.
 The focused unit command above checks this adapter offline. Native execution
 requires the separate runtime and asset preparation described in
 [Bench2Dex](../benchmarks/bench2dex/README.md). Passing unit tests, building a source
+bundle or collecting tests does not establish a successful Docker build, GPU
+run or native task result.
+
+## DexJoCo
+
+The focused unit command above checks this adapter offline. Native execution
+requires the separate runtime and asset preparation described in
+[DexJoCo](../benchmarks/dexjoco/README.md). Passing unit tests, building a source
 bundle or collecting tests does not establish a successful Docker build, GPU
 run or native task result.
 

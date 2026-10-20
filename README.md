@@ -27,6 +27,8 @@
 
 - **2026-10-20** — Benchmark services, native adapters and build guides for [**Bench2Dex**](benchmarks/bench2dex/README.md) are now included.
 
+- **2026-10-20** — The benchmark service, native adapter and build guide for [**DexJoCo**](benchmarks/dexjoco/README.md) are now included.
+
 - **2026-10-16** — Initial code and usage guides for **LIBERO, LIBERO-PRO, LIBERO-Long++ and LIBERO-Ultra-Long** are available in this branch. See the [getting started guide](docs/getting-started.md).
 
 - **2026-10-16** — SenseNova-RoboRSI has been used in the empirical report [**Has GPT-6 Achieved Embodied Intelligence?**](https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence).
@@ -103,7 +105,8 @@ simulator installation.
 - **Benchmark setup:** [LIBERO](benchmarks/libero/README.md),
   [LIBERO-PRO](benchmarks/libero_pro/README.md),
   [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md),
-  and [Bench2Dex](benchmarks/bench2dex/README.md).
+  [Bench2Dex](benchmarks/bench2dex/README.md), and
+  [DexJoCo](benchmarks/dexjoco/README.md).
 - **Agent configuration:** [Models, prompts, context and budgets](docs/agents.md).
 - **Evaluation:** [Batch execution, results and resume](docs/evaluation.md).
 
@@ -121,7 +124,7 @@ benchmark directory for setup and evaluation.
 | [LIBERO-Ultra-Long](benchmarks/libero_lilo/) | Released |
 | RoboLab | Coming soon |
 | [Bench2Dex](benchmarks/bench2dex/) | Released |
-| DexJoCo | Coming soon |
+| [DexJoCo](benchmarks/dexjoco/) | Released |
 | LHVLN | Coming soon |
 | VLN-CE | Coming soon |
 | SIMPLE | Coming soon |
