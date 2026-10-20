@@ -59,6 +59,7 @@ _ENV_FACADE = (
 )
 _BENCHMARK = {
     "bench2dex": (
+        "LICENSE",
         "robots/bench2dex/benchmark_service.py",
         "robots/bench2dex/roborsi_adapter.py",
         "robots/bench2dex/native.py",

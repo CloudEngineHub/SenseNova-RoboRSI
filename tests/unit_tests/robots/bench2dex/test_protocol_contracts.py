@@ -1,7 +1,7 @@
 # Copyright 2026 The RoboRSI Contributors.
 # Licensed under the Apache License, Version 2.0.
 
-"""Offline contract tests with synthetic pixels; no model or simulator is used."""
+"""Offline contracts with synthetic pixels; no model or simulator is used."""
 
 from __future__ import annotations
 

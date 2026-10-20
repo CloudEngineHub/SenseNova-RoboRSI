@@ -1,7 +1,7 @@
 # Copyright 2026 The RoboRSI Contributors.
 # Licensed under the Apache License, Version 2.0.
 
-"""The Bench2Dex export boundary works before its implementation PR lands."""
+"""The Bench2Dex export boundary includes only declared benchmark dependencies."""
 
 import json
 
@@ -15,8 +15,7 @@ from roborsi.benchmarks.runtime_source import (
 def test_bench2dex_export_excludes_agent_data_and_tracks_native_edits(tmp_path):
     """Registration enables export without admitting adjacent Agent resources."""
     root = tmp_path / "checkout"
-    # The implementation is delivered separately in #80. A synthetic checkout
-    # exercises the public exporter on this framework-only PR without a skip.
+    # A synthetic checkout exercises the exporter against adjacent Agent resources.
     for name in benchmark_source_files("bench2dex"):
         path = root / name
         path.parent.mkdir(parents=True, exist_ok=True)

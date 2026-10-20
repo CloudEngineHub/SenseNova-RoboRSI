@@ -23,7 +23,7 @@ pytestmark = pytest.mark.skipif(sys.platform != "linux", reason="native stack is
 def running(pid):
     try:
         fields = Path(f"/proc/{pid}/stat").read_text().rpartition(")")[2].split()
-    except FileNotFoundError:
+    except (FileNotFoundError, ProcessLookupError):
         return False
     return fields[0] not in {"Z", "X"}
 

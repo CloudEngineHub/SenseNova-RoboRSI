@@ -1,8 +1,7 @@
 # Copyright 2026 The RoboRSI Contributors.
 # Licensed under the Apache License, Version 2.0.
 
-"""Shared synthetic task and sealed ICL fixtures."""
-
+"""Shared synthetic native task fixture."""
 
 import pytest
 

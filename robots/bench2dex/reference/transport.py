@@ -1,5 +1,5 @@
 # Copyright 2026 The Bench2Dex Evaluation Contributors.
-# Licensing of this copied reference code is pending; see LICENSE_NOTICE.md.
+# Licensed under the Apache License, Version 2.0.
 
 """Wire-compatible RPC with exact reads and bounded numpy decoding."""
 

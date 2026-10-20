@@ -33,6 +33,7 @@ def test_native_policy_stop_uses_original_error_envelope_without_action(
     assert runtime.steps == 0 and runtime.policy_failed
     runtime.close()
 
+
 def test_runtime_source_identity_does_not_require_unmerged_registration(monkeypatch):
     from roborsi.benchmarks import runtime_source
     from robots.bench2dex.benchmark_service import adapter_digest
@@ -42,6 +43,7 @@ def test_runtime_source_identity_does_not_require_unmerged_registration(monkeypa
 
     monkeypatch.setattr(runtime_source, "benchmark_source_digest", unregistered)
     assert len(adapter_digest()) == 64
+
 
 def test_success_requires_native_stable_stop_not_transient_flag(tmp_path, task):
     boundary, native = adapter(tmp_path, task)

@@ -2,7 +2,8 @@
 
 [简体中文](CONTRIBUTING_zh.md)
 
-This release covers the Agent runtime and LIBERO-family evaluation. Keep
+This release covers the Agent runtime and benchmark evaluation for the LIBERO
+family and Bench2Dex. Keep
 contributions focused on this scope and preserve supported interfaces.
 
 1. Verify the actual Git remote, branch and upstream before editing. Read the
@@ -10,9 +11,9 @@ contributions focused on this scope and preserve supported interfaces.
 2. Start from what users need to observe and control. Keep framework mechanisms
    separate from replaceable Agent policies; reuse configuration, RPC, runtime
    and artifact helpers.
-3. Keep native LIBERO behavior under `robots/libero/`. Import simulator and
-   model dependencies where used so package imports and CLI help stay available
-   without native stacks.
+3. Keep native behavior under `robots/<benchmark>/`, including `libero`
+   and `bench2dex`. Import simulator and model dependencies where used
+   so package imports and CLI help stay available without native stacks.
 4. Follow neighboring types, Google-style docstrings and project logging.
    Validate external input at its owning boundary and make cleanup explicit.
 5. Test observable behavior with existing fixtures. Update the corresponding

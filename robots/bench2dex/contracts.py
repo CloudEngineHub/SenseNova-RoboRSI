@@ -1,7 +1,7 @@
 # Copyright 2026 The RoboRSI Contributors.
 # Licensed under the Apache License, Version 2.0.
 
-"""Pinned task identity and public boundaries for the original ICL experiment."""
+"""Pinned Bench2Dex task identity and public evaluation boundaries."""
 
 from __future__ import annotations
 
