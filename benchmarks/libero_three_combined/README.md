@@ -12,13 +12,13 @@ secret and results use a writable runtime mount.
 
 ## Published images
 
-The `v1.0.0-egl` images were built from RoboRSI commit
-`281dc19296fbe2a4c5a7f01b8fc265529a5e0754` and pulled back from GHCR by digest:
+The `v1.0.1-egl` images were built from RoboRSI commit
+`5b8c7f7aa6e1b67119ef3e887625601387ce917e` and pulled back from GHCR by digest:
 
 ```bash
-LONGPP_IMAGE='ghcr.io/opensensenova/sensenova-roborsi-libero-long-plus-plus@sha256:4463b6a247617a51653e1b170cc1cbcbae1a2c773a06f21afdf8626aea5a11c9'
-ULTRA_IMAGE='ghcr.io/opensensenova/sensenova-roborsi-libero-ultra-long@sha256:4463b6a247617a51653e1b170cc1cbcbae1a2c773a06f21afdf8626aea5a11c9'
-PRO_IMAGE='ghcr.io/opensensenova/sensenova-roborsi-libero-pro@sha256:fd84be8ca67100624dac4a3ddf0de06e74e46c5d1d1b7c8088e6e0713fe70e29'
+LONGPP_IMAGE='ghcr.io/opensensenova/sensenova-roborsi-libero-long-plus-plus@sha256:814139261e914b114cb89a359c6a39d4f409a556f79928e986b6ade3dfe7dc7a'
+ULTRA_IMAGE='ghcr.io/opensensenova/sensenova-roborsi-libero-ultra-long@sha256:814139261e914b114cb89a359c6a39d4f409a556f79928e986b6ade3dfe7dc7a'
+PRO_IMAGE='ghcr.io/opensensenova/sensenova-roborsi-libero-pro@sha256:a83417f1459a4c555c457caa82ef00a5de50191e3d8deb943894fa9285cff172'
 ```
 
 Long++ and Ultra-Long have separate Benchmark packages as required by the
@@ -563,9 +563,9 @@ in [`benchmarks/libero_three_combined/`](../benchmarks/libero_three_combined/REA
 Use the published immutable images directly:
 
 ```bash
-export LONGPP_COMBINED_IMAGE='ghcr.io/opensensenova/sensenova-roborsi-libero-long-plus-plus@sha256:4463b6a247617a51653e1b170cc1cbcbae1a2c773a06f21afdf8626aea5a11c9'
-export ULTRA_COMBINED_IMAGE='ghcr.io/opensensenova/sensenova-roborsi-libero-ultra-long@sha256:4463b6a247617a51653e1b170cc1cbcbae1a2c773a06f21afdf8626aea5a11c9'
-export PRO_COMBINED_IMAGE='ghcr.io/opensensenova/sensenova-roborsi-libero-pro@sha256:fd84be8ca67100624dac4a3ddf0de06e74e46c5d1d1b7c8088e6e0713fe70e29'
+export LONGPP_COMBINED_IMAGE='ghcr.io/opensensenova/sensenova-roborsi-libero-long-plus-plus@sha256:814139261e914b114cb89a359c6a39d4f409a556f79928e986b6ade3dfe7dc7a'
+export ULTRA_COMBINED_IMAGE='ghcr.io/opensensenova/sensenova-roborsi-libero-ultra-long@sha256:814139261e914b114cb89a359c6a39d4f409a556f79928e986b6ade3dfe7dc7a'
+export PRO_COMBINED_IMAGE='ghcr.io/opensensenova/sensenova-roborsi-libero-pro@sha256:a83417f1459a4c555c457caa82ef00a5de50191e3d8deb943894fa9285cff172'
 ```
 
 Long++ and Ultra-Long have separate GHCR packages but share identical
