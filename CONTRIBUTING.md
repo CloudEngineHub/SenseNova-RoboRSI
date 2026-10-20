@@ -2,8 +2,9 @@
 
 [简体中文](CONTRIBUTING_zh.md)
 
-This release covers the Agent runtime, LIBERO-family evaluation and BEHAVIOR-1K.
-Keep contributions focused on this scope and preserve supported interfaces.
+This release covers the Agent runtime and benchmark evaluation for the LIBERO
+family, Bench2Dex and BEHAVIOR-1K. Keep contributions focused on this scope and
+preserve supported interfaces.
 
 1. Verify the actual Git remote, branch and upstream before editing. Read the
    implementation and callers on both sides of a changed interface.

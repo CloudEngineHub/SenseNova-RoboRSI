@@ -1,9 +1,10 @@
 # Tests
 
 The release tests cover the shared Agent/runtime/evaluation contracts and the
-LIBERO-family and BEHAVIOR-1K adapters. Tests mirror their production modules
-under `unit_tests/roborsi/` and `unit_tests/robots/`. Shared local services and
-fake native providers remain beside their tests or in `fixtures/`.
+LIBERO-family, Bench2Dex and BEHAVIOR-1K adapters. Tests mirror their production
+modules under `unit_tests/roborsi/` and `unit_tests/robots/<benchmark>/`. Shared
+local services and fake native providers remain beside their tests or in
+`fixtures/`.
 
 ## Offline checks
 
@@ -24,6 +25,7 @@ Focused checks:
 ```bash
 pytest tests/unit_tests/roborsi/evaluation tests/unit_tests/roborsi/agents -q
 pytest tests/unit_tests/roborsi/benchmarks tests/unit_tests/robots/libero -q
+pytest tests/unit_tests/robots/bench2dex -q
 pytest tests/unit_tests/roborsi/runtime tests/unit_tests/roborsi/planner -q
 pytest tests/unit_tests/robots/behavior_1k -q
 ```
@@ -73,6 +75,14 @@ image and prepare licensed assets. Catalog generation performs a native reset
 for each selected task and records its instruction and step limit. Native
 evaluation needs the image, RTX GPU, asset snapshot and generated registry.
 Record the actual image digest and native score alongside the run artifacts.
+
+## Bench2Dex
+
+The focused unit command above checks this adapter offline. Native execution
+requires the separate runtime and asset preparation described in
+[Bench2Dex](../benchmarks/bench2dex/README.md). Passing unit tests, building a source
+bundle or collecting tests does not establish a successful Docker build, GPU
+run or native task result.
 
 ## Adding tests
 

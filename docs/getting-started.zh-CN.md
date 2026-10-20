@@ -27,7 +27,8 @@ pytest tests/unit_tests -q
 
 选择 [LIBERO](../benchmarks/libero/README.md)、
 [LIBERO-PRO](../benchmarks/libero_pro/README.md)、
-[Long++ / Ultra-Long](../benchmarks/libero_lilo/README.md) 或
+[Long++ / Ultra-Long](../benchmarks/libero_lilo/README.md)、
+[Bench2Dex](../benchmarks/bench2dex/README.zh-CN.md) 或
 [BEHAVIOR-1K](../benchmarks/behavior_1k/README.zh-CN.md)，按对应说明构建镜像、
 获取所需资产，并在本地 registry 目录写入 manifest。Manifest 记录镜像摘要、任务、
 种子、动作协议、评测步数及原生评分规则。

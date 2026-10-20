@@ -1,0 +1,16 @@
+{
+  "origin": "gpt6-bench2dex-eval",
+  "version": "0.1.0.post2",
+  "original_files": {
+    "core.py": "d83b66f11e32a448ef21bffdb5f809810011044224627ceff2db5d0db97b19d1",
+    "robot.py": "995360932771936a5b4185aaef293b4ac59b0558f40ee0b63650d02c9222a7e6",
+    "calibration.py": "65063b3a73a9adeaf71bf5e29ef1fb41c42cd1b6c86944798162c7e69b1d4e9e",
+    "kinematics_tool.py": "811b499703495356514b1b369dc2ddae5e80c3dbecefdb09acf6130af3f0631f",
+    "trajectory.py": "4f5ce34fcd548c1af87a3ee5503498e18adc05afa17bdae4832e3e2f26982dd5",
+    "rendering.py": "2fef53bc90c9f4c2d71dde1bd907270dddee6766bbd0ba951067904a4b32d675",
+    "transport.py": "96290719e1b8bf9bbd715de6762704ec3957fa4b8a4cabfe0f0a1bc4ba89fbad",
+    "throughput.py": "6ea2bb8044b0ff789fc1306489c0bd7cd62c48880de5d62ac4425828a20c967d",
+    "simulator.py": "e7c09a6418de7bfaea2961388bb0384e22adf935a737e71384356e8c9f73a947"
+  },
+  "note": "Subset of the standalone evaluation harness. original_files contains SHA-256 hashes of the original source files, not hashes of the integrated local files. Unused policy, ICL and export helpers have been removed; integration edits are tracked by Git."
+}

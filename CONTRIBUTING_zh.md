@@ -2,7 +2,7 @@
 
 [English](CONTRIBUTING.md)
 
-本次发布包含 Agent 运行时、LIBERO 系列评测与 BEHAVIOR-1K。
+本次发布包含 Agent 运行时与 LIBERO 系列、Bench2Dex 和 BEHAVIOR-1K 的 benchmark 评测。
 请围绕该范围提交改动，并保持现有接口契约。
 
 1. 修改前核对实际 Git remote、分支和 upstream，阅读接口实现与两侧调用方。
