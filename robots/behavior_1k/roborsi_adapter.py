@@ -50,6 +50,7 @@ class BehaviorRoboRSIAdapter:
         (self.directory / "native").mkdir(exist_ok=True)
         self._timeout = operation_timeout_s
         self._closed = False
+        self._cleanup_complete = False
         port = pick_free_port()
         self.daemon = ProcessDaemon(
             "roborsi-behavior_1k",
@@ -106,7 +107,8 @@ class BehaviorRoboRSIAdapter:
         return StepResult.from_dict(self._call("stop", request.as_dict()))
 
     def close(self) -> None:
-        if self._closed:
+        """Reject new work immediately, but retry incomplete cleanup."""
+        if self._cleanup_complete:
             return
         self._closed = True
         try:
@@ -125,3 +127,4 @@ class BehaviorRoboRSIAdapter:
                 self.daemon.stop(timeout=5)
             finally:
                 self._rpc.close()
+        self._cleanup_complete = True
