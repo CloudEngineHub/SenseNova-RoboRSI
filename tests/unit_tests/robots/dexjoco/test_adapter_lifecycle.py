@@ -153,3 +153,32 @@ def test_continuation_checkpoint_stays_private_and_is_published(
         "native/checkpoint_simulator_1x.npz",
     }
     adapter.close()
+
+
+def test_failed_cleanup_can_retry_without_reopening_episode(tmp_path, upstream):
+    from roborsi.evaluation.adapter_service import AdapterFacade
+
+    class RetryCloseNative(FakeNative):
+        pending_close_error = True
+
+        def close(self):
+            if self.pending_close_error:
+                self.pending_close_error = False
+                raise RuntimeError("native cleanup interrupted")
+            super().close()
+
+    adapter = DexJocoAdapter(
+        tmp_path / "case", upstream, native_factory=RetryCloseNative
+    )
+    adapter.start(make_task(upstream, "water_plant", 100000), "episode")
+    env = adapter.env
+    facade = AdapterFacade(adapter)
+    with pytest.raises(RuntimeError, match="cleanup interrupted"):
+        facade.close_episode()
+    assert env.closed == 0
+    with pytest.raises(ValueError, match="not active"):
+        adapter.step(action())
+    facade.close_episode()
+    facade.close_episode()
+    assert env.closed == 1
+    assert adapter.env is None

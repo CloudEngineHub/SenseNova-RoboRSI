@@ -284,5 +284,5 @@ class DexJocoAdapter:
         """Release worker resources after success, cancellation or startup failure."""
         self.closed = True
         if self.env is not None:
-            env, self.env = self.env, None
-            env.close()
+            self.env.close()
+            self.env = None

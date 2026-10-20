@@ -214,7 +214,6 @@ class ProcessNative:
         """Reap the worker even after a failed request; repeated close is safe."""
         if self.closed:
             return
-        self.closed = True
         try:
             if self.process.is_alive():
                 self.connection.send(("close", ()))
@@ -229,3 +228,4 @@ class ProcessNative:
             if self.process.is_alive():
                 self.process.kill()
                 self.process.join()
+            self.closed = True

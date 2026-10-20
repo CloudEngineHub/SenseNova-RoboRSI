@@ -40,10 +40,6 @@ digest specified in its recipe. This repository does not provide that dataset
 or an automatic download for it. A successful source installation alone does
 not make the PRO image runnable.
 
-DexJoCo needs its own native runtime and asset preparation; a framework
-installation does not supply those dependencies. Read the license and
-attribution notices in its recipe.
-
 ## Check the evaluation path
 
 With a LIBERO registry prepared by the recipe, use the fixed-action example:
@@ -84,9 +80,3 @@ token, set it in an environment variable and add
 
 Read [Agents](agents.md) for context and execution budgets, and
 [Evaluation](evaluation.md) for results, concurrency and resume.
-
-For DexJoCo, use the same generic Agent configuration with the
-benchmark name and task IDs from its recipe. The service exposes its native
-action schema and scoring. The fixed-action LIBERO example above is specific to
-LIBERO. Benchmark-specific Agent policies and historical ICL packages are not
-included, and the generic configuration does not reproduce historical scores.

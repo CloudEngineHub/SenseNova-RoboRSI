@@ -12,6 +12,9 @@ DexJoCo Adapter 通过 RoboRSI 的 Benchmark HTTP 服务提供固定版本的上
 
 ## 构建与注册
 
+按本说明准备原生运行环境与资产；安装框架不会自动提供这些依赖。
+分发运行环境或资产前，请阅读[许可与归属声明](#验证与许可)。
+
 原生运行时使用 Linux x86-64。Dockerfile 固定 Python 3.10 基础镜像，
 安装带哈希锁定的依赖并检出固定版本的仿真器。渲染使用 CPU OSMesa；
 benchmark 服务不需要 GPU 或模型。每个仿真器预留约 4 GiB 内存，
@@ -46,8 +49,10 @@ python -m benchmarks.dexjoco.manifest --upstream ../dexjoco-upstream \
 ## 评测 Agent
 
 在环境变量中设置模型服务凭据，选择支持视觉和工具调用的模型。
-通用 Agent 配置读取 benchmark 的动作 schema。这里的通用模型配置是评测入口，
-不代表复现 DexJoCo 历史策略或已经成功完成任务。
+使用通用 Agent 配置，并按下方命令指定 DexJoCo benchmark 名称与任务 ID。
+服务提供原生动作协议和评分规则。[快速开始](../../docs/getting-started.zh-CN.md)
+中的固定动作示例仅适用 LIBERO。本次不包含专用 Agent 策略或历史 ICL 包，
+通用配置不代表能够复现历史成绩或已经成功完成任务。
 
 ```bash
 bench eval --registry-root ../benchmark-registry \

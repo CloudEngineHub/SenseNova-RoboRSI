@@ -13,6 +13,10 @@ shared evaluation interface.
 
 ## Build and register
 
+Prepare the native runtime and assets using this recipe; installing the framework
+does not supply these dependencies. Read the [license and attribution notices](#validation-and-licenses)
+before redistributing the runtime or assets.
+
 Use Linux x86-64 for the native runtime. The Dockerfile pins a Python 3.10 base
 image, installs hash-locked dependencies, and checks out the pinned simulator.
 Rendering uses CPU OSMesa; no GPU or model is needed by the benchmark service.
@@ -48,9 +52,13 @@ scoring, and in-image assets. No separate host asset mount is required.
 ## Evaluate an Agent
 
 Set your model provider credentials in the environment and select a vision and
-tool-calling model. The shared Agent config reads the benchmark action schema.
-The generic model config is an evaluation entry point, not a reproduced
-DexJoCo policy or a task-success claim.
+tool-calling model. Use the shared Agent configuration with the DexJoCo
+benchmark name and task IDs shown below.
+The service exposes the native action schema and scoring rules. The fixed-action
+LIBERO example in [Getting started](../../docs/getting-started.md) only supports
+LIBERO. Benchmark-specific Agent policies and historical ICL packages are not
+included; the generic configuration does not reproduce historical scores or
+claim task success.
 
 ```bash
 bench eval --registry-root ../benchmark-registry \
