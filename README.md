@@ -9,14 +9,14 @@
 </p>
 
 <p align="center">
-  <a href="https://www.sensenova.ai/gpt-6/assets/docs/has_gpt-6_achieved_embodied_intelligence.pdf"><img src="assets/badges/report.svg" alt="Report: Has GPT-6 Achieved Embodied Intelligence?" /></a>
+  <a href="https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence"><img src="assets/badges/report.svg" alt="Report: Has GPT-6 Achieved Embodied Intelligence?" /></a>
   <a href="https://huggingface.co/sensenova/sensenova-roborsi-27b-preview"><img src="assets/badges/model.svg" alt="Model: SenseNova-RoboRSI-27B-Preview" /></a>
 </p>
 
 <p align="center">
   <strong>English</strong> · <a href="README.zh-CN.md">简体中文</a> ·
   <a href="#quick-start">Quick Start</a> · <a href="docs/README.md">Docs</a> ·
-  <a href="https://www.sensenova.ai/gpt-6/assets/docs/has_gpt-6_achieved_embodied_intelligence.pdf">Report</a> ·
+  <a href="https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence">Report</a> ·
   <a href="#benchzoo">BenchZoo</a> ·
   <a href="#harness-results">Harness Results</a> ·
   <a href="#sensenova-roborsi-27b-preview">RoboRSI-27B-Preview</a> ·
@@ -25,11 +25,13 @@
 
 ## News
 
+- **2026-10-20** — Benchmark services, native adapters and build guides for [**Bench2Dex**](benchmarks/bench2dex/README.md) are now included.
+
 - **2026-10-20** — The benchmark service, native adapter and build guide for [**DexJoCo**](benchmarks/dexjoco/README.md) are now included.
 
 - **2026-10-16** — Initial code and usage guides for **LIBERO, LIBERO-PRO, LIBERO-Long++ and LIBERO-Ultra-Long** are available in this branch. See the [getting started guide](docs/getting-started.md).
 
-- **2026-10-16** — SenseNova-RoboRSI has been used in the empirical report [**Has GPT-6 Achieved Embodied Intelligence?**](https://www.sensenova.ai/gpt-6/assets/docs/has_gpt-6_achieved_embodied_intelligence.pdf).
+- **2026-10-16** — SenseNova-RoboRSI has been used in the empirical report [**Has GPT-6 Achieved Embodied Intelligence?**](https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence).
 - **2026-10-16** — [**🤗 SenseNova-RoboRSI-27B-Preview**](https://huggingface.co/sensenova/sensenova-roborsi-27b-preview) now runs across different environments, including on real robots and in simulation! The open-weight release is expected on **October 20, 2026**, with the technical report to follow.
 
 - **2026-10-09** — SenseNova-RoboRSI achieves an **average score of 60.08** and a **success rate of 54.17%** on RoboDojo, a gain of **+31.11 points** over the GPT-6 Astra baseline (**28.97**). Results are being submitted to the official RoboDojo leaderboard. See [Harness Results](#harness-results) for benchmark comparisons.
@@ -102,7 +104,8 @@ simulator installation.
 
 - **Benchmark setup:** [LIBERO](benchmarks/libero/README.md),
   [LIBERO-PRO](benchmarks/libero_pro/README.md),
-  [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md), and
+  [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md),
+  [Bench2Dex](benchmarks/bench2dex/README.md), and
   [DexJoCo](benchmarks/dexjoco/README.md).
 - **Agent configuration:** [Models, prompts, context and budgets](docs/agents.md).
 - **Evaluation:** [Batch execution, results and resume](docs/evaluation.md).
@@ -120,7 +123,7 @@ benchmark directory for setup and evaluation.
 | [LIBERO-Long++](benchmarks/libero_lilo/) | Released |
 | [LIBERO-Ultra-Long](benchmarks/libero_lilo/) | Released |
 | RoboLab | Coming soon |
-| Bench2Dex | Coming soon |
+| [Bench2Dex](benchmarks/bench2dex/) | Released |
 | [DexJoCo](benchmarks/dexjoco/) | Released |
 | LHVLN | Coming soon |
 | VLN-CE | Coming soon |
@@ -216,7 +219,7 @@ community deployment, reproduction, and continued training.
 ### Release plan
 
 - [x] Project introduction
-- [x] [Empirical Study](https://www.sensenova.ai/gpt-6/assets/docs/has_gpt-6_achieved_embodied_intelligence.pdf)
+- [x] [Empirical Study](https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence)
 - [x] Initial code release: Agent runtime and LIBERO-family evaluation
 - [x] [Usage documentation](docs/README.md)
 - [ ] Harness demo
@@ -259,4 +262,4 @@ VLA policies, simulation platforms, and real robots.
 - **Licenses:** External models, simulators, and datasets retain their respective
   licenses.
 
-**This achievement reflects the joint team's continued exploration and close collaboration in embodied AI and agent systems. SenseNova-RoboRSI has been used in the published report [Has GPT-6 Achieved Embodied Intelligence?](https://www.sensenova.ai/gpt-6/assets/docs/has_gpt-6_achieved_embodied_intelligence.pdf). We will continue to advance and validate these technologies.**
+**This achievement reflects the joint team's continued exploration and close collaboration in embodied AI and agent systems. SenseNova-RoboRSI has been used in the published report [Has GPT-6 Achieved Embodied Intelligence?](https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence). We will continue to advance and validate these technologies.**

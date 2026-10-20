@@ -9,14 +9,14 @@
 </p>
 
 <p align="center">
-  <a href="https://www.sensenova.ai/gpt-6/assets/docs/has_gpt-6_achieved_embodied_intelligence.pdf"><img src="assets/badges/report.svg" alt="研究报告：Has GPT-6 Achieved Embodied Intelligence?" /></a>
+  <a href="https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence"><img src="assets/badges/report.svg" alt="研究报告：Has GPT-6 Achieved Embodied Intelligence?" /></a>
   <a href="https://huggingface.co/sensenova/sensenova-roborsi-27b-preview"><img src="assets/badges/model.svg" alt="Model：SenseNova-RoboRSI-27B-Preview" /></a>
 </p>
 
 <p align="center">
   <a href="README.md">English</a> · <strong>简体中文</strong> ·
   <a href="#quick-start">快速开始</a> · <a href="docs/README.md">使用文档</a> ·
-  <a href="https://www.sensenova.ai/gpt-6/assets/docs/has_gpt-6_achieved_embodied_intelligence.pdf">研究报告</a> ·
+  <a href="https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence">研究报告</a> ·
   <a href="#benchzoo">BenchZoo</a> ·
   <a href="#harness-results">Harness 结果</a> ·
   <a href="#sensenova-roborsi-27b-preview">RoboRSI-27B-Preview</a> ·
@@ -25,11 +25,13 @@
 
 ## News
 
+- **2026-10-20** — 新增 [**Bench2Dex**](benchmarks/bench2dex/README.zh-CN.md) 的 benchmark 服务、原生适配器和构建指南。
+
 - **2026-10-20** — 新增 [**DexJoCo**](benchmarks/dexjoco/README.zh-CN.md) 的 benchmark 服务、原生适配器和构建指南。
 
 - **2026-10-16** — 本分支已提供 **LIBERO、LIBERO-PRO、LIBERO-Long++ 和 LIBERO-Ultra-Long** 的首批代码与使用指南，详见[快速开始](docs/getting-started.zh-CN.md)。
 
-- **2026-10-16** — SenseNova-RoboRSI 作为实验框架支持了实证研究 [**Has GPT-6 Achieved Embodied Intelligence?**](https://www.sensenova.ai/gpt-6/assets/docs/has_gpt-6_achieved_embodied_intelligence.pdf)。
+- **2026-10-16** — SenseNova-RoboRSI 作为实验框架支持了实证研究 [**Has GPT-6 Achieved Embodied Intelligence?**](https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence)。
 - **2026-10-16** — [**🤗 SenseNova-RoboRSI-27B-Preview**](https://huggingface.co/sensenova/sensenova-roborsi-27b-preview) 已在包括真机与仿真在内的不同环境中运行！模型权重预计于 **2026 年 10 月 20 日**开源，技术报告随后发布。
 
 - **2026-10-09** — SenseNova-RoboRSI 在 RoboDojo 上取得 **60.08 的平均得分**和 **54.17% 的成功率**，平均得分较 GPT-6 Astra 基线（**28.97**）提升 **+31.11 分**。结果正在提交至 RoboDojo 官方榜单。更多评测对比见 [Harness 结果](#harness-results)。
@@ -91,7 +93,8 @@ Windows 使用 `.venv\Scripts\Activate.ps1` 激活环境。
 
 - **Benchmark 配置：** [LIBERO](benchmarks/libero/README.md)、
   [LIBERO-PRO](benchmarks/libero_pro/README.md)、
-  [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md) 和
+  [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md)、
+  [Bench2Dex](benchmarks/bench2dex/README.zh-CN.md) 和
   [DexJoCo](benchmarks/dexjoco/README.zh-CN.md)。
 - **Agent 配置：** [模型、提示词、上下文与预算](docs/agents.zh-CN.md)。
 - **评测：** [批量执行、结果查看与中断恢复](docs/evaluation.zh-CN.md)。
@@ -108,7 +111,7 @@ Windows 使用 `.venv\Scripts\Activate.ps1` 激活环境。
 | [LIBERO-Long++](benchmarks/libero_lilo/) | 已开源 |
 | [LIBERO-Ultra-Long](benchmarks/libero_lilo/) | 已开源 |
 | RoboLab | 即将开源 |
-| Bench2Dex | 即将开源 |
+| [Bench2Dex](benchmarks/bench2dex/) | 已开源 |
 | [DexJoCo](benchmarks/dexjoco/) | 已开源 |
 | LHVLN | 即将开源 |
 | VLN-CE | 即将开源 |
@@ -191,7 +194,7 @@ RoboRSI-27B-Preview 通过模型与 Harness 的协同 RSI，将经过验证的�
 ### 发布计划
 
 - [x] 项目介绍
-- [x] [GPT-6 Astra 具身能力实证调研](https://www.sensenova.ai/gpt-6/assets/docs/has_gpt-6_achieved_embodied_intelligence.pdf)
+- [x] [GPT-6 Astra 具身能力实证调研](https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence)
 - [x] 首批代码：Agent 运行时与 LIBERO 系列评测
 - [x] [使用文档](docs/README.md)
 - [ ] Harness demo
@@ -227,4 +230,4 @@ RoboRSI-27B-Preview 通过模型与 Harness 的协同 RSI，将经过验证的�
   对具身 Agent 研究的支持。
 - **许可证：** 外部模型、模拟器与数据集遵循各自的许可证。
 
-**这一成果凝聚了联合团队在具身智能与 Agent 系统方向上的持续探索和紧密协作。SenseNova-RoboRSI 已用于现已发布的实证研究 [Has GPT-6 Achieved Embodied Intelligence?](https://www.sensenova.ai/gpt-6/assets/docs/has_gpt-6_achieved_embodied_intelligence.pdf)。未来，我们将继续推动相关技术的迭代与验证。**
+**这一成果凝聚了联合团队在具身智能与 Agent 系统方向上的持续探索和紧密协作。SenseNova-RoboRSI 已用于现已发布的实证研究 [Has GPT-6 Achieved Embodied Intelligence?](https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence)。未来，我们将继续推动相关技术的迭代与验证。**
