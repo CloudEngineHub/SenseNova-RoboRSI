@@ -25,9 +25,11 @@
 
 ## News
 
-- **2026-10-20** — Released [**BEHAVIOR-1K**](benchmarks/behavior_1k/README.md) benchmark code and setup instructions, with the official 21D action interface, RGB-D observations and native scoring, alongside benchmark services, native adapters and build guides for [**Bench2Dex**](benchmarks/bench2dex/README.md) and [**DexJoCo**](benchmarks/dexjoco/README.md).
+- **2026-10-21** — Added **benchmark images and ICL experience packages** to [BenchZoo](#benchzoo), including image references and package download links.
 
-- **2026-10-16** — Initial code and usage guides for **LIBERO, LIBERO-PRO, LIBERO-Long++ and LIBERO-Ultra-Long** are available in this branch. See the [getting started guide](docs/getting-started.md).
+- **2026-10-20** — Initial code and usage guides for [**BEHAVIOR-1K**](benchmarks/behavior_1k/README.md), [**Bench2Dex**](benchmarks/bench2dex/README.md) and [**DexJoCo**](benchmarks/dexjoco/README.md) are available in this branch.
+
+- **2026-10-16** — Initial code and usage guides for [**LIBERO**](benchmarks/libero/README.md), [**LIBERO-PRO**](benchmarks/libero_pro/README.md), [**LIBERO-Long++**](benchmarks/libero_lilo/README.md) and [**LIBERO-Ultra-Long**](benchmarks/libero_lilo/README.md) are available in this branch. See the [getting started guide](docs/getting-started.md).
 
 - **2026-10-16** — SenseNova-RoboRSI has been used in the empirical report [**Has GPT-6 Achieved Embodied Intelligence?**](https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence).
 - **2026-10-16** — [**🤗 SenseNova-RoboRSI-27B-Preview**](https://huggingface.co/sensenova/sensenova-roborsi-27b-preview) now runs across different environments, including on real robots and in simulation! The open-weight release is expected on **October 20, 2026**, with the technical report to follow.
@@ -115,19 +117,27 @@ Available benchmark integrations and upcoming releases. Supported services share
 configurable EmbodiedAgent presets; select your model and follow the corresponding
 benchmark directory for setup and evaluation.
 
-| Benchmark | Status |
-| --- | --- |
-| RoboDojo | Coming soon |
-| [LIBERO-Pro](benchmarks/libero_pro/) | Released |
-| [LIBERO-Long++](benchmarks/libero_lilo/) | Released |
-| [LIBERO-Ultra-Long](benchmarks/libero_lilo/) | Released |
-| RoboLab | Coming soon |
-| [Bench2Dex](benchmarks/bench2dex/) | Released |
-| [DexJoCo](benchmarks/dexjoco/) | Released |
-| LHVLN | Coming soon |
-| VLN-CE | Coming soon |
-| SIMPLE | Coming soon |
-| [BEHAVIOR-1K](benchmarks/behavior_1k/) | Released |
+ICL experience packages are hosted in
+[SenseNova-RoboRSI-Packages](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages).
+The links below open each released benchmark's versioned package directory;
+follow the package documentation for download, verification and usage.
+
+Prebuilt images are hosted on GHCR. Use `docker pull <image>` with the
+corresponding image reference from the table.
+
+| Benchmark | Status | ICL experience package | Docker image |
+| --- | --- | --- | --- |
+| RoboDojo | Coming soon | — | — |
+| [LIBERO-Pro](benchmarks/libero_pro/) | Released | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-pro/v1.0.0) | `ghcr.io/opensensenova/sensenova-roborsi-libero-pro@sha256:a83417f1459a4c555c457caa82ef00a5de50191e3d8deb943894fa9285cff172` |
+| [LIBERO-Long++](benchmarks/libero_lilo/) | Released | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-long-plus-plus/v1.0.0) | `ghcr.io/opensensenova/sensenova-roborsi-libero-long-plus-plus@sha256:814139261e914b114cb89a359c6a39d4f409a556f79928e986b6ade3dfe7dc7a` |
+| [LIBERO-Ultra-Long](benchmarks/libero_lilo/) | Released | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-ultra-long/v1.0.0) | `ghcr.io/opensensenova/sensenova-roborsi-libero-ultra-long@sha256:814139261e914b114cb89a359c6a39d4f409a556f79928e986b6ade3dfe7dc7a` |
+| RoboLab | Coming soon | — | — |
+| [Bench2Dex](benchmarks/bench2dex/) | Released | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/bench2dex/v1.0.0) | `ghcr.io/opensensenova/sensenova-roborsi-bench2dex@sha256:ba5253aa91e8e6888f0f0543626b9ace9c76dbe8559d7092caaa160e9b634a76` |
+| [DexJoCo](benchmarks/dexjoco/) | Released | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/dexjoco/v1.0.0) | `ghcr.io/opensensenova/sensenova-roborsi-dexjoco@sha256:19fa30540e3956ae460efa0a4b473586637cb330d863ea65ba0fd6318c376d4d` |
+| LHVLN | Coming soon | — | — |
+| VLN-CE | Coming soon | — | — |
+| SIMPLE | Coming soon | — | — |
+| [BEHAVIOR-1K](benchmarks/behavior_1k/) | Released | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/behavior/v1.0.0) | `ghcr.io/opensensenova/sensenova-roborsi-behavior-1k:v1.0.0-cu128` |
 
 ## Harness Results
 
