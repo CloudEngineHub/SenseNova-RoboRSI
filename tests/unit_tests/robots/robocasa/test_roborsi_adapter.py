@@ -164,14 +164,12 @@ def test_action_schema_names_each_evaluation_tool_once():
     validator.validate({"primitive": "navigate_to", "xy": [1.0, 0.5], "tol": 0.6})
     validator.validate({"primitive": "view_env_state"})
     validator.validate({"primitive": "finish", "status": "success", "summary": "x"})
-    for bad in (
-        {"primitive": "reset"},
-        {"primitive": "navigate_to"},
-        {"primitive": "move_to", "xyz": [0, 0, 0], "speed": 1},
-        {"xyz": [0, 0, 0]},
-    ):
+    for bad in ({"primitive": "reset"}, {"primitive": "teleport"}, {"xyz": [0, 0, 0]}):
         with pytest.raises(ValidationError):
             validator.validate(bad)
+    # Argument mistakes reach the tool, which reports them and the episode goes on.
+    validator.validate({"primitive": "navigate_to"})
+    validator.validate({"primitive": "move_delta", "dxyz": [0, 0, 0.1], "tol": 0.01})
 
 
 def test_one_action_runs_one_tool_and_returns_its_state(tmp_path):
@@ -380,3 +378,18 @@ def test_service_starts_one_owned_rldx_server_when_no_endpoint_is_given(
     )
     assert attached.create_adapter(tmp_path / "c", None).vla_endpoint == "http://vla:1"
     assert len(spawned) == 1
+
+
+def test_bad_tool_arguments_come_back_as_feedback(tmp_path):
+    adapter, runtime, _ = create(tmp_path)
+
+    def execute(name, arguments):
+        runtime.toolkit.calls.append((name, arguments))
+        return ToolResult(
+            name, {"error": f"bad arguments for {name}", "got": arguments}
+        )
+
+    runtime.toolkit.execute_tool = execute
+    step = adapter.step(action(0, primitive="move_delta", dxyz=[0, 0, 0.1], tol=0.01))
+    assert not (step.terminated or step.truncated)
+    assert step.observation.data["error"] == "bad arguments for move_delta"

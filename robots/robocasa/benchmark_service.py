@@ -54,16 +54,25 @@ EVALUATION = {
 
 
 def _action_variant(spec: dict[str, Any]) -> dict[str, Any]:
-    """Turn one RoboCasa tool schema into an action carrying its name."""
+    """Turn one RoboCasa tool schema into an action carrying its name.
+
+    Only the tool name is enforced. A missing or unknown argument reaches the
+    tool, which answers with its usual "bad arguments" result and lets the
+    episode go on, as the Target50 runs did; rejecting the action at the
+    schema instead would end the episode as an Agent error.
+    """
     schema = spec["input_schema"]
     properties = {"primitive": {"const": spec["name"]}}
     properties.update(copy.deepcopy(schema.get("properties", {})))
+    required = schema.get("required", [])
+    description = f"{spec['name']}: {spec['description']}"
+    if required:
+        description += f" Required arguments: {', '.join(required)}."
     return {
         "type": "object",
-        "description": f"{spec['name']}: {spec['description']}",
+        "description": description,
         "properties": properties,
-        "required": ["primitive", *schema.get("required", [])],
-        "additionalProperties": False,
+        "required": ["primitive"],
     }
 
 
