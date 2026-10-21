@@ -114,6 +114,7 @@ class RoboCasa365Adapter:
         self.native_dir = self.directory / "native"
         self.native_dir.mkdir(parents=True, exist_ok=True)
         self.daemons: list = []
+        self.runtime_kwargs: dict[str, Any] = {}
         self.toolkit = None
         self.task: Task | None = None
         self.episode: str | None = None
@@ -181,11 +182,11 @@ class RoboCasa365Adapter:
             enable_vla=True,
         )
         try:
-            self.daemons, runtime_kwargs = self._start_runtime(
+            self.daemons, self.runtime_kwargs = self._start_runtime(
                 args, self.native_dir, self._events
             )
             self.toolkit = self._make_toolkit(
-                runtime_kwargs, self._events, self.native_dir / "state"
+                self.runtime_kwargs, self._events, self.native_dir / "state"
             )
             initial = self.toolkit.execute_tool("view_env_state", {}).result
             if initial.get("error"):
@@ -312,13 +313,24 @@ class RoboCasa365Adapter:
         return self.result
 
     def close(self) -> None:
-        """Release the toolkit and this episode's env_server."""
+        """Release the toolkit, this episode's RPC sessions and its env_server.
+
+        The RLDX-1 service is shared by every episode and keeps running; only
+        this episode's session on it, with its memory and RTC state, ends here.
+        """
         self.closed = True
         toolkit, self.toolkit = self.toolkit, None
         daemons, self.daemons = self.daemons, []
+        clients, self.runtime_kwargs = self.runtime_kwargs, {}
         try:
             if toolkit is not None:
                 toolkit.close()
         finally:
-            if daemons:
-                self._stop_runtime(daemons, self._events)
+            try:
+                for name in ("vla_client", "env_client"):
+                    rpc = getattr(clients.get(name), "_client", None)
+                    if rpc is not None:
+                        rpc.close()
+            finally:
+                if daemons:
+                    self._stop_runtime(daemons, self._events)
