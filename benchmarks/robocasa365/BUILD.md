@@ -54,7 +54,7 @@ crane mutate "$REPO:build" --entrypoint= \
   --env PYTHONPATH=/opt/roborsi --env PYTHONDONTWRITEBYTECODE=1 \
   --workdir /opt/roborsi \
   --cmd python,-m,roborsi.evaluation.service_host,--kind,benchmark,--factory,robots.robocasa.benchmark_service:make_robocasa365_benchmark,--host,0.0.0.0,--port,8000 \
-  -t "$REPO:v1.1.3-cu126"
+  -t "$REPO:v1.1.4-cu126"
 ```
 
 `layers.py` writes OCI whiteouts for every file the uninstalled distributions'

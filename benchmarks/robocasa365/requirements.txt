@@ -1,7 +1,7 @@
 # Resolved Python environment of the RoboCasa365 Benchmark image
 # (/opt/rpent-py310, Python 3.10.21, linux/x86_64), recorded with
 # `python -m pip freeze --all` inside
-# ghcr.io/opensensenova/sensenova-roborsi-robocasa365:v1.1.3-cu126.
+# ghcr.io/opensensenova/sensenova-roborsi-robocasa365:v1.1.4-cu126.
 # torch and torchvision come from https://download.pytorch.org/whl/cu126;
 # the RoboCasa, robosuite and RLDX-1 packages are pinned to Git commits.
 # Install with:

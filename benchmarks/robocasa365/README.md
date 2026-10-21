@@ -9,7 +9,7 @@ simulator's final `state.success`.
 | Item | Value |
 | --- | --- |
 | Benchmark ID | `robocasa365` |
-| Image | `ghcr.io/opensensenova/sensenova-roborsi-robocasa365@sha256:46464c117954398381edbb1c8dec10e78f3c586ff3f27c9f825209b07d096aef` (tag `v1.1.3-cu126`, linux/amd64, private GHCR package of the OpenSenseNova organization) |
+| Image | `ghcr.io/opensensenova/sensenova-roborsi-robocasa365@sha256:28d210a42597f88c7af23b63f88fefc587edc901e268a0339cbfbf6ea1814cb5` (tag `v1.1.4-cu126`, linux/amd64, private GHCR package of the OpenSenseNova organization) |
 | Simulator | `RLinf/robocasa@2692d8fc5fd86708a1b2028dcbce892ec418a9e7`, `RLinf/robosuite@97cfbde4b68d8ec43dad20cf4747297866a6ca2e`, mujoco 3.3.1 |
 | VLA | RLDX-1 `RLWRLD/RLDX-1-FT-RC365@587e9ecdcc5e7184fcc17f58713908edff5af041`, served by the same image as a separate process |
 | Cells | 340: 18 atomic tasks × seeds 1-10, 16 composite seen and 16 composite unseen tasks × seeds 1-5 (`robots/robocasa/eval/target50.json`) |
@@ -43,7 +43,7 @@ A cell needs two services: the Benchmark service, which owns one kitchen per
 episode, and an RLDX-1 service shared by all episodes. Both run from the image.
 
 ```bash
-IMAGE=ghcr.io/opensensenova/sensenova-roborsi-robocasa365@sha256:46464c117954398381edbb1c8dec10e78f3c586ff3f27c9f825209b07d096aef
+IMAGE=ghcr.io/opensensenova/sensenova-roborsi-robocasa365@sha256:28d210a42597f88c7af23b63f88fefc587edc901e268a0339cbfbf6ea1814cb5
 docker login ghcr.io   # an account in the OpenSenseNova organization
 
 # RLDX-1 on one GPU (about 16 GB).
