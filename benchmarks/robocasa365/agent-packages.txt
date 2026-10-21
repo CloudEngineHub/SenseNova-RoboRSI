@@ -1,0 +1,10 @@
+# Agent-side distributions carried by the base image's earlier HEART application.
+# A Benchmark image must not include them (roborsi.benchmarks.runtime_source).
+anthropic
+claude-agent-sdk
+mcp
+openai
+openai-codex
+openai-codex-cli-bin
+pydantic-ai-harness
+pydantic-ai-slim
