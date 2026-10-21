@@ -14,9 +14,10 @@
 
 """Score RoboCasa365 Target50 runs: the mean of the 50 per-task success rates.
 
-Every expected cell counts. A cell without a valid native result (missing, or
-any status other than success and task_failure) scores as a failure and is
-listed, so it can be re-run under the Target50 retry policy.
+Every expected cell counts. Under the Target50 retry policy a planner that
+runs out of its wall clock is a valid task failure, not a re-run. Any other
+cell without a valid native result (missing, or an infrastructure error)
+scores as a failure and is listed, so it can be re-run.
 """
 
 from __future__ import annotations
@@ -27,7 +28,14 @@ from pathlib import Path
 
 from robots.robocasa.benchmark_service import TARGET50
 
-VALID = {"success", "task_failure"}
+VALID = {"success", "task_failure", "planner_timeout"}
+
+
+def _status(result: dict) -> str:
+    message = (result.get("error") or {}).get("message") or ""
+    if result["status"] == "agent_error" and "planner timed out" in message:
+        return "planner_timeout"
+    return result["status"]
 
 
 def collect(runs: list[Path]) -> dict[tuple[str, int], dict]:
@@ -41,7 +49,7 @@ def collect(runs: list[Path]) -> dict[tuple[str, int], dict]:
             key = (task["task_id"], task["seed"])
             # A valid result replaces an earlier invalid attempt of the same cell.
             if key not in cells or cells[key]["status"] not in VALID:
-                cells[key] = {"status": result["status"], "path": str(path)}
+                cells[key] = {"status": _status(result), "path": str(path)}
     return cells
 
 
@@ -69,6 +77,11 @@ def score(cells: dict[tuple[str, int], dict], seeds: str = "all") -> dict:
     report["overall"] = round(100 * sum(rates) / len(rates), 2)
     report["cells_expected"] = sum(s["cells"] for s in report["splits"].values())
     report["cells_valid"] = report["cells_expected"] - len(report["invalid"])
+    report["planner_timeouts"] = sorted(
+        f"{task}_s{seed}"
+        for (task, seed), cell in cells.items()
+        if cell["status"] == "planner_timeout"
+    )
     return report
 
 

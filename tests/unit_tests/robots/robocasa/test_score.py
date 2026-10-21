@@ -19,7 +19,7 @@ import json
 from benchmarks.robocasa365.score import collect, score
 
 
-def write(run, index, task, seed, status):
+def write(run, index, task, seed, status, message=None):
     case = run / f"case-{index}"
     case.mkdir(parents=True)
     (case / "result.json").write_text(
@@ -27,6 +27,7 @@ def write(run, index, task, seed, status):
             {
                 "task": {"benchmark": "robocasa365", "task_id": task, "seed": seed},
                 "status": status,
+                "error": {"message": message} if message else None,
             }
         )
     )
@@ -54,3 +55,20 @@ def test_full_protocol_weights_each_task_equally(tmp_path):
     assert report["cells_expected"] == 340
     assert report["splits"]["atomic"]["success_rate"] == round(100 * 0.5 / 18, 2)
     assert report["overall"] == 1.0
+
+
+def test_planner_timeout_is_a_valid_failure_and_other_errors_are_listed(tmp_path):
+    run = tmp_path / "run"
+    write(
+        run,
+        0,
+        "ArrangeTea",
+        1,
+        "agent_error",
+        "act: Embodied Agent failed: API planner timed out after 3600s",
+    )
+    write(run, 1, "OpenDrawer", 1, "agent_error", "connection reset")
+    report = score(collect([run]), "seed1")
+    assert report["planner_timeouts"] == ["ArrangeTea_s1"]
+    assert "composite_unseen/ArrangeTea_s1" not in report["invalid"]
+    assert "atomic/OpenDrawer_s1" in report["invalid"]
