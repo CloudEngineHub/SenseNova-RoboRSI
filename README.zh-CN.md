@@ -25,9 +25,11 @@
 
 ## News
 
-- **2026-10-20** — 本分支已提供 [**BEHAVIOR-1K**](benchmarks/behavior_1k/README.zh-CN.md)、[**Bench2Dex**](benchmarks/bench2dex/README.zh-CN.md) 和 [**DexJoCo**](benchmarks/dexjoco/README.zh-CN.md) 的首批代码与使用指南，benchmark 镜像与 ICL 经验包见 [BenchZoo](#benchzoo)。
+- **2026-10-21** — 已在 [BenchZoo](#benchzoo) 中补充 **benchmark 镜像与 ICL 经验包**，提供镜像地址和资源包下载链接。
 
-- **2026-10-16** — 本分支已提供 **LIBERO、LIBERO-PRO、LIBERO-Long++ 和 LIBERO-Ultra-Long** 的首批代码与使用指南，详见[快速开始](docs/getting-started.zh-CN.md)。
+- **2026-10-20** — 本分支已提供 [**BEHAVIOR-1K**](benchmarks/behavior_1k/README.zh-CN.md)、[**Bench2Dex**](benchmarks/bench2dex/README.zh-CN.md) 和 [**DexJoCo**](benchmarks/dexjoco/README.zh-CN.md) 的首批代码与使用指南。
+
+- **2026-10-16** — 本分支已提供 [**LIBERO**](benchmarks/libero/README.md)、[**LIBERO-PRO**](benchmarks/libero_pro/README.md)、[**LIBERO-Long++**](benchmarks/libero_lilo/README.md) 和 [**LIBERO-Ultra-Long**](benchmarks/libero_lilo/README.md) 的首批代码与使用指南，详见[快速开始](docs/getting-started.zh-CN.md)。
 
 - **2026-10-16** — SenseNova-RoboRSI 作为实验框架支持了实证研究 [**Has GPT-6 Achieved Embodied Intelligence?**](https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence)。
 - **2026-10-16** — [**🤗 SenseNova-RoboRSI-27B-Preview**](https://huggingface.co/sensenova/sensenova-roborsi-27b-preview) 已在包括真机与仿真在内的不同环境中运行！模型权重预计于 **2026 年 10 月 20 日**开源，技术报告随后发布。
@@ -107,43 +109,21 @@ ICL 经验包统一托管在
 [SenseNova-RoboRSI-Packages](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages)。
 下表链接指向各已开源 benchmark 的版本化资源目录；下载、校验与使用方式见各资源包说明。
 
-| Benchmark | 状态 | ICL 经验包 |
-| --- | --- | --- |
-| RoboDojo | 即将开源 | — |
-| [LIBERO-Pro](benchmarks/libero_pro/) | 已开源 | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-pro/v1.0.0) |
-| [LIBERO-Long++](benchmarks/libero_lilo/) | 已开源 | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-long-plus-plus/v1.0.0) |
-| [LIBERO-Ultra-Long](benchmarks/libero_lilo/) | 已开源 | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-ultra-long/v1.0.0) |
-| RoboLab | 即将开源 | — |
-| [Bench2Dex](benchmarks/bench2dex/) | 已开源 | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/bench2dex/v1.0.0) |
-| [DexJoCo](benchmarks/dexjoco/) | 已开源 | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/dexjoco/v1.0.0) |
-| LHVLN | 即将开源 | — |
-| VLN-CE | 即将开源 | — |
-| SIMPLE | 即将开源 | — |
-| [BEHAVIOR-1K](benchmarks/behavior_1k/) | 已开源 | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/behavior/v1.0.0) |
+预构建镜像托管在 GHCR，使用 `docker pull <image>` 拉取表中对应镜像。
 
-### Benchmark Docker 镜像
-
-已开源 benchmark 的预构建镜像托管在 GHCR，按需执行对应命令拉取：
-
-```bash
-# LIBERO-PRO
-docker pull ghcr.io/opensensenova/sensenova-roborsi-libero-pro@sha256:a83417f1459a4c555c457caa82ef00a5de50191e3d8deb943894fa9285cff172
-
-# LIBERO-Long++
-docker pull ghcr.io/opensensenova/sensenova-roborsi-libero-long-plus-plus@sha256:814139261e914b114cb89a359c6a39d4f409a556f79928e986b6ade3dfe7dc7a
-
-# LIBERO-Ultra-Long
-docker pull ghcr.io/opensensenova/sensenova-roborsi-libero-ultra-long@sha256:814139261e914b114cb89a359c6a39d4f409a556f79928e986b6ade3dfe7dc7a
-
-# Bench2Dex
-docker pull ghcr.io/opensensenova/sensenova-roborsi-bench2dex@sha256:ba5253aa91e8e6888f0f0543626b9ace9c76dbe8559d7092caaa160e9b634a76
-
-# DexJoCo
-docker pull ghcr.io/opensensenova/sensenova-roborsi-dexjoco@sha256:19fa30540e3956ae460efa0a4b473586637cb330d863ea65ba0fd6318c376d4d
-
-# BEHAVIOR-1K
-docker pull ghcr.io/opensensenova/sensenova-roborsi-behavior-1k:v1.0.0-cu128
-```
+| Benchmark | 状态 | Docker 镜像 | ICL 经验包 |
+| --- | --- | --- | --- |
+| RoboDojo | 即将开源 | — | — |
+| [LIBERO-Pro](benchmarks/libero_pro/) | 已开源 | `ghcr.io/opensensenova/sensenova-roborsi-libero-pro@sha256:a83417f1459a4c555c457caa82ef00a5de50191e3d8deb943894fa9285cff172` | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-pro/v1.0.0) |
+| [LIBERO-Long++](benchmarks/libero_lilo/) | 已开源 | `ghcr.io/opensensenova/sensenova-roborsi-libero-long-plus-plus@sha256:814139261e914b114cb89a359c6a39d4f409a556f79928e986b6ade3dfe7dc7a` | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-long-plus-plus/v1.0.0) |
+| [LIBERO-Ultra-Long](benchmarks/libero_lilo/) | 已开源 | `ghcr.io/opensensenova/sensenova-roborsi-libero-ultra-long@sha256:814139261e914b114cb89a359c6a39d4f409a556f79928e986b6ade3dfe7dc7a` | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-ultra-long/v1.0.0) |
+| RoboLab | 即将开源 | — | — |
+| [Bench2Dex](benchmarks/bench2dex/) | 已开源 | `ghcr.io/opensensenova/sensenova-roborsi-bench2dex@sha256:ba5253aa91e8e6888f0f0543626b9ace9c76dbe8559d7092caaa160e9b634a76` | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/bench2dex/v1.0.0) |
+| [DexJoCo](benchmarks/dexjoco/) | 已开源 | `ghcr.io/opensensenova/sensenova-roborsi-dexjoco@sha256:19fa30540e3956ae460efa0a4b473586637cb330d863ea65ba0fd6318c376d4d` | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/dexjoco/v1.0.0) |
+| LHVLN | 即将开源 | — | — |
+| VLN-CE | 即将开源 | — | — |
+| SIMPLE | 即将开源 | — | — |
+| [BEHAVIOR-1K](benchmarks/behavior_1k/) | 已开源 | `ghcr.io/opensensenova/sensenova-roborsi-behavior-1k:v1.0.0-cu128` | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/behavior/v1.0.0) |
 
 ## Harness Results
 
