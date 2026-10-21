@@ -17,6 +17,26 @@ simulator's final `state.success`.
 | ICL package | `sensenova/SenseNova-RoboRSI-Packages`, `robocasa365/v1.0.0`, revision `57ce03cfbecae381c8f95022374127043ee3cf30` |
 | Agent | `robots/robocasa/agent.yaml` (Native, `planner: api`) |
 
+## One command
+
+With Docker, the NVIDIA container toolkit, a RoboRSI checkout installed with
+`pip install -e '.[runtime]'` and the ICL package downloaded (see below):
+
+```bash
+docker login ghcr.io
+OPENAI_API_KEY=... benchmarks/robocasa365/run_eval.sh \
+  --model gpt-6-astra --base-url https://your-endpoint/v1 \
+  --cells seed1 --icl-root /abs/roborsi-packages/robocasa365/v1.0.0 \
+  --results /abs/results --run-id gpt6_seed1 --gpu 0 --parallel 4
+```
+
+It starts one RLDX-1 service and `--parallel` Benchmark services from the
+image, splits the cells over that many runners, stops the services afterwards
+and prints the Target50 score. `--cells all` runs the 340 cells,
+`--openai-format chat` uses Chat Completions. Score any set of runs again with
+`python -m benchmarks.robocasa365.score RUN_DIR... --cells seed1`; cells
+without a valid result are listed for a re-run.
+
 ## Services
 
 A cell needs two services: the Benchmark service, which owns one kitchen per
@@ -100,6 +120,12 @@ Only the Native backend is delivered and validated for this benchmark.
 ## Validation
 
 See [VALIDATION.md](VALIDATION.md).
+
+## Environment
+
+`requirements.txt` is the resolved Python environment of the image
+(Python 3.10.21, torch 2.7.0+cu126, RoboCasa, robosuite and RLDX-1 at the
+commits above). The Agent side needs only `roborsi[runtime]`.
 
 ## Building the image
 

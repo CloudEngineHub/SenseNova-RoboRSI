@@ -20,9 +20,10 @@ which is how the published image was built.
 | `/opt/hf-cache` | configuration files of `RLWRLD/RLDX-1-VLM@4b9f870d1287e0d38d7eb1445e6d8c60afe66dd7` (no weights) |
 | `/opt/heart-robocasa/BUILD` | `pip_freeze.txt`, `dpkg.txt` and `build.json` recorded when the base was assembled |
 
-The base was assembled with `crane` from these components; its complete package
-list is `/opt/heart-robocasa/BUILD/pip_freeze.txt` and `dpkg.txt` inside the
-image. It needs an NVIDIA driver supporting CUDA 12.6 for RLDX-1; kitchens
+The base was assembled with `crane` from these components. `requirements.txt`
+in this directory is the resolved Python environment as it is in the published
+image; the system package list is `/opt/heart-robocasa/BUILD/dpkg.txt` inside
+the image. It needs an NVIDIA driver supporting CUDA 12.6 for RLDX-1; kitchens
 render with OSMesa on the CPU.
 
 ## Layers added by this recipe
