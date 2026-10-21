@@ -59,6 +59,11 @@ docker run -d --name robocasa365 --network host \
     --host 127.0.0.1 --port 18800
 ```
 
+Without `ROBORSI_ROBOCASA_VLA_ENDPOINT` the Benchmark service starts its own
+RLDX-1 server from `RLDX_CHECKPOINT` (set in the image) on its first episode and
+shares it with later ones; this is how a container started from the Registry
+manifest runs, with the one GPU the manifest requests. Each episode's RLDX-1
+session is closed when the episode ends.
 `ROBORSI_ROBOCASA_CELLS=seed1` restricts the catalog to the 50 seed-1 cells.
 Each episode starts its own `env_server` process; a kitchen takes 1-4 minutes
 to load and an episode needs about 4 CPU cores and 8 GB of memory. The service

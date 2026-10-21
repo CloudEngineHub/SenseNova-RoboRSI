@@ -21,6 +21,8 @@ import hashlib
 import json
 import os
 import platform
+import sys
+import threading
 from pathlib import Path
 from typing import Any
 
@@ -145,7 +147,12 @@ def make_task(task_name: str, seed: int) -> Task:
 
 
 class RoboCasa365Benchmark:
-    """Provide one RoboCasa kitchen per episode and a shared RLDX-1 service."""
+    """Provide one RoboCasa kitchen per episode and a shared RLDX-1 service.
+
+    The RLDX-1 service is either an existing endpoint or, when only a
+    checkpoint is given, a ``vla_server`` this service starts on its first
+    episode and keeps for later ones; the server exits with this process.
+    """
 
     name = BENCHMARK
     supports_episode_stop = True
@@ -156,12 +163,27 @@ class RoboCasa365Benchmark:
         *,
         cuda_device: int | None = None,
         cells: str = "all",
+        vla_checkpoint: str | None = None,
+        spawn_vla=None,
     ) -> None:
         if cells not in ("all", "seed1"):
             raise ValueError("cells must be 'all' or 'seed1'")
         self.vla_endpoint = vla_endpoint
         self.cuda_device = cuda_device
         self.cells = cells
+        self.vla_checkpoint = vla_checkpoint
+        self._spawn_vla = spawn_vla or _spawn_vla_server
+        self._vla_lock = threading.Lock()
+        self._vla_daemon = None
+
+    def _vla(self) -> str | None:
+        """Return the RLDX-1 endpoint, starting the owned server once if needed."""
+        with self._vla_lock:
+            if self.vla_endpoint is None and self.vla_checkpoint:
+                self._vla_daemon, self.vla_endpoint = self._spawn_vla(
+                    self.vla_checkpoint, self.cuda_device
+                )
+            return self.vla_endpoint
 
     def runtime_info(self) -> BenchmarkRuntimeInfo:
         """Return source identity, native scoring rules and rendering platform."""
@@ -187,17 +209,61 @@ class RoboCasa365Benchmark:
 
         return RoboCasa365Adapter(
             directory,
-            vla_endpoint=self.vla_endpoint,
+            vla_endpoint=self._vla(),
             cuda_device=self.cuda_device,
             artifacts=artifacts,
         )
 
 
+def _spawn_vla_server(checkpoint: str, cuda_device: int | None):
+    """Start one RLDX-1 server owned by this process and wait until it serves."""
+    from roborsi.utils.daemon import ProcessDaemon, pick_free_port
+    from roborsi.utils.rpc.client_utils import wait_for_ready
+    from roborsi.utils.rpc.http_rpc import HttpRpcClient
+
+    port = pick_free_port()
+    daemon = ProcessDaemon(
+        name="vla_server",
+        cmd=[
+            sys.executable,
+            str(Path(__file__).with_name("vla_server.py")),
+            "--model-path",
+            checkpoint,
+            "--transport",
+            "http",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            str(port),
+            "--parent-watch",
+            *(["--cuda-device", str(cuda_device)] if cuda_device is not None else []),
+        ],
+        prepend_rlinf_path=False,
+    )
+    daemon.start()
+    endpoint = f"http://127.0.0.1:{port}"
+    probe = HttpRpcClient(endpoint)
+    try:
+        wait_for_ready(probe, daemon=daemon, timeout_s=600.0)
+    except BaseException:
+        daemon.stop()
+        raise
+    finally:
+        probe.close()
+    return daemon, endpoint
+
+
 def make_robocasa365_benchmark() -> RoboCasa365Benchmark:
-    """Factory for roborsi.evaluation.service_host --kind benchmark."""
+    """Factory for roborsi.evaluation.service_host --kind benchmark.
+
+    ``ROBORSI_ROBOCASA_VLA_ENDPOINT`` attaches an existing RLDX-1 service;
+    without it the service starts its own from ``RLDX_CHECKPOINT``, which the
+    image sets, so the Registry's single-container start needs no extra setup.
+    """
     cuda = os.environ.get("ROBORSI_ROBOCASA_CUDA_DEVICE")
     return RoboCasa365Benchmark(
         os.environ.get("ROBORSI_ROBOCASA_VLA_ENDPOINT") or None,
         cuda_device=int(cuda) if cuda else None,
         cells=os.environ.get("ROBORSI_ROBOCASA_CELLS", "all"),
+        vla_checkpoint=os.environ.get("RLDX_CHECKPOINT") or None,
     )

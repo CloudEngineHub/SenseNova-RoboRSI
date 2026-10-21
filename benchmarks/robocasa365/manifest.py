@@ -81,8 +81,9 @@ def manifest(image: str, cells: str = "all") -> dict:
         "adapter_version": runtime.adapter_version,
         "adapter_command": ADAPTER_COMMAND,
         "service_port": 8000,
+        # RLDX-1 runs in the same container, started by the service itself.
         "resources": {
-            "gpus": 0,
+            "gpus": 1,
             "cpus": 8,
             "memory_mb": 32768,
             "startup_timeout_s": 900,

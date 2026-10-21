@@ -80,6 +80,19 @@ class FakeToolkit:
         self.closed = True
 
 
+class FakeRpc:
+    def __init__(self):
+        self.closed = 0
+
+    def close(self):
+        self.closed += 1
+
+
+class FakeClient:
+    def __init__(self, rpc):
+        self._client = rpc
+
+
 class Runtime:
     def __init__(self, fail=False):
         self.fail = fail
@@ -89,7 +102,11 @@ class Runtime:
 
     def start(self, args, output_dir, events):
         self.args = args
-        return ["env-daemon"], {"env_client": object(), "vla_client": object()}
+        self.rpcs = [FakeRpc(), FakeRpc()]
+        return ["env-daemon"], {
+            "env_client": FakeClient(self.rpcs[0]),
+            "vla_client": FakeClient(self.rpcs[1]),
+        }
 
     def make(self, runtime_kwargs, events, state_dir):
         if self.fail:
@@ -323,3 +340,43 @@ def test_start_pins_the_target50_rldx_limits(tmp_path, monkeypatch):
     assert os.environ["RLDX_ACTION_STEPS_PER_CHUNK"] == "8"
     adapter.step(action(0, primitive="finish", status="stuck", summary="x"))
     assert adapter.finish().details["rldx"]["RLDX_SETTLE_PATIENCE"] == "999"
+
+
+def test_close_ends_this_episodes_rpc_sessions_but_not_the_shared_service(tmp_path):
+    adapter, runtime, _ = create(tmp_path)
+    adapter.step(action(0, primitive="finish", status="stuck", summary="x"))
+    adapter.finish()
+    adapter.close()
+    adapter.close()
+    assert [rpc.closed for rpc in runtime.rpcs] == [1, 1]
+    assert runtime.stopped == ["env-daemon"]
+    failing = Runtime(fail=True)
+    with pytest.raises(RuntimeError):
+        create(tmp_path / "failed", runtime=failing)
+    assert [rpc.closed for rpc in failing.rpcs] == [1, 1]
+
+
+def test_service_starts_one_owned_rldx_server_when_no_endpoint_is_given(
+    tmp_path, monkeypatch
+):
+    from robots.robocasa import benchmark_service
+
+    spawned = []
+
+    def spawn(checkpoint, cuda):
+        spawned.append((checkpoint, cuda))
+        return object(), "http://127.0.0.1:4321"
+
+    monkeypatch.delenv("ROBORSI_ROBOCASA_VLA_ENDPOINT", raising=False)
+    monkeypatch.setenv("RLDX_CHECKPOINT", "/opt/rldx/RLDX-1-FT-RC365")
+    provider = benchmark_service.make_robocasa365_benchmark()
+    provider._spawn_vla = spawn
+    first = provider.create_adapter(tmp_path / "a", None)
+    second = provider.create_adapter(tmp_path / "b", None)
+    assert spawned == [("/opt/rldx/RLDX-1-FT-RC365", None)]
+    assert first.vla_endpoint == second.vla_endpoint == "http://127.0.0.1:4321"
+    attached = RoboCasa365Benchmark(
+        "http://vla:1", vla_checkpoint="/ckpt", spawn_vla=spawn
+    )
+    assert attached.create_adapter(tmp_path / "c", None).vla_endpoint == "http://vla:1"
+    assert len(spawned) == 1
