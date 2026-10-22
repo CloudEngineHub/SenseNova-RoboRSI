@@ -25,6 +25,8 @@
 
 ## News
 
+- **2026-10-22** — 本分支已提供 [**RoboCasa365 Target50**](benchmarks/robocasa365/README.zh-CN.md) 的首批代码与使用指南。
+
 - **2026-10-21** — 已在 [BenchZoo](#benchzoo) 中补充 **benchmark 镜像与 ICL 经验包**，提供镜像地址和资源包下载链接。
 
 - **2026-10-20** — 本分支已提供 [**BEHAVIOR-1K**](benchmarks/behavior_1k/README.zh-CN.md)、[**Bench2Dex**](benchmarks/bench2dex/README.zh-CN.md) 和 [**DexJoCo**](benchmarks/dexjoco/README.zh-CN.md) 的首批代码与使用指南。
@@ -95,8 +97,9 @@ Windows 使用 `.venv\Scripts\Activate.ps1` 激活环境。
   [LIBERO-PRO](benchmarks/libero_pro/README.md)、
   [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md)、
   [Bench2Dex](benchmarks/bench2dex/README.zh-CN.md)、
-  [DexJoCo](benchmarks/dexjoco/README.zh-CN.md) 和
-  [BEHAVIOR-1K](benchmarks/behavior_1k/README.zh-CN.md)。
+  [DexJoCo](benchmarks/dexjoco/README.zh-CN.md)、
+  [BEHAVIOR-1K](benchmarks/behavior_1k/README.zh-CN.md) 和
+  [RoboCasa365](benchmarks/robocasa365/README.zh-CN.md)。
 - **Agent 配置：** [模型、提示词、上下文与预算](docs/agents.zh-CN.md)。
 - **评测：** [批量执行、结果查看与中断恢复](docs/evaluation.zh-CN.md)。
 
@@ -114,6 +117,7 @@ ICL 经验包统一托管在
 | Benchmark | 状态 | ICL 经验包 | Docker 镜像 |
 | --- | --- | --- | --- |
 | RoboDojo | 即将开源 | — | — |
+| [RoboCasa365](benchmarks/robocasa365/) | 已开源 | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/robocasa365/v1.0.0) | [构建指南](benchmarks/robocasa365/BUILD.zh-CN.md) |
 | [LIBERO-Pro](benchmarks/libero_pro/) | 已开源 | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-pro/v1.0.0) | `ghcr.io/opensensenova/sensenova-roborsi-libero-pro@sha256:a83417f1459a4c555c457caa82ef00a5de50191e3d8deb943894fa9285cff172` |
 | [LIBERO-Long++](benchmarks/libero_lilo/) | 已开源 | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-long-plus-plus/v1.0.0) | `ghcr.io/opensensenova/sensenova-roborsi-libero-long-plus-plus@sha256:814139261e914b114cb89a359c6a39d4f409a556f79928e986b6ade3dfe7dc7a` |
 | [LIBERO-Ultra-Long](benchmarks/libero_lilo/) | 已开源 | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-ultra-long/v1.0.0) | `ghcr.io/opensensenova/sensenova-roborsi-libero-ultra-long@sha256:814139261e914b114cb89a359c6a39d4f409a556f79928e986b6ade3dfe7dc7a` |

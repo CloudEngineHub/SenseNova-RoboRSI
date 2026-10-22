@@ -105,6 +105,7 @@ def main() -> None:
             "bench2dex",
             "dexjoco",
             "behavior_1k",
+            "robocasa365",
         ),
         help="Benchmark source bundle name",
     )

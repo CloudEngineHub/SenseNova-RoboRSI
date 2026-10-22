@@ -1,0 +1,11 @@
+# Compatibility-sensitive package versions for the Target50 installation recipe.
+# Source dependencies use the immutable commits recorded in target50.json.
+# Select a compatible Torch/torchvision/CUDA build for the host separately.
+mujoco==3.3.1
+numpy==1.26.4
+pydantic==2.13.5
+# API context, usage and static delegation are tested with PydanticAI 2.44.0.
+pydantic-ai-slim==2.44.0
+rlinf-rldx==1.0.1.post10
+rpent-robocasa365==1.0.1
+transformers==4.57.6
