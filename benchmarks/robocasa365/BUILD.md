@@ -1,73 +1,89 @@
-# Building the RoboCasa365 image
+# Build the RoboCasa365 benchmark image
 
-The image is the Target50 environment image plus two layers: one removes the
-Agent-side packages and the earlier one-process application, the other adds the
-RoboRSI service sources. `Dockerfile` states both; `layers.py` and the `crane`
-commands below produce the same layers on a host without a container daemon,
-which is how the published image was built.
+[简体中文](BUILD.zh-CN.md) · [Benchmark guide](README.md)
 
-## Base image
+The Dockerfile extends an existing Target50 environment. Its default base is:
 
-`ghcr.io/opensensenova/sensenova-roborsi-robocasa365@sha256:8494fef17ee5979a072967632a2cb6ca885a165e87b01fb88d40c9f88b5b82e1`
-(tag `v1.0.0-cu126`, Docker v2 manifest, 21 layers, 25.94 GB compressed).
+```text
+ghcr.io/opensensenova/sensenova-roborsi-robocasa365@sha256:8494fef17ee5979a072967632a2cb6ca885a165e87b01fb88d40c9f88b5b82e1
+```
 
-| Path | Content |
+The source delivery identifies this GHCR package as private. Obtain authorized
+pull access before building, or supply an equivalent base through the existing
+`ROBOCASA365_BASE_IMAGE` argument. A digest identifies content; it does not grant
+registry access. This repository does not contain a complete, independently
+reproducible recipe for assembling that base from public inputs.
+
+## Native base contract
+
+The inherited base is Linux amd64, approximately 25.94 GB compressed, and provides:
+
+| Path | Required content |
 | --- | --- |
-| base | `ubuntu:22.04` `@sha256:08ea48a03a3e78ebc7cd526e6a275053223aadd88bfc09cc49b06d5281525fde` with OSMesa, EGL and GL runtime libraries |
-| `/opt/rpent-py310` | Python 3.10 environment: torch 2.7.0+cu126, mujoco 3.3.1, robocasa `2692d8fc`, robosuite `97cfbde4`, rlinf-rldx 1.0.1.post10 and the versions pinned by `robots/robocasa/eval/target50-constraints.txt` |
-| `/opt/robocasa-assets` | RoboCasa kitchen assets for robocasa `2692d8fc` |
-| `/opt/rldx/RLDX-1-FT-RC365` | `RLWRLD/RLDX-1-FT-RC365@587e9ecdcc5e7184fcc17f58713908edff5af041` |
-| `/opt/hf-cache` | configuration files of `RLWRLD/RLDX-1-VLM@4b9f870d1287e0d38d7eb1445e6d8c60afe66dd7` (no weights) |
-| `/opt/heart-robocasa/BUILD` | `pip_freeze.txt`, `dpkg.txt` and `build.json` recorded when the base was assembled |
+| `/opt/rpent-py310` | Python 3.10.21, Torch 2.7.0+cu126, MuJoCo 3.3.1, the pinned RoboCasa/robosuite/RLDX packages |
+| `/opt/robocasa-assets` | Kitchen assets for RoboCasa commit `2692d8fc5fd86708a1b2028dcbce892ec418a9e7` |
+| `/opt/rldx/RLDX-1-FT-RC365` | RLDX-1 checkpoint revision `587e9ecdcc5e7184fcc17f58713908edff5af041` |
+| `/opt/hf-cache` | RLDX VLM configuration revision `4b9f870d1287e0d38d7eb1445e6d8c60afe66dd7` |
+| `/opt/heart-robocasa/BUILD` | Original base environment records |
 
-The base was assembled with `crane` from these components. `requirements.txt`
-in this directory is the resolved Python environment as it is in the published
-image; the system package list is `/opt/heart-robocasa/BUILD/dpkg.txt` inside
-the image. It needs an NVIDIA driver supporting CUDA 12.6 for RLDX-1; kitchens
-render with OSMesa on the CPU.
+The base supplies OSMesa/EGL/GL system libraries and runtime configuration,
+including `RLDX_CHECKPOINT` and the simulator asset locations. A replacement base
+must provide compatible paths, packages, assets, weights and environment settings.
+The Dockerfile also expects `/opt/heart-robocasa` to exist during cleanup.
 
-## Layers added by this recipe
+[`requirements.txt`](requirements.txt) preserves the original image's resolved
+Python environment. It is an environment record, not a minimal dependency lock
+or a standalone base-image build recipe. The Dockerfile inherits these packages;
+it does not install that file. Native source revisions are also recorded in
+[`target50.json`](../../robots/robocasa/eval/target50.json).
 
-1. Uninstall `agent-packages.txt` (anthropic, claude-agent-sdk, mcp, openai,
-   openai-codex, openai-codex-cli-bin, pydantic-ai-harness, pydantic-ai-slim)
-   and remove the earlier application under `/opt/heart-robocasa`, keeping its
-   `BUILD` records. Nothing that stays requires a removed distribution.
-2. Copy the exported `benchmark-runtime/` to `/opt/roborsi`, check it with
-   `verify_benchmark_runtime`, and start the Benchmark service by default.
+## Export and build
 
-## With Docker
+From a source checkout with the framework installed, export to a new directory:
 
 ```bash
-python -m benchmarks.package --benchmark robocasa365 --output /path/to/context
-docker build -t robocasa365:local /path/to/context
+python -m benchmarks.package --benchmark robocasa365 \
+  --output work/robocasa365/build
+docker login ghcr.io
+docker build --platform linux/amd64 -t robocasa365:local work/robocasa365/build
+export ROBOCASA365_IMAGE=robocasa365:local
 ```
 
-## Without a container daemon
+`docker login` uses your authorized registry credentials. Keep credentials out of
+build arguments and source files. If using your own compatible base:
 
 ```bash
-python -m benchmarks.package --benchmark robocasa365 --output CONTEXT
-crane export "$BASE" - | tar -x -C ROOTFS          # the base filesystem
-python3 benchmarks/robocasa365/layers.py --rootfs ROOTFS --context CONTEXT --output LAYERS
-crane append -b "$BASE" -f LAYERS/10-remove.tar -f LAYERS/20-roborsi.tar -t "$REPO:build"
-crane mutate "$REPO:build" --entrypoint= \
-  --env PATH=/opt/rpent-py310/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
-  --env PYTHONPATH=/opt/roborsi --env PYTHONDONTWRITEBYTECODE=1 \
-  --workdir /opt/roborsi \
-  --cmd python,-m,roborsi.evaluation.service_host,--kind,benchmark,--factory,robots.robocasa.benchmark_service:make_robocasa365_benchmark,--host,0.0.0.0,--port,8000 \
-  -t "$REPO:v1.1.4-cu126"
+docker build --platform linux/amd64 \
+  --build-arg ROBOCASA365_BASE_IMAGE="$YOUR_COMPATIBLE_BASE_DIGEST" \
+  -t robocasa365:local work/robocasa365/build
 ```
 
-`layers.py` writes OCI whiteouts for every file the uninstalled distributions'
-`RECORD` lists and for the removed application paths, and a source layer with
-fixed ownership and timestamps. Apply both to `ROOTFS` to obtain the image
-filesystem for an isolated check:
+`build-inputs.json` declares `agent-packages.txt` in addition to the standard
+Docker files. The image uninstalls the inherited Agent distributions, removes
+the earlier application while retaining its `BUILD` records, and copies only the
+declared benchmark runtime. The native RLDX code and checkpoint remain because
+the manipulation tools call them. `verify_benchmark_runtime` checks the exported
+source boundary and rejects inherited Agent packages.
+
+Retain exported `source.json` and `build.json` with your build evidence. The base
+digest and any earlier delivery digest are not the digest of this rebuilt image.
+After pushing your own image tag, obtain its repository digest with
+`docker image inspect YOUR_IMAGE_TAG --format '{{json .RepoDigests}}'` and use
+that exact value for Registry registration. See [README.md](README.md).
+
+## Verification
+
+Exporting the context and importing its service sources can be checked without
+Docker, model credentials or simulator dependencies. Offline coverage includes:
 
 ```bash
-while read -r p; do rm -rf "ROOTFS$p"; done < LAYERS/removed.txt
-tar -xf LAYERS/20-roborsi.tar -C ROOTFS
+pytest tests/unit_tests/roborsi/benchmarks/test_robocasa365_registration.py \
+  tests/unit_tests/robots/robocasa/test_runtime_bundle.py \
+  tests/unit_tests/robots/robocasa/test_roborsi_adapter.py \
+  tests/unit_tests/robots/robocasa/test_score.py -v
 ```
 
-## Published build
-
-See [VALIDATION.md](VALIDATION.md) for the context digest (`build.json`), the
-layer digests, the final image digest and the checks run on it.
+A real image build still requires the base and container tooling. Native
+acceptance additionally requires the licensed assets, checkpoint and compatible
+GPU host. Source exports and offline fake-toolkit tests do not establish native
+task success. No validation of an earlier image is claimed for this rebuild.

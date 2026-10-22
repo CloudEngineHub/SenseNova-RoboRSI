@@ -1,8 +1,8 @@
 # Benchmark release guides
 
 This release contains the Agent runtime, benchmark evaluation, and adapters for
-LIBERO, LIBERO-PRO, LIBERO Long++, LIBERO Ultra-Long, Bench2Dex, DexJoCo and
-BEHAVIOR-1K.
+LIBERO, LIBERO-PRO, LIBERO Long++, LIBERO Ultra-Long, Bench2Dex, DexJoCo,
+BEHAVIOR-1K and RoboCasa365.
 Benchmark task definitions and scoring belong to each native runtime.
 
 | Guide | English | 简体中文 |
@@ -17,9 +17,11 @@ The benchmark build recipes are in [LIBERO](../benchmarks/libero/README.md),
 Bench2Dex ([English](../benchmarks/bench2dex/README.md) /
 [简体中文](../benchmarks/bench2dex/README.zh-CN.md)),
 DexJoCo ([English](../benchmarks/dexjoco/README.md) /
-[简体中文](../benchmarks/dexjoco/README.zh-CN.md)), and
+[简体中文](../benchmarks/dexjoco/README.zh-CN.md)),
 BEHAVIOR-1K ([English](../benchmarks/behavior_1k/README.md) /
-[简体中文](../benchmarks/behavior_1k/README.zh-CN.md)).
+[简体中文](../benchmarks/behavior_1k/README.zh-CN.md)), and
+RoboCasa365 ([English](../benchmarks/robocasa365/README.md) /
+[简体中文](../benchmarks/robocasa365/README.zh-CN.md)).
 See [the test guide](../tests/README.md) for offline and native checks.
 
 Generic EmbodiedAgent presets can connect to the supported services.

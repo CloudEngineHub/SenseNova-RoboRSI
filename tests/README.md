@@ -1,7 +1,7 @@
 # Tests
 
 The release tests cover the shared Agent/runtime/evaluation contracts and the
-LIBERO-family, Bench2Dex, DexJoCo and BEHAVIOR-1K adapters. Tests mirror their
+LIBERO-family, Bench2Dex, DexJoCo, BEHAVIOR-1K and RoboCasa365 adapters. Tests mirror their
 production modules under `unit_tests/roborsi/` and `unit_tests/robots/<benchmark>/`. Shared
 local services and fake native providers remain beside their tests or in
 `fixtures/`.
@@ -29,6 +29,7 @@ pytest tests/unit_tests/robots/bench2dex -q
 pytest tests/unit_tests/robots/dexjoco -q
 pytest tests/unit_tests/roborsi/runtime tests/unit_tests/roborsi/planner -q
 pytest tests/unit_tests/robots/behavior_1k -q
+pytest tests/unit_tests/robots/robocasa tests/unit_tests/roborsi/benchmarks/test_robocasa365_registration.py -q
 ```
 
 Benchmark bundle checks verify that exported server imports and CLI help work
@@ -92,6 +93,15 @@ requires the separate runtime and asset preparation described in
 [DexJoCo](../benchmarks/dexjoco/README.md). Passing unit tests, building a source
 bundle or collecting tests does not establish a successful Docker build, GPU
 run or native task result.
+
+## RoboCasa365 checks
+
+Offline checks cover the Target50 task catalog, native action contracts, scoring,
+episode RPC cleanup, shared RLDX service ownership and benchmark exports. The
+[benchmark guide](../benchmarks/robocasa365/README.md) and
+[build guide](../benchmarks/robocasa365/BUILD.md) describe image access, kitchen
+assets and RLDX checkpoint requirements. Native evaluation needs the pinned
+environment and an NVIDIA GPU. Offline tests do not establish native task success.
 
 ## Adding tests
 

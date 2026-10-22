@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Contracts for the public RoboCasa Target50 evaluation manifest."""
+"""Frozen RoboCasa365 task matrix, rollout limits and process setup."""
 
 from __future__ import annotations
 
@@ -22,9 +22,12 @@ from types import SimpleNamespace
 
 import pytest
 
+from robots.robocasa import runtime
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
+
 MANIFEST_PATH = REPO_ROOT / "robots" / "robocasa" / "eval" / "target50.json"
+
 EXPECTED_SPLIT_SHAPES = {
     "atomic": {
         "task_count": 18,
@@ -49,12 +52,6 @@ EXPECTED_SPLIT_SHAPES = {
 
 def _manifest() -> dict:
     return json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
-
-
-
-
-
-
 
 
 def test_target50_matrix_is_exact_and_has_no_duplicate_cells():
@@ -86,10 +83,6 @@ def test_target50_matrix_is_exact_and_has_no_duplicate_cells():
     assert sum(split["cell_count"] for split in splits.values()) == 340
 
 
-
-
-
-
 def test_target50_runtime_protocol_is_frozen():
     assert _manifest()["runtime_protocol"] == {
         "scene_seed_source": "cli_seed_identity",
@@ -114,9 +107,9 @@ def test_spawned_environment_uses_cli_seed_and_clears_legacy_override(
         def start(self):
             captured["started"] = True
 
-    monkeypatch.setattr(robot_spec, "ProcessDaemon", FakeDaemon)
-    monkeypatch.setattr(robot_spec, "pick_free_port", lambda: 43210)
-    monkeypatch.setattr(robot_spec, "HttpRpcClient", lambda url: url)
+    monkeypatch.setattr(runtime, "ProcessDaemon", FakeDaemon)
+    monkeypatch.setattr(runtime, "pick_free_port", lambda: 43210)
+    monkeypatch.setattr(runtime, "HttpRpcClient", lambda url: url)
     args = SimpleNamespace(
         env_endpoint=None,
         task_name="OpenDrawer",
@@ -125,7 +118,7 @@ def test_spawned_environment_uses_cli_seed_and_clears_legacy_override(
         cuda_device=0,
     )
 
-    daemon, client = robot_spec._spawn_env_server(args, tmp_path)
+    daemon, client = runtime._spawn_env_server(args, tmp_path)
 
     seed_index = captured["cmd"].index("--seed")
     assert captured["cmd"][seed_index + 1] == "7"
@@ -154,9 +147,9 @@ def test_spawned_environment_inherits_the_launcher_renderer(
         monkeypatch.delenv("MUJOCO_GL", raising=False)
     else:
         monkeypatch.setenv("MUJOCO_GL", launcher_gl)
-    monkeypatch.setattr(robot_spec, "ProcessDaemon", FakeDaemon)
-    monkeypatch.setattr(robot_spec, "pick_free_port", lambda: 43210)
-    monkeypatch.setattr(robot_spec, "HttpRpcClient", lambda url: url)
+    monkeypatch.setattr(runtime, "ProcessDaemon", FakeDaemon)
+    monkeypatch.setattr(runtime, "pick_free_port", lambda: 43210)
+    monkeypatch.setattr(runtime, "HttpRpcClient", lambda url: url)
     args = SimpleNamespace(
         env_endpoint=None,
         task_name="OpenDrawer",
@@ -165,6 +158,6 @@ def test_spawned_environment_inherits_the_launcher_renderer(
         cuda_device=0,
     )
 
-    robot_spec._spawn_env_server(args, tmp_path)
+    runtime._spawn_env_server(args, tmp_path)
 
     assert captured["env_overrides"]["MUJOCO_GL"] == server_gl

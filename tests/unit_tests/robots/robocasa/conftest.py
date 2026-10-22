@@ -106,8 +106,6 @@ class FakeSingleArmPrimitives:
         return self._operation("move_base", **kwargs)
 
 
-
-
 @pytest.fixture
 def fake_single_arm_primitives() -> type[FakeSingleArmPrimitives]:
     FakeSingleArmPrimitives.instances.clear()

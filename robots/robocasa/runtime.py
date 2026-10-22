@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""RoboCasa robot extension — RobotSpec factory, toolkit factory, and runtime hooks."""
+"""Own RoboCasa environment processes and attach RLDX sessions."""
 
 from __future__ import annotations
 
@@ -32,17 +32,6 @@ from roborsi.utils.rpc.http_rpc import HttpRpcClient
 
 if TYPE_CHECKING:
     from roborsi.utils.rpc import RpcClient
-
-
-
-
-
-
-
-
-
-
-
 
 
 def _spawn_env_server(

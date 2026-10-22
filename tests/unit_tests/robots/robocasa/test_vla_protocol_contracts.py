@@ -60,8 +60,6 @@ def _fake_primitives(task_language: str) -> tuple[RoboCasaPrimitives, _Recording
     return primitives, rldx
 
 
-
-
 def test_vla_tool_schema_hides_historical_prompt_override() -> None:
     vla_specs = {
         spec["name"]: spec for spec in TOOLS_SPEC if spec["name"].startswith("rldx_")

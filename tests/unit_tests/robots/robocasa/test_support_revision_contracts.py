@@ -9,7 +9,7 @@ import types
 from pathlib import Path
 from types import SimpleNamespace
 
-from robots.robocasa import vla_server
+from robots.robocasa import runtime, vla_server
 
 REVISION = "4b9f870d1287e0d38d7eb1445e6d8c60afe66dd7"
 
@@ -24,20 +24,18 @@ def test_worker_needs_no_user_revision(monkeypatch, tmp_path):
         def start(self):
             pass
 
-    monkeypatch.setattr(robot_spec, "ProcessDaemon", Daemon)
-    monkeypatch.setattr(robot_spec, "pick_free_port", lambda: 12345)
-    monkeypatch.setattr(robot_spec, "HttpRpcClient", lambda *args, **kwargs: "rpc")
+    monkeypatch.setattr(runtime, "ProcessDaemon", Daemon)
+    monkeypatch.setattr(runtime, "pick_free_port", lambda: 12345)
+    monkeypatch.setattr(runtime, "HttpRpcClient", lambda *args, **kwargs: "rpc")
     args = SimpleNamespace(
         vla_endpoint=None,
         vla_model_path="checkpoint",
         cuda_device=0,
     )
-    robot_spec._spawn_vla_server(args, tmp_path)
+    runtime._spawn_vla_server(args, tmp_path)
     command = captured["cmd"]
     assert "--backbone-revision" not in command
     assert "env_overrides" not in captured
-
-
 
 
 def test_server_cli_needs_no_revision(monkeypatch):
@@ -95,7 +93,7 @@ def test_facade_automatically_uses_setup_snapshot(monkeypatch):
 
 def test_manifest_freezes_non_weight_support_resource():
     manifest = json.loads(
-        (Path(robot_spec.__file__).parent / "eval/target50.json").read_text()
+        (Path(runtime.__file__).parent / "eval/target50.json").read_text()
     )
     support = manifest["dependencies"]["rldx_support"]
     assert support["repository"] == "RLWRLD/RLDX-1-VLM"

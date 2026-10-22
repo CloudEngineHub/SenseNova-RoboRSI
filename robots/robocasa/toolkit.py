@@ -12,11 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""RoboCasa toolkit: RoboCasa primitives and optional legacy file tools.
-
-Registers optional file/IO tools when memory is explicitly supplied, and the
-RoboCasa primitives (``move_to``, ``rldx_skill``, ``release``, ...) on top.
-"""
+"""Dispatch RoboCasa benchmark primitives and record native state."""
 
 from __future__ import annotations
 
@@ -29,7 +25,6 @@ from roborsi.session import EnvState
 from roborsi.tools.toolkit import Toolkit
 from roborsi.utils.logging import get_logger, get_output_dir
 from robots.robocasa import tools as robocasa_tools
-
 
 logger = get_logger("robocasa_toolkit")
 
@@ -44,31 +39,25 @@ class RoboCasaToolkit(Toolkit):
         *,
         runtime_kwargs: dict[str, Any],
         dashboard_events: DashboardEventSink,
-        memory: MemoryManager | None = None,
         enable_vla: bool = True,
         mode: str = "evaluation",
-        attempts_per_session: int = 0,
         state_output_dir: Path | str | None = None,
     ) -> None:
         """Create a RoboCasa toolkit, wiring the primitives and tools."""
-        if mode not in {"evaluation", "exploration"}:
+        if mode != "evaluation":
             raise ValueError(f"unsupported RoboCasa toolkit mode: {mode!r}")
         state = EnvState(Path(state_output_dir or get_output_dir()))
         super().__init__(
             dashboard_events=dashboard_events,
             state=state,
-            memory=memory,
         )
-        self._mode = mode
         self._enable_vla = enable_vla and runtime_kwargs.get("vla_client") is not None
         if not self._enable_vla:
             runtime_kwargs = {**runtime_kwargs, "vla_client": None}
-        self._attempt = 1
-        self._attempts_per_session = max(0, int(attempts_per_session))
         self.init_primitives(
             runtime_kwargs={
                 **runtime_kwargs,
-                "allow_reset": mode == "exploration",
+                "allow_reset": False,
             }
         )
         self._register_robocasa_tools()
@@ -98,17 +87,6 @@ class RoboCasaToolkit(Toolkit):
                 if handler is None:
                     continue  # spec without a backing primitive method
             self.add_tool(name, spec, handler)
-        if self._mode == "exploration":
-            reset_spec = next(
-                spec for spec in robocasa_tools.TOOLS_SPEC if spec["name"] == "reset"
-            )
-            self.add_tool("reset", reset_spec, self._reset_episode)
-            finish_spec, finish_handler = self._tools["finish"]
-            self.add_tool(
-                "finish", finish_spec, partial(self._guarded_finish, finish_handler)
-            )
-
-
 
     def get_env_state(
         self,
@@ -189,11 +167,9 @@ class RoboCasaToolkit(Toolkit):
             check_cancelled=self.raise_if_cancelled,
             **runtime_kwargs,
         )
-        # RoboCasaPrimitives initializes the environment in its constructor.
-        # Keep the legacy evaluation call (where reset is disabled), but avoid
-        # sampling and immediately discarding a second episode in exploration.
-        if self._mode == "evaluation":
-            primitives.reset()
+        # The constructor resets the environment. This guarded call must not
+        # restart an evaluation episode.
+        primitives.reset()
         primitives.start_recording()
         self._action_frame_cursor = primitives.recorded_frame_count()
         record = robocasa_tools.dump_state(primitives, self._state, log=None)

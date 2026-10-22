@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Offline contracts for the RoboCasa toolkit."""
+"""Benchmark toolkit state, dispatch and native success contracts."""
 
 from __future__ import annotations
 
@@ -27,8 +27,7 @@ from roborsi.tools.toolkit import Toolkit, _is_readonly
 from roborsi.utils import templates
 from robots.robocasa import toolkit
 
-COMMON_TOOLS = {"read_text_file", "write_text_file", "list_dir", "finish"}
-
+COMMON_TOOLS = {"finish"}
 EXPECTED_TOOLS = COMMON_TOOLS | {
     "move_to",
     "move_delta",
@@ -63,8 +62,6 @@ def _readonly_names(robot_toolkit: Toolkit) -> set[str]:
     }
 
 
-
-
 def test_toolkit_constructs_and_classifies_tools_with_a_fake(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
@@ -93,7 +90,6 @@ def test_toolkit_constructs_and_classifies_tools_with_a_fake(
     robot_toolkit = toolkit.RoboCasaToolkit(
         runtime_kwargs={"env_client": object(), "vla_client": object()},
         dashboard_events=NullDashboardEventSink(),
-        memory=MemoryManager(tmp_path / "memory"),
     )
 
     assert _tool_names(robot_toolkit) == EXPECTED_TOOLS
@@ -119,3 +115,22 @@ def test_solved_reads_only_the_final_environment_record() -> None:
 
     records.append(SimpleNamespace(extras={"success": False}))
     assert robot_toolkit.solved() is False
+
+
+def test_evaluation_reset_does_not_restart_the_environment():
+    from robots.robocasa.primitives import RoboCasaPrimitives
+
+    native = RoboCasaPrimitives.__new__(RoboCasaPrimitives)
+    native._allow_reset = False
+    native.env = SimpleNamespace(reset=lambda: pytest.fail("evaluation reset ran"))
+    assert "reset is DISABLED" in native.reset()["error"]
+
+
+def test_benchmark_toolkit_rejects_exploration(tmp_path):
+    with pytest.raises(ValueError, match="unsupported"):
+        toolkit.RoboCasaToolkit(
+            runtime_kwargs={},
+            dashboard_events=NullDashboardEventSink(),
+            mode="exploration",
+            state_output_dir=tmp_path,
+        )

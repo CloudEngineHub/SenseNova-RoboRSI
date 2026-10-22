@@ -59,7 +59,7 @@ _PUBLISHED = ("trajectory.jsonl", "env_server.log", "state/states.json")
 
 def _start_runtime(args: argparse.Namespace, output_dir: Path, events):
     """Spawn this episode's env_server and attach the shared RLDX-1 service."""
-    from robots.robocasa.robot_spec import _init_runtime
+    from robots.robocasa.runtime import _init_runtime
 
     return _init_runtime(args, output_dir, events, None)
 

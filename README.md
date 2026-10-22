@@ -25,6 +25,8 @@
 
 ## News
 
+- **2026-10-22** — Initial **RoboCasa365 Target50** benchmark code, native RLDX service dependencies and build guides are available. See the [benchmark guide](benchmarks/robocasa365/README.md) for image access and evaluation requirements.
+
 - **2026-10-21** — Added **benchmark images and ICL experience packages** to [BenchZoo](#benchzoo), including image references and package download links.
 
 - **2026-10-20** — Initial code and usage guides for [**BEHAVIOR-1K**](benchmarks/behavior_1k/README.md), [**Bench2Dex**](benchmarks/bench2dex/README.md) and [**DexJoCo**](benchmarks/dexjoco/README.md) are available in this branch.
@@ -106,8 +108,9 @@ simulator installation.
   [LIBERO-PRO](benchmarks/libero_pro/README.md),
   [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md),
   [Bench2Dex](benchmarks/bench2dex/README.md),
-  [DexJoCo](benchmarks/dexjoco/README.md), and
-  [BEHAVIOR-1K](benchmarks/behavior_1k/README.md).
+  [DexJoCo](benchmarks/dexjoco/README.md),
+  [BEHAVIOR-1K](benchmarks/behavior_1k/README.md), and
+  [RoboCasa365](benchmarks/robocasa365/README.md).
 - **Agent configuration:** [Models, prompts, context and budgets](docs/agents.md).
 - **Evaluation:** [Batch execution, results and resume](docs/evaluation.md).
 
@@ -128,6 +131,7 @@ corresponding image reference from the table.
 | Benchmark | Status | ICL experience package | Docker image |
 | --- | --- | --- | --- |
 | RoboDojo | Coming soon | — | — |
+| [RoboCasa365](benchmarks/robocasa365/) | Released | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/robocasa365/v1.0.0) | [Build guide](benchmarks/robocasa365/BUILD.md) (base image access required) |
 | [LIBERO-Pro](benchmarks/libero_pro/) | Released | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-pro/v1.0.0) | `ghcr.io/opensensenova/sensenova-roborsi-libero-pro@sha256:a83417f1459a4c555c457caa82ef00a5de50191e3d8deb943894fa9285cff172` |
 | [LIBERO-Long++](benchmarks/libero_lilo/) | Released | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-long-plus-plus/v1.0.0) | `ghcr.io/opensensenova/sensenova-roborsi-libero-long-plus-plus@sha256:814139261e914b114cb89a359c6a39d4f409a556f79928e986b6ade3dfe7dc7a` |
 | [LIBERO-Ultra-Long](benchmarks/libero_lilo/) | Released | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-ultra-long/v1.0.0) | `ghcr.io/opensensenova/sensenova-roborsi-libero-ultra-long@sha256:814139261e914b114cb89a359c6a39d4f409a556f79928e986b6ade3dfe7dc7a` |

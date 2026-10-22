@@ -974,6 +974,3 @@ def query_world_map(
 def finish(status: str, summary: str) -> dict:
     """Declare the task finished."""
     return {"_finish": True, "status": status, "summary": summary}
-
-
-# ---- recipe export ----

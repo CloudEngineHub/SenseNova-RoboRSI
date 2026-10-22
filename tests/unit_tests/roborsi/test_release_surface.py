@@ -65,9 +65,10 @@ def test_lightweight_import_and_cli_do_not_load_native_simulators():
             "from robots.bench2dex import benchmark_service as bench2dex_service; "
             "from robots.behavior_1k import benchmark_service as behavior_service; "
             "from robots.dexjoco import benchmark_service as dexjoco_service; "
+            "from robots.robocasa import benchmark_service as robocasa_service; "
             "assert not ({'torch', 'mujoco', 'robosuite', 'libero', 'rlinf', "
             "'lilo_vla', 'isaacsim', 'isaaclab', 'gymnasium', "
-            "'omnigibson', 'bddl', 'omni'} & set(sys.modules))",
+            "'omnigibson', 'bddl', 'omni', 'rldx', 'sam3'} & set(sys.modules))",
         ],
         cwd=root,
         capture_output=True,
