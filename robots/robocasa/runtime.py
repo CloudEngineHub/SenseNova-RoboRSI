@@ -1,4 +1,4 @@
-# Copyright 2026 The RPent Authors.
+# Copyright 2026 The HEART Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,15 +22,15 @@ from functools import partial
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from rpent.dashboard.events import DashboardEventSink
-from rpent.robots.runtime import try_spawn_server, try_wait_server
-from rpent.utils.config import get_repo_root
-from rpent.utils.daemon import ProcessDaemon, pick_free_port
-from rpent.utils.rpc import make_rpc_client
-from rpent.utils.rpc.http_rpc import HttpRpcClient
+from heart_runtime.dashboard.events import DashboardEventSink
+from heart_runtime.robots.runtime import try_spawn_server, try_wait_server
+from heart_runtime.utils.config import get_repo_root
+from heart_runtime.utils.daemon import ProcessDaemon, pick_free_port
+from heart_runtime.utils.rpc import make_rpc_client
+from heart_runtime.utils.rpc.http_rpc import HttpRpcClient
 
 if TYPE_CHECKING:
-    from rpent.utils.rpc import RpcClient
+    from heart_runtime.utils.rpc import RpcClient
 
 
 
@@ -82,7 +82,7 @@ def _spawn_env_server(
             env_overrides={
                 "MUJOCO_GL": "egl",
                 "ROBOT_PLATFORM": "ROBOCASA",
-                # Standard RPent evaluation uses --seed directly. Do not let a
+                # Standard HEART evaluation uses --seed directly. Do not let a
                 # stale variable from legacy paired-scene runs change the reset.
                 "RLDX_RESET_SEED": "",
             },

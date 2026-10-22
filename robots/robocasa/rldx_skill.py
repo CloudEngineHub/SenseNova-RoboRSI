@@ -1,4 +1,4 @@
-# Copyright 2026 The RPent Authors.
+# Copyright 2026 The HEART Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,8 +29,8 @@ from collections import deque
 import imageio.v2 as imageio
 import numpy as np
 
+from heart_runtime.utils.logging import get_logger
 from robots.robocasa.env_client import RoboCasaEnvClient
-from rpent.utils.logging import get_logger
 
 logger = get_logger("rldx_skill")
 

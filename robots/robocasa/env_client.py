@@ -1,4 +1,4 @@
-# Copyright 2026 The RPent Authors.
+# Copyright 2026 The HEART Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from rpent.robots.components.env_client_base import BaseEnvClient
+from heart_runtime.robots.components.env_client_base import BaseEnvClient
 
 if TYPE_CHECKING:
-    from rpent.utils.rpc import RpcClient
+    from heart_runtime.utils.rpc import RpcClient
 
 CAM_ALIAS = {
     "agentview": "robot0_agentview_left",

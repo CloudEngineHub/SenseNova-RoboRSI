@@ -1,4 +1,4 @@
-# Copyright 2026 The RPent Authors.
+# Copyright 2026 The HEART Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@ import os
 
 import numpy as np
 
-from rpent.robots.components.vla_facade_base import BaseVLAFacade
-from rpent.utils.logging import get_logger
-from rpent.utils.rpc.rpc_facade import DEFAULT_SESSION_TIMEOUT_S
+from heart_runtime.robots.components.vla_facade_base import BaseVLAFacade
+from heart_runtime.utils.logging import get_logger
+from heart_runtime.utils.rpc.rpc_facade import DEFAULT_SESSION_TIMEOUT_S
 
 logger = get_logger("vla_server")
 

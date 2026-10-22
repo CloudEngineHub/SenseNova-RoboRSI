@@ -1,4 +1,4 @@
-# Copyright 2026 The RPent Authors.
+# Copyright 2026 The HEART Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 from __future__ import annotations
 
-from rpent.utils.rpc import RpcFacade
-from rpent.utils.rpc.rpc_facade import DEFAULT_SESSION_TIMEOUT_S
+from heart_runtime.utils.rpc import RpcFacade
+from heart_runtime.utils.rpc.rpc_facade import DEFAULT_SESSION_TIMEOUT_S
 
 
 class BaseVLAFacade(RpcFacade):

@@ -1,4 +1,4 @@
-# Copyright 2026 The RPent Authors.
+# Copyright 2026 The HEART Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,9 +22,9 @@ import sys
 
 import numpy as np
 
-from rpent.robots.components.env_facade_base import BaseEnvFacade
-from rpent.utils.logging import get_logger
-from rpent.utils.rpc.main_thread_serve import MainThreadServeMixin
+from heart_runtime.robots.components.env_facade_base import BaseEnvFacade
+from heart_runtime.utils.logging import get_logger
+from heart_runtime.utils.rpc.main_thread_serve import MainThreadServeMixin
 
 logger = get_logger("env_server")
 
@@ -419,7 +419,7 @@ def main():
                 args.cuda_device,
             )
             os.environ.pop("CUDA_VISIBLE_DEVICES", None)
-        from rpent.utils.egl import configure_egl_device
+        from heart_runtime.utils.egl import configure_egl_device
 
         configure_egl_device(args.cuda_device)
         import torch

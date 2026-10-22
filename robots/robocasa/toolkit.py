@@ -1,4 +1,4 @@
-# Copyright 2026 The RPent Authors.
+# Copyright 2026 The HEART Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""RoboCasa toolkit: common tools + RoboCasa primitives.
+"""RoboCasa toolkit: RoboCasa primitives and optional legacy file tools.
 
-Inherits the common file/IO tools from :class:`Toolkit` and registers the
+Registers optional file/IO tools when memory is explicitly supplied, and the
 RoboCasa primitives (``move_to``, ``rldx_skill``, ``release``, ...) on top.
 """
 
@@ -24,11 +24,11 @@ from functools import partial
 from pathlib import Path
 from typing import Any
 
+from heart_runtime.dashboard.events import DashboardEventSink
+from heart_runtime.session import EnvState
+from heart_runtime.tools.toolkit import Toolkit
+from heart_runtime.utils.logging import get_logger, get_output_dir
 from robots.robocasa import tools as robocasa_tools
-from rpent.dashboard.events import DashboardEventSink
-from rpent.session import EnvState
-from rpent.tools.toolkit import Toolkit
-from rpent.utils.logging import get_logger, get_output_dir
 
 
 logger = get_logger("robocasa_toolkit")
@@ -44,7 +44,7 @@ class RoboCasaToolkit(Toolkit):
         *,
         runtime_kwargs: dict[str, Any],
         dashboard_events: DashboardEventSink,
-        memory: MemoryManager,
+        memory: MemoryManager | None = None,
         enable_vla: bool = True,
         mode: str = "evaluation",
         attempts_per_session: int = 0,

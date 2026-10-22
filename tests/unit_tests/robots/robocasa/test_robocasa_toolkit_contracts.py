@@ -1,4 +1,4 @@
-# Copyright 2026 The RPent Authors.
+# Copyright 2026 The HEART Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,10 +22,10 @@ from typing import Any
 
 import pytest
 
+from heart_runtime.dashboard.events import NullDashboardEventSink
+from heart_runtime.tools.toolkit import Toolkit, _is_readonly
+from heart_runtime.utils import templates
 from robots.robocasa import toolkit
-from rpent.dashboard.events import NullDashboardEventSink
-from rpent.tools.toolkit import Toolkit, _is_readonly
-from rpent.utils import templates
 
 COMMON_TOOLS = {"read_text_file", "write_text_file", "list_dir", "finish"}
 

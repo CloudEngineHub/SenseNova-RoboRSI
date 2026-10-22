@@ -1,4 +1,4 @@
-# Copyright 2026 The RPent Authors.
+# Copyright 2026 The HEART Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 from __future__ import annotations
 
-from rpent.robots.components.vla_client_base import BaseVLAClient
+from heart_runtime.robots.components.vla_client_base import BaseVLAClient
 
 
 class RoboCasaVLAClient(BaseVLAClient):
