@@ -1,18 +1,21 @@
 # Copyright 2026 The HEART Authors.
 # Licensed under the Apache License, Version 2.0 (the "License");
 
-"""Tests for the three-LIBERO source-runtime preflight."""
+
+"""Tests for the three-LIBERO combined delivery and sealed Agent inputs."""
 
 import json
+import sys
 from hashlib import sha256
 from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
 
-from roborsi.evaluation.messages import EvaluationResult, Provenance, Task
-from roborsi.evaluation.store import ResultStore
-from benchmarks.libero_three_combined.prepare_agent_assets import prepare as prepare_agent_assets
+from benchmarks.libero_three_combined import run_combined_subset
+from benchmarks.libero_three_combined.prepare_agent_assets import (
+    prepare as prepare_agent_assets,
+)
 from benchmarks.libero_three_combined.run_combined import _CASES as _COMBINED_CASES
 from benchmarks.libero_three_combined.run_combined_subset import (
     _completed_attempt,
@@ -21,8 +24,94 @@ from benchmarks.libero_three_combined.run_combined_subset import (
     _validated_result,
     _write_completion,
 )
-from benchmarks.libero_three_combined.run_combined_subset import _summary as _combined_summary
-from benchmarks.libero_three_combined.run_combined_subset import _tasks as _combined_tasks
+from benchmarks.libero_three_combined.run_combined_subset import (
+    _summary as _combined_summary,
+)
+from benchmarks.libero_three_combined.run_combined_subset import (
+    _tasks as _combined_tasks,
+)
+from roborsi.agents.config import AgentConfig
+from roborsi.agents.package import export_agent
+from roborsi.evaluation.messages import EvaluationResult, Provenance, Task
+from roborsi.evaluation.store import ResultStore
+
+
+@pytest.mark.parametrize(
+    ("preset", "benchmark", "case_count"),
+    [
+        ("long_plus_plus_v13", "libero_long_plus_plus", 12),
+        ("ultra_long_v13", "libero_ultra_long", 9),
+        ("pro", "libero_pro", 80),
+    ],
+)
+def test_combined_agent_bundles_load_their_exported_inputs(
+    preset, benchmark, case_count, monkeypatch, tmp_path: Path
+) -> None:
+    repository = Path(__file__).resolve().parents[4]
+    path = repository / "robots/libero/agents/three_benchmark" / f"{preset}.yaml"
+    original = AgentConfig.from_file(path)
+    name = f"delivery_test_{benchmark}"
+    project = export_agent(path, tmp_path / "export", name=name)
+    monkeypatch.syspath_prepend(str(project / "src"))
+
+    installed = AgentConfig.load(f"bundle:{name}")
+    installed.verify()
+    assert installed.fingerprint == original.fingerprint
+    assert installed.source_root.is_relative_to(project)
+    assert all(path.is_relative_to(project) for path in installed.input_files)
+    assert (installed.source_root / "robots/libero/three_benchmark_agent.py").is_file()
+    context_map = installed.resources["context_map"]
+    assert context_map.is_relative_to(project)
+    packages = json.loads(context_map.read_text(encoding="utf-8"))["packages"]
+    assert len(packages) == case_count
+    assert tuple(sorted(packages)) == _combined_tasks(repository, benchmark)
+
+
+def test_combined_subset_dispatches_the_benchmark_owned_runner(
+    monkeypatch, tmp_path: Path
+) -> None:
+    repository = Path(__file__).resolve().parents[4]
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "run_combined_subset.py",
+            "--benchmark",
+            "libero_long_plus_plus",
+            "--task",
+            "t00-i01",
+            "--run-id",
+            "dispatch-test",
+            "--results-root",
+            str(tmp_path / "results"),
+            "--api-key-file",
+            str(tmp_path / "key"),
+            "--base-url",
+            "https://model.example/v1",
+            "--max-concurrent",
+            "1",
+        ],
+    )
+    monkeypatch.setattr(run_combined_subset, "_conditions", lambda *_args, **_kw: {})
+    calls = []
+
+    def run(command, **kwargs):
+        calls.append((command, kwargs))
+        return SimpleNamespace(returncode=1)
+
+    monkeypatch.setattr(run_combined_subset.subprocess, "run", run)
+
+    assert run_combined_subset.main() == 1
+    assert len(calls) == 1
+    command, options = calls[0]
+    runner = Path(command[2])
+    assert runner == repository / "benchmarks/libero_three_combined/run_combined.py"
+    assert runner.is_file()
+    assert options["cwd"] == repository
+    assert command[command.index("--task") + 1] == "t00-i01"
+    summary = json.loads((tmp_path / "results/summary.json").read_text())
+    assert summary["failed"] == 1
+    assert summary["completed"] == 0
 
 
 def test_combined_runner_uses_the_installed_agent_bundles() -> None:
@@ -78,6 +167,45 @@ def test_combined_summary_keeps_invalid_attempts_out_of_completed_count() -> Non
     assert summary["mean_score"] == pytest.approx(0.75)
 
 
+@pytest.mark.parametrize(
+    "invalid_record",
+    [
+        {"returncode": 1, "status": "success", "success": True, "score": 1.0},
+        {"returncode": 1, "status": "task_failure", "success": False, "score": 0.9},
+        {"returncode": 0, "status": "agent_error", "success": True, "score": 1.0},
+    ],
+)
+def test_combined_summary_excludes_invalid_attempt_scores(invalid_record) -> None:
+    summary = _combined_summary(
+        "libero_pro",
+        "combined",
+        ("success", "task-failure", "invalid"),
+        {
+            "success": {
+                "returncode": 0,
+                "status": "success",
+                "success": True,
+                "score": 1.0,
+            },
+            "task-failure": {
+                "returncode": 0,
+                "status": "task_failure",
+                "success": False,
+                "score": 0.25,
+            },
+            "invalid": invalid_record,
+        },
+    )
+
+    assert summary["planned"] == 3
+    assert summary["completed"] == 2
+    assert summary["failed"] == 1
+    assert summary["successes"] == 1
+    assert summary["task_failures"] == 1
+    assert summary["success_rate"] == pytest.approx(1 / 3)
+    assert summary["mean_score"] == pytest.approx(0.625)
+
+
 def test_combined_image_uses_only_roborsi_runtime_names() -> None:
     repository = Path(__file__).resolve().parents[4]
     dockerfile = (
@@ -95,13 +223,17 @@ def test_combined_subset_documentation_uses_python_entrypoint() -> None:
 
     for relative in (
         "benchmarks/libero_three_combined/README.md",
-        "benchmarks/libero_three_combined/README.md",
         "benchmarks/libero_three_combined/README.zh-CN.md",
     ):
         document = (repository / relative).read_text(encoding="utf-8")
-        assert "--entrypoint /opt/roborsi/scripts/libero_three" not in document
+        assert (
+            "--entrypoint /opt/roborsi/benchmarks/libero_three_combined" not in document
+        )
         assert "--entrypoint python" in document
-        assert "-B /opt/roborsi/benchmarks/libero_three_combined/run_combined_subset.py" in document
+        assert (
+            "-B /opt/roborsi/benchmarks/libero_three_combined/run_combined_subset.py"
+            in document
+        )
 
 
 def test_combined_conditions_bind_runtime_without_api_secret(

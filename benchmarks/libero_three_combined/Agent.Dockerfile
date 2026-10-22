@@ -1,6 +1,7 @@
-# Portable three-LIBERO Agent: three installed presets plus sealed ICL/tokenizer.
+# Extend the configured shared Agent image with verified LIBERO inputs.
 ARG AGENT_BASE_IMAGE
 FROM ${AGENT_BASE_IMAGE}
+
 ARG LIBERO_THREE_ASSETS=dist/agent/libero-three-assets
 COPY ${LIBERO_THREE_ASSETS}/ /opt/roborsi-agent-assets/
 COPY benchmarks/libero_three_combined/assets.lock.json /tmp/libero-three-assets.lock.json

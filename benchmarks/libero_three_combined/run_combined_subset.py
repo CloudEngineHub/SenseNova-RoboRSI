@@ -15,10 +15,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
+from benchmarks.libero_three_combined.run_combined import _CASES
 from roborsi.agents.config import AgentConfig
 from roborsi.evaluation.result import write_json_atomic
 from roborsi.evaluation.store import ResultStore
-from benchmarks.libero_three_combined.run_combined import _CASES
 
 _EXPECTED = {
     "libero_long_plus_plus": 12,
@@ -53,7 +53,11 @@ def _object(path: Path) -> dict[str, Any]:
 
 
 def _tasks(repository: Path, benchmark: str) -> tuple[str, ...]:
-    path = repository / "robots/libero/agents/three_benchmark/context_maps" / f"{benchmark}.json"
+    path = (
+        repository
+        / "robots/libero/agents/three_benchmark/context_maps"
+        / f"{benchmark}.json"
+    )
     document = json.loads(path.read_text(encoding="utf-8"))
     packages = document.get("packages") if isinstance(document, dict) else None
     if (
@@ -157,7 +161,9 @@ def _conditions(
         ),
         "subset_runner_sha256": _file_sha256(Path(__file__).resolve()),
         "context_map_sha256": _file_sha256(
-            repository / "robots/libero/agents/three_benchmark/context_maps" / f"{benchmark}.json"
+            repository
+            / "robots/libero/agents/three_benchmark/context_maps"
+            / f"{benchmark}.json"
         ),
         "profile": "migration_subset",
         "plus9_on_failure": False,
@@ -235,27 +241,27 @@ def _summary(
     benchmark: str, run_id: str, selected: tuple[str, ...], records: dict[str, Any]
 ) -> dict[str, Any]:
     ordered = [records[task] for task in selected]
-    invalid = [
+    valid = [
         record
         for record in ordered
-        if record.get("returncode") != 0 or record.get("status") not in _VALID_TERMINALS
+        if record.get("returncode") == 0 and record.get("status") in _VALID_TERMINALS
     ]
     scores = [
         float(record["score"])
-        for record in ordered
+        for record in valid
         if isinstance(record.get("score"), (int, float))
     ]
-    successes = sum(record.get("success") is True for record in ordered)
+    successes = sum(record.get("success") is True for record in valid)
     return {
         "schema_version": 1,
         "benchmark": benchmark,
         "run_id": run_id,
         "planned": len(selected),
-        "completed": len(selected) - len(invalid),
-        "failed": len(invalid),
+        "completed": len(valid),
+        "failed": len(selected) - len(valid),
         "successes": successes,
         "task_failures": sum(
-            record.get("status") == "task_failure" for record in ordered
+            record.get("status") == "task_failure" for record in valid
         ),
         "success_rate": successes / len(selected) if selected else 0.0,
         "mean_score": sum(scores) / len(scores) if scores else None,

@@ -40,7 +40,9 @@ def test_delivery_presets_compose_from_canonical_agent_directory(
     name, context_environment, tool_enabled
 ):
     repository = Path(__file__).resolve().parents[4]
-    config = AgentConfig.from_file(repository / "configs/agents/libero_three" / name)
+    config = AgentConfig.from_file(
+        repository / "robots/libero/agents/three_benchmark" / name
+    )
 
     assert config.factory.endswith(":make_three_benchmark_agent")
     assert config.parameters["context_root_env"] == context_environment
@@ -56,7 +58,9 @@ def test_delivery_presets_compose_from_canonical_agent_directory(
 
 def test_pro_reproduces_the_full_run_policy_limits() -> None:
     repository = Path(__file__).resolve().parents[4]
-    config = AgentConfig.from_file(repository / "robots/libero/agents/three_benchmark/pro.yaml")
+    config = AgentConfig.from_file(
+        repository / "robots/libero/agents/three_benchmark/pro.yaml"
+    )
 
     assert config.document["agent"]["max_turns"] == 100
     assert config.document["agent"]["planner_timeout_s"] == 5000

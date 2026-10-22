@@ -27,8 +27,6 @@ COPY benchmarks/libero_three_combined/run_combined.py \
     /opt/roborsi/benchmarks/libero_three_combined/run_combined.py
 COPY benchmarks/libero_three_combined/run_combined_subset.py \
     /opt/roborsi/benchmarks/libero_three_combined/run_combined_subset.py
-COPY robots/libero/agents/three_benchmark/context_maps/ \
-    /opt/roborsi/robots/libero/agents/three_benchmark/context_maps/
 
 ENV ROBORSI_LIBERO_LONGPP_ICL_ROOT=/opt/roborsi-agent-assets/longpp/packages \
     ROBORSI_LIBERO_ULTRA_ICL_ROOT=/opt/roborsi-agent-assets/ultra/packages \

@@ -39,7 +39,11 @@ def _verify_packages(
     name: str, root: Path, lock: dict, *, repository: Path
 ) -> dict[str, int | str]:
     benchmark, case_count, package_count = _SPECS[name]
-    mapping = repository / "robots/libero/agents/three_benchmark/context_maps" / f"{benchmark}.json"
+    mapping = (
+        repository
+        / "robots/libero/agents/three_benchmark/context_maps"
+        / f"{benchmark}.json"
+    )
     loaded = load_package_map(mapping, root)
     unique = {package.root for package in loaded.values()}
     if len(loaded) != case_count or len(unique) != package_count:
