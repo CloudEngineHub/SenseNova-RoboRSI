@@ -19,7 +19,7 @@ not include that data or provide an automatic download for it.
 The asset preparer and Docker build require directory SHA-256:
 
 ```text
-381f91eec4ec26bc2a0bd06e32da8713f56367c5431d7a8cfa74d69439b57be9
+04ae2020acf89315108a68743f99f8fe9c4cb9fc47e67712298a25a7179d616a
 ```
 
 A different or partial tree is rejected. Do not replace this digest merely to

@@ -18,7 +18,7 @@ from robots.libero.three_benchmark_adapter import ACTION_SCHEMA
 from robots.libero.three_benchmark_service import ThreeLiberoBenchmark
 
 _EMBEDDED_ASSET_SHA256 = (
-    "381f91eec4ec26bc2a0bd06e32da8713f56367c5431d7a8cfa74d69439b57be9"
+    "04ae2020acf89315108a68743f99f8fe9c4cb9fc47e67712298a25a7179d616a"
 )
 
 
