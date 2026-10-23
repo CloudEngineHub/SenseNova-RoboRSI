@@ -23,6 +23,8 @@ COPY --from=agent /opt/roborsi-agent-assets/ /opt/roborsi-agent-assets/
 COPY roborsi/ /opt/roborsi/roborsi/
 COPY robots/__init__.py /opt/roborsi/robots/__init__.py
 COPY robots/libero/ /opt/roborsi/robots/libero/
+COPY configs/agents/libero/ /opt/roborsi/configs/agents/libero/
+COPY configs/agents/embodied/default.yaml /opt/roborsi/configs/agents/embodied/default.yaml
 COPY benchmarks/libero_three_combined/run_combined.py \
     /opt/roborsi/benchmarks/libero_three_combined/run_combined.py
 COPY benchmarks/libero_three_combined/run_combined_subset.py \

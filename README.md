@@ -118,6 +118,85 @@ simulator installation.
 To deploy SenseNova-RoboRSI-27B-Preview, follow the
 [model deployment instructions](docs/sensenova-roborsi-27b-preview.md#1-deploy-the-model).
 
+### Evaluate a deployed model with one command
+
+After installing the framework, connect a deployed model API that supports images
+and tool calling. Use Linux/WSL with Docker ready; enhanced LIBERO and RoboCasa365
+also require NVIDIA GPU support in Docker. Start with one RoboCasa task to check
+the complete download, setup and evaluation workflow:
+
+```bash
+export OPENAI_BASE_URL='http://127.0.0.1:8000/v1'
+export OPENAI_API_KEY='YOUR_API_KEY'
+export MODEL_NAME='YOUR_SERVED_MODEL'
+python scripts/evaluation/evaluate_model.py --benchmark robocasa365 \
+  --task robocasa365:OpenDrawer --seed 1 --run-id robocasa-smoke-001
+```
+
+`--benchmark` is required: choose `libero`, `libero_pro`, `libero_long_plus_plus`,
+`libero_ultra_long` or `robocasa365`; repeat it to select several. The script
+downloads/builds the selected environment and prepares available ICL automatically.
+Enhanced LIBERO uses the released `migration_subset` catalogs.
+
+Configuration is centralized under [`configs/`](configs/README.md): each
+`configs/benchmarks/<name>.yaml` selects its environment, model and Agent.
+Edit [`configs/models/default.yaml`](configs/models/default.yaml) for the shared
+model connection and optional `vla` model settings, and `configs/agents/` for Agent policies. The environment
+variables above still override the model YAML; API keys stay in the environment.
+
+Optional `--benchmark-config`, `--agent-config` and `--model-config` accept paths
+(or `NAME=PATH` when selecting several benchmarks). Benchmark configs support
+task/seed lists and [user Python selectors](configs/benchmarks/examples/select_first.py).
+LIBERO Agents can opt into [automatic pi05 VLA download and deployment](docs/libero-vla.md)
+with `parameters.enable_vla: true`; the simple `--benchmark NAME` entry remains.
+Set `endpoint: http://host:18800` in a benchmark YAML to connect an existing
+image's HTTP service; `endpoint: null` keeps automatic environment setup.
+HTTP still prepares the selected Agent's ICL/tokenizer/VLA. Set benchmark
+`token_env` for HTTP authentication and model `vla.endpoint` for an existing VLA.
+
+Execution checks the main image/tool API and existing services before downloading.
+Task/seed progress streams live; logs and a redacted configuration snapshot are
+saved under the invocation's result directory. Plan offline or resume with a new ID:
+
+```bash
+python scripts/evaluation/evaluate_model.py --benchmark robocasa365 --dry-run
+python scripts/evaluation/evaluate_model.py --benchmark robocasa365 \
+  --run-id robocasa-retry --resume-from robocasa-001
+```
+
+The overview is `<results-root>/<run-id>/summary.json`; see the
+[evaluation guide](docs/model-evaluation.md) for details.
+
+After the smoke check, run all 340 RoboCasa cells without task/seed filters:
+
+```bash
+ROBORSI_ROBOCASA_CELLS=all python scripts/evaluation/evaluate_model.py \
+  --benchmark robocasa365 --run-id robocasa-001
+```
+
+Select a standard LIBERO suite or the 50-cell RoboCasa seed-1 catalog through
+environment variables:
+
+```bash
+ROBORSI_LIBERO_SUITE=libero_90 python scripts/evaluation/evaluate_model.py --benchmark libero
+ROBORSI_ROBOCASA_CELLS=seed1 python scripts/evaluation/evaluate_model.py --benchmark robocasa365
+```
+
+Catalog defaults are configured in the benchmark YAML: `libero_spatial` for
+`ROBORSI_LIBERO_SUITE`, `all` for `ROBORSI_ROBOCASA_CELLS`. Environment variables
+override these defaults. Results are saved under `work/model_eval/results/`; use a new
+`--run-id` for each run. To download/build without evaluation:
+
+```bash
+python scripts/evaluation/evaluate_model.py --benchmark robocasa365 --prepare-only
+```
+
+GPU/Docker requirements,
+image access, task coverage, existing services and results are explained in the
+[model evaluation guide](docs/model-evaluation.md). To deploy first, fill in the
+reserved [model deployment entry point](scripts/deploy/README.md), then start the
+API service before evaluation.
+
 ## BenchZoo
 
 Available benchmark integrations and upcoming releases. Supported services share

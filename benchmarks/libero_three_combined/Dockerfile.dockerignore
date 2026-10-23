@@ -5,6 +5,12 @@
 !robots/__init__.py
 !robots/libero/
 !robots/libero/**
+!configs/
+!configs/agents/
+!configs/agents/libero/
+!configs/agents/libero/**
+!configs/agents/embodied/
+!configs/agents/embodied/default.yaml
 !benchmarks/
 !benchmarks/libero_three_combined/
 !benchmarks/libero_three_combined/run_combined.py

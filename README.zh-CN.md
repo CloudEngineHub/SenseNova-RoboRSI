@@ -107,6 +107,77 @@ Windows 使用 `.venv\Scripts\Activate.ps1` 激活环境。
 SenseNova-RoboRSI-27B-Preview 的部署方法见
 [模型部署说明](docs/sensenova-roborsi-27b-preview.zh-CN.md#1-部署模型)。
 
+### 一键评测已部署模型
+
+完成框架安装后，即可接入支持图像输入与工具调用的已部署模型 API。
+请使用已启动 Docker 的 Linux/WSL；增强 LIBERO 和 RoboCasa365 还需要 Docker GPU 支持。
+先运行一个 RoboCasa 任务，检查下载、环境准备与评测的完整流程：
+
+```bash
+export OPENAI_BASE_URL='http://127.0.0.1:8000/v1'
+export OPENAI_API_KEY='YOUR_API_KEY'
+export MODEL_NAME='YOUR_SERVED_MODEL'
+python scripts/evaluation/evaluate_model.py --benchmark robocasa365 \
+  --task robocasa365:OpenDrawer --seed 1 --run-id robocasa-smoke-001
+```
+
+必须显式传入 `--benchmark`，可选 `libero`、`libero_pro`、`libero_long_plus_plus`、
+`libero_ultra_long`、`robocasa365`，需要多项时重复传入。脚本自动下载/构建对应环境，
+并准备可用的 ICL 包。增强 LIBERO 使用已发布的 `migration_subset` catalog。
+
+配置统一放在 [`configs/`](configs/README.md)：每个 `configs/benchmarks/<name>.yaml`
+选择环境、模型和 Agent。主模型连接和 `vla` 模型统一修改 [`configs/models/default.yaml`](configs/models/default.yaml)，
+Agent 策略修改 `configs/agents/` 中的预设。上面的环境变量仍会覆盖模型 YAML，密钥保留在环境变量中。
+
+可选 `--benchmark-config`、`--agent-config`、`--model-config` 直接指定配置地址；
+同时选择多个 benchmark 时使用 `NAME=PATH`。benchmark 配置支持任务、种子列表及
+[用户 Python 筛选器](configs/benchmarks/examples/select_first.py)。LIBERO Agent 设置
+`parameters.enable_vla: true` 后会[自动下载、部署 π0.5 VLA](docs/libero-vla.zh-CN.md)，
+仍可保持只传 `--benchmark NAME` 的入口。
+benchmark YAML 的 `endpoint: http://host:18800` 可连接已有镜像的 HTTP 服务，
+默认 `endpoint: null` 自动准备环境。HTTP 模式仍会准备 Agent 所需的 ICL、tokenizer 和 VLA。
+benchmark 的 `token_env` 配置 HTTP 鉴权变量名；模型的 `vla.endpoint` 可连接已有 VLA 服务。
+
+正式运行会先检查主模型图像/工具接口和已有 HTTP 服务，再下载资源。
+任务、seed、完成数量和耗时实时显示，运行日志与脱敏配置会保存到结果目录。
+可先离线查看计划，或在中断后用新的运行 ID 续跑：
+
+```bash
+python scripts/evaluation/evaluate_model.py --benchmark robocasa365 --dry-run
+python scripts/evaluation/evaluate_model.py --benchmark robocasa365 \
+  --run-id robocasa-retry --resume-from robocasa-001
+```
+
+结果概览见 `<results-root>/<run-id>/summary.json`；完整用法见[评测指南](docs/model-evaluation.zh-CN.md)。
+
+单任务检查通过后，去掉任务和种子过滤，运行 RoboCasa 全部 340 个 cell：
+
+```bash
+ROBORSI_ROBOCASA_CELLS=all python scripts/evaluation/evaluate_model.py \
+  --benchmark robocasa365 --run-id robocasa-001
+```
+
+通过环境变量选择标准 LIBERO suite，或 RoboCasa 的 50-cell seed-1 catalog：
+
+```bash
+ROBORSI_LIBERO_SUITE=libero_90 python scripts/evaluation/evaluate_model.py --benchmark libero
+ROBORSI_ROBOCASA_CELLS=seed1 python scripts/evaluation/evaluate_model.py --benchmark robocasa365
+```
+
+默认 catalog 在 benchmark YAML 中配置：LIBERO 为 `libero_spatial`，RoboCasa 为 `all`；
+`ROBORSI_LIBERO_SUITE`、`ROBORSI_ROBOCASA_CELLS` 可覆盖这些默认值。
+结果保存在 `work/model_eval/results/`，每次运行请使用新的 `--run-id`。
+只下载/构建环境与 ICL、不执行评测：
+
+```bash
+python scripts/evaluation/evaluate_model.py --benchmark robocasa365 --prepare-only
+```
+
+GPU/Docker 要求、镜像访问权限、任务范围、
+已有服务接入与结果查看见[模型一键评测指南](docs/model-evaluation.zh-CN.md)。
+需要先部署时，将已验证的命令填入预留的[模型部署入口](scripts/deploy/README.md)，
+启动 API 服务后再评测。
+
 ## BenchZoo
 
 列出已提供的 benchmark 接入与即将开源的内容。已支持的服务共用可配置的 EmbodiedAgent
