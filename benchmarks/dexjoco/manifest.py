@@ -88,9 +88,9 @@ def main() -> None:
     parser.add_argument("--image", required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    write_json_atomic(
-        args.output, build_manifest(DexJocoBenchmark(args.upstream), args.image)
-    )
+    document = build_manifest(DexJocoBenchmark(args.upstream), args.image)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    write_json_atomic(args.output, document)
 
 
 if __name__ == "__main__":
