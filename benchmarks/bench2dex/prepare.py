@@ -24,11 +24,31 @@ from robots.bench2dex.contracts import (
 from robots.bench2dex.reference.core import write_json
 
 
+def _asset_subpath(path: Path, manifest_dir: Path) -> str:
+    """Keep mounted artifacts beneath the manifest without following symlinks."""
+    if ".." in path.parts or ".." in manifest_dir.parts:
+        raise ValueError("asset paths cannot contain parent traversal")
+    absolute = path.absolute()
+    try:
+        relative = absolute.relative_to(manifest_dir.absolute())
+    except ValueError:
+        raise ValueError(
+            "assets and catalog must be inside the manifest directory"
+        ) from None
+    if not relative.parts or "\\" in relative.as_posix():
+        raise ValueError("asset path must be a POSIX subpath of the manifest directory")
+    if any(part.is_symlink() for part in (absolute, *absolute.parents)):
+        raise ValueError("asset path contains a symlink")
+    return relative.as_posix()
+
+
 def build_manifest(image: str, assets: Path, catalog_path: Path, output: Path) -> dict:
     """Require an actual image digest and locally verified mounted artifacts."""
     repository, separator, digest = image.partition("@")
     if not separator:
         raise ValueError("provide the published repository@sha256:digest")
+    asset_path = _asset_subpath(assets, output.parent)
+    catalog_subpath = _asset_subpath(catalog_path, output.parent)
     catalog = read_catalog(catalog_path)
     if directory_sha256(assets) != catalog["assets_sha256"]:
         raise ValueError("asset snapshot differs from catalog")
@@ -63,14 +83,14 @@ def build_manifest(image: str, assets: Path, catalog_path: Path, output: Path) -
                 "name": "bench2dex",
                 "kind": "directory",
                 "version": ASSET_REVISION,
-                "path": str(assets.resolve()),
+                "path": asset_path,
                 "sha256": catalog["assets_sha256"],
             },
             {
                 "name": "bench2dex-catalog",
                 "kind": "file",
                 "version": "1",
-                "path": str(catalog_path.resolve()),
+                "path": catalog_subpath,
                 "sha256": file_sha256(catalog_path),
             },
         ],
@@ -100,7 +120,7 @@ def build_manifest(image: str, assets: Path, catalog_path: Path, output: Path) -
         "tasks": tasks,
     }
     Draft202012Validator(benchmark_manifest_schema()).validate(document)
-    # These are generated operator-local bindings, never distributed config paths.
+    # Registry mounts are relative to this manifest's directory.
     write_json(output, document)
     return document
 
