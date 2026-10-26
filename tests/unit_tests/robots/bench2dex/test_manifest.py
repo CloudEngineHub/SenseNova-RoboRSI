@@ -66,6 +66,16 @@ def test_manifest_rejects_artifacts_outside_registry(
     assert not output.exists()
 
 
+def test_manifest_accepts_registry_directory_alias(manifest_inputs, tmp_path):
+    assets, catalog, output = manifest_inputs
+    root = output.parent
+    physical = root.rename(tmp_path / "physical-benchmark")
+    root.symlink_to(physical, target_is_directory=True)
+    build_manifest(IMAGE, assets, catalog, output)
+    lock = BenchmarkRegistry([root.parent]).lock("bench2dex")
+    assert lock.task_message("26", 5) == task_for("26", 5, smoke_steps=4)
+
+
 @pytest.mark.parametrize("linked", ["assets", "catalog"])
 def test_manifest_rejects_linked_artifacts(manifest_inputs, linked):
     assets, catalog, output = manifest_inputs

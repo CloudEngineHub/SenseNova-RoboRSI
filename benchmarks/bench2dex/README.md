@@ -91,7 +91,8 @@ do not override the manifest's adapter version or disable runtime verification.
 
 Place the assets and catalog beneath the manifest directory; the generator
 records relative paths required by the Registry and rejects external paths or
-symlinks. For an existing layout, move the assets and catalog beneath that
+symlinks within those paths. The registry directory itself may be reached through
+a symlink. For an existing layout, move the assets and catalog beneath that
 directory before regenerating the manifest. Keep manifests,
 downloaded data, credentials and generated evidence outside published source.
 

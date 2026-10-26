@@ -82,7 +82,8 @@ python -m benchmarks.bench2dex.prepare manifest \
 不要手动覆盖 manifest 中的 adapter 版本或关闭运行时校验。
 
 资产与 catalog 必须位于 manifest 所在目录下；生成器记录 Registry 要求的相对路径，
-并拒绝目录之外的路径或符号链接。迁移已有布局时，先将资产与 catalog 移至该目录下，
+并拒绝目录之外的路径或这些相对路径中的符号链接；registry 目录本身可以通过符号链接访问。
+迁移已有布局时，先将资产与 catalog 移至该目录下，
 再重新生成 manifest。manifest、下载数据、凭据和生成的证据
 应保存在发布源码之外。
 

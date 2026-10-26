@@ -37,8 +37,11 @@ def _asset_subpath(path: Path, manifest_dir: Path) -> str:
         ) from None
     if not relative.parts or "\\" in relative.as_posix():
         raise ValueError("asset path must be a POSIX subpath of the manifest directory")
-    if any(part.is_symlink() for part in (absolute, *absolute.parents)):
-        raise ValueError("asset path contains a symlink")
+    source = manifest_dir.absolute()
+    for part in relative.parts:
+        source /= part
+        if source.is_symlink():
+            raise ValueError("asset path contains a symlink")
     return relative.as_posix()
 
 
