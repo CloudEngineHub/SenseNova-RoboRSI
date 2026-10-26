@@ -13,19 +13,23 @@ import subprocess
 from pathlib import Path
 
 
-def check_image(image: str, evidence: Path) -> None:
-    """Reject broken dependencies or unexpected Agent code before publishing."""
+def check_image(image: str, evidence: Path, expected_source_sha256: str) -> dict:
+    """Require a healthy benchmark runtime matching the exported source."""
     commands = {
         "pip-check.txt": ["-m", "pip", "check"],
         "image-python.lock.txt": ["-m", "pip", "freeze", "--all"],
         "source-check.txt": [
             "-P",
             "-c",
-            "from pathlib import Path; "
-            "from roborsi.benchmarks.runtime_source import verify_benchmark_runtime; "
+            "import json; from pathlib import Path; "
+            "from roborsi.benchmarks.runtime_source import "
+            "benchmark_source_digest, verify_benchmark_runtime; "
             "verify_benchmark_runtime(Path('/opt/roborsi'), 'bench2dex'); "
-            "from robots.bench2dex.benchmark_service import Bench2DexBenchmark; "
-            "print('benchmark source and imports verified')",
+            "from robots.bench2dex.benchmark_service import "
+            "Bench2DexBenchmark, adapter_digest; "
+            "print(json.dumps({'source_sha256': "
+            "benchmark_source_digest(Path('/opt/roborsi'), 'bench2dex'), "
+            "'adapter_version': 'bench2dex-adapter-sha256:' + adapter_digest()}))",
         ],
     }
     for filename, command in commands.items():
@@ -45,6 +49,10 @@ def check_image(image: str, evidence: Path) -> None:
                 stdout=output,
                 stderr=subprocess.STDOUT,
             )
+    identity = json.loads((evidence / "source-check.txt").read_text())
+    if identity["source_sha256"] != expected_source_sha256:
+        raise ValueError("image benchmark source differs from exported build context")
+    return identity
 
 
 def main() -> None:
@@ -60,6 +68,7 @@ def main() -> None:
     args = parser.parse_args()
     if not re.fullmatch(r"[^\s@]+:[A-Za-z0-9_.-]+", args.tag):
         parser.error("tag must include an explicit repository and tag")
+    source = json.loads((args.context / "source.json").read_text())
     args.evidence.mkdir(parents=True, exist_ok=False)
     command = [
         "docker",
@@ -81,7 +90,7 @@ def main() -> None:
     image_id = subprocess.check_output(
         ["docker", "image", "inspect", "--format", "{{.Id}}", args.tag], text=True
     ).strip()
-    check_image(image_id, args.evidence)
+    identity = check_image(image_id, args.evidence, source["sha256"])
     reference = None
     if args.publish:
         # Re-check the tag immediately before push; checks above ran by image ID.
@@ -145,7 +154,7 @@ def main() -> None:
             raise ValueError("pulled image differs from the validated local image")
         pulled = args.evidence / "pulled-image"
         pulled.mkdir()
-        check_image(reference, pulled)
+        check_image(reference, pulled, source["sha256"])
     (args.evidence / "image.json").write_text(
         json.dumps(
             {
@@ -153,7 +162,8 @@ def main() -> None:
                 "local_image_id": image_id,
                 "published_and_pulled": args.publish,
                 "gpu_validation": "pending",
-                "source": json.loads((args.context / "source.json").read_text()),
+                "source": source,
+                "runtime_identity": identity,
                 "build": json.loads((args.context / "build.json").read_text()),
             },
             indent=2,

@@ -3,8 +3,11 @@
 
 """Check native build inputs without downloading the simulator image."""
 
+import hashlib
+import json
 from pathlib import Path
 
+import pytest
 from packaging.requirements import Requirement
 from packaging.utils import canonicalize_name
 
@@ -41,6 +44,9 @@ def test_failed_image_check_prevents_publication(monkeypatch, tmp_path):
 
     from benchmarks.bench2dex import build
 
+    context = tmp_path / "context"
+    context.mkdir()
+    (context / "source.json").write_text(json.dumps({"sha256": "a" * 64}))
     commands = []
 
     def run(command, **kwargs):
@@ -71,6 +77,84 @@ def test_failed_image_check_prevents_publication(monkeypatch, tmp_path):
     assert any(command[:2] == ["docker", "run"] for command in commands)
     assert not any(command[:2] == ["docker", "push"] for command in commands)
     assert not (tmp_path / "evidence/image.json").exists()
+
+
+@pytest.mark.parametrize("stale_image", ["local", "pulled", None])
+def test_publication_requires_exported_source_in_local_and_pulled_image(
+    monkeypatch, tmp_path, stale_image
+):
+    """An internally valid but stale image cannot be reported as a release."""
+    import sys
+
+    from benchmarks.bench2dex import build
+
+    context = tmp_path / "context"
+    context.mkdir()
+    source = {"benchmark": "bench2dex", "sha256": "a" * 64}
+    (context / "source.json").write_text(json.dumps(source))
+    (context / "build.json").write_text("{}")
+    evidence = tmp_path / "evidence"
+    image_id = "sha256:" + "c" * 64
+    raw_manifest = b'{"schemaVersion":2}'
+    reference = "example.org/bench@sha256:" + hashlib.sha256(raw_manifest).hexdigest()
+    adapter_version = "bench2dex-adapter-sha256:" + "d" * 64
+    commands = []
+
+    def run(command, **kwargs):
+        commands.append(command)
+        if command[:2] == ["docker", "run"] and "-c" in command:
+            stage = "pulled" if reference in command else "local"
+            identity = {
+                "source_sha256": "b" * 64 if stage == stale_image else source["sha256"],
+                "adapter_version": adapter_version,
+            }
+            kwargs["stdout"].write(json.dumps(identity) + "\n")
+
+    def check_output(command, **kwargs):
+        if command[:4] == ["docker", "buildx", "imagetools", "inspect"]:
+            return raw_manifest
+        if "{{json .RepoDigests}}" in command:
+            return json.dumps([reference])
+        return image_id
+
+    monkeypatch.setattr(build.subprocess, "run", run)
+    monkeypatch.setattr(build.subprocess, "check_output", check_output)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "build",
+            "--context",
+            str(context),
+            "--tag",
+            "example.org/bench:test",
+            "--evidence",
+            str(evidence),
+            "--publish",
+        ],
+    )
+    if stale_image is not None:
+        with pytest.raises(
+            ValueError, match="source differs from exported build context"
+        ):
+            build.main()
+        assert not (evidence / "image.json").exists()
+    else:
+        build.main()
+        result = json.loads((evidence / "image.json").read_text())
+        assert result["published_and_pulled"] is True
+        assert result["reference"] == reference
+        assert result["source"] == source
+        assert result["runtime_identity"] == {
+            "source_sha256": source["sha256"],
+            "adapter_version": adapter_version,
+        }
+    assert any(c[:2] == ["docker", "push"] for c in commands) == (
+        stale_image != "local"
+    )
+    assert any(c[:2] == ["docker", "pull"] for c in commands) == (
+        stale_image != "local"
+    )
 
 
 def test_adapter_identity_includes_native_kinematics(monkeypatch, tmp_path):

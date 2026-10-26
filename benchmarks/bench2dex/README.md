@@ -24,10 +24,10 @@ Install `huggingface_hub` for the asset download command.
 ```bash
 python -m pip install huggingface_hub
 python -m benchmarks.bench2dex.assets --download \
-  --source work/bench2dex/download --output work/bench2dex/assets
+  --source work/bench2dex/download --output work/bench2dex/registry/bench2dex/assets
 python -m benchmarks.bench2dex.prepare catalog \
-  --assets work/bench2dex/assets --sample 5 \
-  --output work/bench2dex/catalog.json
+  --assets work/bench2dex/registry/bench2dex/assets --sample 5 \
+  --output work/bench2dex/registry/bench2dex/catalog.json
 ```
 
 The asset helper selects files from the official `Bench2Dex/Assets` dataset at
@@ -44,6 +44,20 @@ for scored evaluation.
 
 ## Build and register
 
+Use the published `v1.0.4-cu128` image with this source checkout. Its benchmark
+runtime matches commit `b513a1c7289ab11eb844856588b64c378705c405`. After preparing
+the assets and catalog above, register it by its immutable digest:
+
+```bash
+export ROBORSI_BENCH2DEX_IMAGE=ghcr.io/opensensenova/sensenova-roborsi-bench2dex@sha256:edb0701c6ea3904c53a64820775336b998e6a3d0a9ac8b3b5be2caf824db3a1b
+python -m benchmarks.bench2dex.prepare manifest \
+  --image "$ROBORSI_BENCH2DEX_IMAGE" --assets work/bench2dex/registry/bench2dex/assets \
+  --catalog work/bench2dex/registry/bench2dex/catalog.json \
+  --output work/bench2dex/registry/bench2dex/manifest.json
+```
+
+To build and publish an image from a changed checkout, use your own registry:
+
 ```bash
 python -m benchmarks.package --benchmark bench2dex \
   --output work/bench2dex/build
@@ -53,20 +67,33 @@ python -m benchmarks.bench2dex.build \
 export ROBORSI_BENCH2DEX_IMAGE=$(docker image inspect YOUR_REGISTRY/bench2dex:BUILD \
   --format '{{index .RepoDigests 0}}')
 python -m benchmarks.bench2dex.prepare manifest \
-  --image "$ROBORSI_BENCH2DEX_IMAGE" --assets work/bench2dex/assets \
-  --catalog work/bench2dex/catalog.json \
+  --image "$ROBORSI_BENCH2DEX_IMAGE" --assets work/bench2dex/registry/bench2dex/assets \
+  --catalog work/bench2dex/registry/bench2dex/catalog.json \
   --output work/bench2dex/registry/bench2dex/manifest.json
 ```
 
 Replace `YOUR_REGISTRY` and `BUILD` with your registry and tag. The Dockerfile
 pins the simulator base and native source revisions. The exported context
 contains the declared benchmark dependency closure and build inputs. The build
-helper checks dependencies and source imports before publication, then pulls
-and checks the published image by digest. Omit `--publish` for a local build;
+helper checks dependencies and source imports, and requires the image's source
+digest to match the exported context before publication. It then pulls the
+published image by digest and repeats these checks. The verified source digest
+and adapter version are recorded in `build-evidence/image.json`.
+Omit `--publish` for a local build;
 the manifest requires a repository digest. These checks do not execute a GPU
 episode.
 
-Generated manifests contain operator-local asset paths. Keep manifests,
+When using a prebuilt image, generate the manifest from the matching source
+checkout. Changing the Bench2Dex adapter requires rebuilding and publishing the
+image, updating its digest reference, and regenerating the manifest. A stale
+image is rejected with `runtime adapter_version differs from Benchmark manifest`;
+do not override the manifest's adapter version or disable runtime verification.
+
+Place the assets and catalog beneath the manifest directory; the generator
+records relative paths required by the Registry and rejects external paths or
+symlinks within those paths. The registry directory itself may be reached through
+a symlink. For an existing layout, move the assets and catalog beneath that
+directory before regenerating the manifest. Keep manifests,
 downloaded data, credentials and generated evidence outside published source.
 
 ## Evaluate with an Agent
