@@ -46,6 +46,7 @@ python -m benchmarks.dexjoco.manifest --upstream ../dexjoco-upstream \
   --output ../benchmark-registry/dexjoco/manifest.json
 ```
 
+The command creates missing parent directories for `--output` automatically.
 The generated manifest describes the default 10x service, all 55 cases, native
 scoring, and in-image assets. No separate host asset mount is required.
 

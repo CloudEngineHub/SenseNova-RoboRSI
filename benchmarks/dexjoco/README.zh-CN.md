@@ -43,6 +43,7 @@ python -m benchmarks.dexjoco.manifest --upstream ../dexjoco-upstream \
   --output ../benchmark-registry/dexjoco/manifest.json
 ```
 
+命令会自动创建 `--output` 缺少的父目录。
 生成的 manifest 描述默认 10x 服务、全部 55 个案例、原生评分和镜像内资产，
 不需要额外挂载宿主机资产。
 

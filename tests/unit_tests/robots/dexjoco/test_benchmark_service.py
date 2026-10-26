@@ -14,11 +14,14 @@
 
 """Offline discovery and manifest checks using task configuration fixtures."""
 
+import json
+import sys
+
 import pytest
 import yaml
 from jsonschema import Draft202012Validator
 
-from benchmarks.dexjoco.manifest import build_manifest
+from benchmarks.dexjoco.manifest import build_manifest, main
 from roborsi.benchmarks.registry import benchmark_manifest_schema
 from robots.dexjoco.benchmark_service import DexJocoBenchmark
 from robots.dexjoco.contracts import CAPABILITIES, COMMIT, EVALUATION, LIMITS, SEEDS
@@ -92,3 +95,34 @@ def test_manifest_describes_actual_discovery_and_image(catalog):
 def test_manifest_requires_immutable_image_reference(catalog):
     with pytest.raises(ValueError, match="actual repository@sha256:digest"):
         build_manifest(DexJocoBenchmark(catalog), "registry.example.invalid/dexjoco:v1")
+
+
+@pytest.mark.parametrize("existing_parent", [False, True])
+def test_manifest_cli_creates_output_parents(
+    catalog, tmp_path, monkeypatch, existing_parent
+):
+    output = tmp_path / "new registry" / "dexjoco" / "manifest.json"
+    if existing_parent:
+        output.parent.mkdir(parents=True)
+    image = "registry.example.invalid/dexjoco@sha256:" + "a" * 64
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "manifest",
+            "--upstream",
+            str(catalog),
+            "--image",
+            image,
+            "--output",
+            str(output),
+        ],
+    )
+
+    main()
+
+    document = json.loads(output.read_text())
+    Draft202012Validator(benchmark_manifest_schema()).validate(document)
+    assert len(document["tasks"]) == 11
+    assert sum(len(task["seeds"]) for task in document["tasks"]) == 55
+    assert not list(output.parent.glob(".*.tmp"))
