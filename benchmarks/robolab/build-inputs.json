@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "inputs": [
+    "build-lock.json",
+    "fetch_native.py",
+    "prune_extensions.py",
+    "native-requirements.txt",
+    "native-image.constraints.txt",
+    "python-runtime.sh",
+    "patches/isaaclab-2.3.2-isaacsim6.patch",
+    "patches/isaaclab-files.json",
+    "patches/isaaclab-native-dependencies.patch",
+    "patches/robolab-harness-transport.patch"
+  ]
+}

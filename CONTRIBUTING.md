@@ -3,8 +3,8 @@
 [简体中文](CONTRIBUTING_zh.md)
 
 This release covers the Agent runtime and benchmark evaluation for the LIBERO
-family, Bench2Dex, DexJoCo, BEHAVIOR-1K and RoboCasa365. Keep contributions focused on this
-scope and preserve supported interfaces.
+family, Bench2Dex, DexJoCo, BEHAVIOR-1K, RoboCasa365 and RoboLab. Keep contributions
+focused on this scope and preserve supported interfaces.
 
 1. Verify the actual Git remote, branch and upstream before editing. Read the
    implementation and callers on both sides of a changed interface.

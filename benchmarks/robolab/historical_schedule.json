@@ -1,0 +1,2103 @@
+{
+  "schema_version": 1,
+  "description": "Completed historical cohorts only. Each worker is a fresh native process. Earlier runs are skipped without advancing RNG. 18 unscored interrupted attempts are excluded.",
+  "phases": [
+    {
+      "reference_process_group": "6xGh2JUd",
+      "workers": [
+        {
+          "shard": 0,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "CleanUpToysTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "FoodPacking3CansTask",
+              "run_ids": [
+                0,
+                1
+              ]
+            }
+          ],
+          "client_log_sha256": "2058f461487c22391c5968119a74df3ce6bec015f73e8dc5b69b7b0a9647260b",
+          "server_log_sha256": "6a194ccde318bc5b46fa16d0c9e5d2107d7e2b04f4061f06cbc531874625f395"
+        },
+        {
+          "shard": 1,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "FruitsOnPlateTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ]
+            }
+          ],
+          "client_log_sha256": "28b2f231675e97a5364115d8269cd6139089751bf5e0ea318c09ee9a3b88033c",
+          "server_log_sha256": "81685b9339e878acdf64dc448a4cff97ec650f37462af156ef0481aa4a199bc0"
+        },
+        {
+          "shard": 2,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "ClearOrganicObjectsTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "client_log_sha256": "8069e7a14890503f983557a4b0311cb4b339e5bb48c78cc10a6828c7ef7b66bf",
+          "server_log_sha256": "2e655ff964c29ebddcfa7dc04758182f0c3d4f8f9c950137fb777373ef50f5b0"
+        },
+        {
+          "shard": 3,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "FoodPacking3BoxesTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "ClutterPlasticTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ]
+            }
+          ],
+          "client_log_sha256": "51355814484de63eb85892d6e1ba84d63c4fca69bcacdb328aed3599d36a42f3",
+          "server_log_sha256": "d772ec93764f32370b6266df43dc1f1e825d74cabf186a5a76e12786001d58d0"
+        }
+      ]
+    },
+    {
+      "reference_process_group": "rg6gSFC0",
+      "workers": [
+        {
+          "shard": 0,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "FoodPacking3CansTask",
+              "run_ids": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "CubesAndBlocksInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "FruitsMovingTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "WhiteMugInCenterOfTableTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "ClampInRightBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "RubiksCubeBehindBowlTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "BananasInBinOneMoreTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "LargerObjectRaisinBoxInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "BowlInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "MustardInLeftBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "BananasInCrateTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "PickUpGreenObjectTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "BigPumpkinInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "PickGlassesTask",
+              "run_ids": [
+                0,
+                1
+              ]
+            }
+          ],
+          "client_log_sha256": "8fdd88b8ebaec7665ae26237c999b7b78dea002b42ad672b5577097c5b300a06",
+          "server_log_sha256": "3009562bf32ed5cdee3383d1b95ed7a877b5ce8d3d34dc046fa5b4a8bf634b26"
+        },
+        {
+          "shard": 1,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "FruitsOnPlateTask",
+              "run_ids": [
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "ElectronicsInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "PutBowlOnShelfTopTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "FruitsOnPlate3Task",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "MouseOnKeyboardTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "BowlStackingLeftOnRightTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "FoodPacking1CansTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "RubiksCubeInFrontOfBowlTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "CookingPickPastaToolTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "SmallerObjectButterInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "FoodPacking1BoxesTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "RubiksCubeOrBananaTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "FruitsOnionTask",
+              "run_ids": [
+                0
+              ]
+            }
+          ],
+          "client_log_sha256": "c5974aaf0a06a1f7688279adede47e4432290bcc0067b7ba01ee4b7cc1a288d2",
+          "server_log_sha256": "0030760eca0235b753e607f0ec66e7c49d4f946ee69265025cd8fd0133f7f365"
+        },
+        {
+          "shard": 2,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "ClearOrganicObjectsTask",
+              "run_ids": [
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "PutMugsOnShelfTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "ReorientRedMugTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "FoodPacking2BoxesTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "PickOrangeObjectTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "ToolsPickingAllHammersTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "FruitsOnionToPlateTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "DishesInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3
+              ]
+            }
+          ],
+          "client_log_sha256": "6e84d765d51d978e97c9fbfc55a6116f1f3c557609c9a0c92ab40f0d5895068f",
+          "server_log_sha256": "91c25be58995e4d6748c54ebeb490adc2065f173b05ee2d8f517bfc7d80ccad2"
+        },
+        {
+          "shard": 3,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "ClutterPlasticTask",
+              "run_ids": [
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "FoodPackingByColorTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "Stack3RubiksCubeTask",
+              "run_ids": [
+                0,
+                1
+              ]
+            }
+          ],
+          "client_log_sha256": "8c4c0ffe9e07f7de0f3f7a6700d54bd29a084ca4a366ad36c237f4c326f43fd7",
+          "server_log_sha256": "772cd68b485add643c102ece9a8e18d54a50cb3acda2cf85ca6a45fe01848bb0"
+        },
+        {
+          "shard": 4,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "BlockStackingSpecifiedOrderTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "YellowAndWhiteObjectsInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "RubiksCubesInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "ThrowAwayAppleTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "SpoonsInPotTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "SmartphoneInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "TakeMugsOffOfShelfTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
+            }
+          ],
+          "client_log_sha256": "02fee8a5098e6d222fd3ba3f52ddbbaa93e733cb96134f10867376b24f125312",
+          "server_log_sha256": "246ff199b3f651e22a063ec5dc9156c14a21684f9f4cb5fd8ef85512aad385ed"
+        },
+        {
+          "shard": 5,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "MoveBananaToBagelPlateTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "MustardAboveRaisinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "BananasOutOfBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "WhiteMugsInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "JugsOnShelfTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "StackYellowOnRedTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "ThrowAwaySnacksTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "TakeSpatulaOffShelfTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "BBQSauceInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "ToyInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "AnimalsInBinTask",
+              "run_ids": [
+                0
+              ]
+            }
+          ],
+          "client_log_sha256": "bb650d285dcf6a42abc2d5968a7992cf0e9f7733b9f1b7e2d331371135239448",
+          "server_log_sha256": "1be29d2adbc74108b96c59b771f3d4ec49ad48817afbc47f2b8ed41b1dfce77f"
+        },
+        {
+          "shard": 6,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "BananasInBinThreeTotalTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "YogurtInBowlTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "ReorientAllMugsTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "MarkerInMugTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "FruitsGreenLimesOnPlateTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "WoodSpatulaToBowlTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "FruitsOrangesOnPlateTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "ButterAboveRaisinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "ClutterPumpkinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "BananaInBowlTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "RecycleCartonTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "BananaOnPlateTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "RecycleCartonsOnBoxTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
+            }
+          ],
+          "client_log_sha256": "8ad58d6098305d2bbb5ba0cb4e469857dbe212b35dca02ce696c5e0636439513",
+          "server_log_sha256": "ff6a2fd3d138e247a73bc836fada40197f256614511c41639070466938ddf980"
+        },
+        {
+          "shard": 7,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "CannedFoodInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "RubiksCubeLeftOfBowlTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "BananaThenRubiksCubeTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "MustardInRightBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "UnstackRubiksCubeTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "TakeMeasuringSpoonOutTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "RecycleCartonsVerticalCrateTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3
+              ]
+            }
+          ],
+          "client_log_sha256": "bf1405f36589132c2768a5cfc90f60228935573bbd662ed6fe802856e7cd99f8",
+          "server_log_sha256": "226f59efe910f600010ec4191320622b0976226775c6714ef0ed8e8540aab7a0"
+        }
+      ]
+    },
+    {
+      "reference_process_group": "eMM0LY98",
+      "workers": [
+        {
+          "shard": 3,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "Stack3RubiksCubeTask",
+              "run_ids": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "ToolOrganizationBothTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "ReorientWhiteMugsTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "NonHammerToolsInRightBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ]
+            }
+          ],
+          "client_log_sha256": "9d1d910d53456f094047e6c0c549860866e3085f2d8986b90452affad69bbf27",
+          "server_log_sha256": "baf9da9f64efe15a069cebd04eeb905d9047be9a1d3e1db0664b1175b922cfc4"
+        },
+        {
+          "shard": 7,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "RecycleCartonsVerticalCrateTask",
+              "run_ids": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "SauceBottlesCrateTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "BlackItemsInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "RubiksCubeTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "BagelsOnPlateTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "GrabAFruitTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "UtensilsInMugTask",
+              "run_ids": [
+                0
+              ]
+            }
+          ],
+          "client_log_sha256": "74c678f943245480c67318a4aa2ee4fc0d60c66d6fdf83cd58e4a26ac1d12dca",
+          "server_log_sha256": "e2aedf1e751e9297bfba68669a91b218bc624b4a93a1a87dabc5cfdf66b42b13"
+        }
+      ]
+    },
+    {
+      "reference_process_group": "5uhQet6m",
+      "workers": [
+        {
+          "shard": 0,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "PickGlassesTask",
+              "run_ids": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            }
+          ],
+          "client_log_sha256": "23af4cd922870e2ab0b0d67fd55fb5e979c105bb88b1a68630bc213d7966f809",
+          "server_log_sha256": "7594527b3ba2dfed9ba3bda8e249bfef7da50d3ca68b7db19e87f1c675ed0027"
+        },
+        {
+          "shard": 1,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "FruitsOnionTask",
+              "run_ids": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "RubiksCubeRightOfBowlTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "CoffeePotInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            }
+          ],
+          "client_log_sha256": "0274cd6f6b7d73d001657fbf54404b607a5cfc4fbbf3e0e3520948c47e6a0ff2",
+          "server_log_sha256": "567cd0bb6650aab7b9fc663b2f3f2280bd1f72ba9c6b4134fc4e4b5c9ab5cc84"
+        },
+        {
+          "shard": 2,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "DishesInBinTask",
+              "run_ids": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "KeyboardOutOfBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "CondimentsInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "PhoneOrRemoteInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "CookingClearPlateTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "OneBottleInSquarePailTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "FoodPacking2CansTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "FruitsMovingOrangeOrLimeTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            }
+          ],
+          "client_log_sha256": "9cfbabdd00722691109c9e44fad7375cd217a6dd0549be4f8a331166cf26cc84",
+          "server_log_sha256": "2a7b2c1c183dca0099435a607b28692f9894a0411716c96c2f3daef09e5df67d"
+        },
+        {
+          "shard": 3,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "NonHammerToolsInRightBinTask",
+              "run_ids": [
+                9
+              ]
+            },
+            {
+              "task_id": "PinkSpoonInPotTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "GreenSpoonsInPotTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "ReorientJugTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "HammersInLeftBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "RedDishesInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "PutTwoMugsOnShelfTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "RedItemsInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "PlasticBottlesInSquarePailTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ]
+            }
+          ],
+          "client_log_sha256": "3518957ff3cb4fc5a7c8003307ea6460dcabb92cb9fcdc11f49d50d93c202e9a",
+          "server_log_sha256": "1e3c01d33e2a6a57af4ca57b476cf9790f05e89f174da5008ddc32b8adbe3c9b"
+        },
+        {
+          "shard": 4,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "TakeMugsOffOfShelfTask",
+              "run_ids": [
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "RubiksCubeThenBananaTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "AppleAndYogurtInBowlTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "SmallPumpkinInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "ToolOrganizationTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "StackWhiteMugsTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "BlocksInBinTask",
+              "run_ids": [
+                0,
+                1,
+                2
+              ]
+            }
+          ],
+          "client_log_sha256": "05a8aa3d2fd3f2cb5f1c395c1946bee79ed4195a7438e9d5bbe88d5ddfecf2b2",
+          "server_log_sha256": "46dec7b06381af7e4c0d8fbc1e1b542368f8c802c34f06458cdfdce8caf5b5ad"
+        },
+        {
+          "shard": 5,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "AnimalsInBinTask",
+              "run_ids": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "ToolsPickingDrillTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "BlockStackingOrderAgnosticTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "RubiksCubeAndBananaTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "GrabABagelTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            }
+          ],
+          "client_log_sha256": "94f60d39e558e6a4f6c5a370e47fd5aee794c545d9b4ec3d6769935fb27f86f2",
+          "server_log_sha256": "1b28e82cce0efa93a6f5c1366f63a6cc1d7ddf71282afa3f4652d2cbe0624050"
+        },
+        {
+          "shard": 6,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "RecycleCartonsOnBoxTask",
+              "run_ids": [
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "SpoonInMugTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "PickUpBluePitcherTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            }
+          ],
+          "client_log_sha256": "9018459367c285e8d34c17496ee23ed2580b677c9f65366f666a4456cb56ca14",
+          "server_log_sha256": "3013dc65326925d84e6fc3e263f90a2aef7a1199ece4924e66890d154a75c7ad"
+        },
+        {
+          "shard": 7,
+          "codex_version": "0.159.2",
+          "segments": [
+            {
+              "task_id": "UtensilsInMugTask",
+              "run_ids": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "ToolsPickingHammerTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "BowlStackingRightOnLeftTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            }
+          ],
+          "client_log_sha256": "6c0976881f9975b311e3c4e2fcb7130c0660559e9bed48909a97bf64a25919ac",
+          "server_log_sha256": "9bfc045b3629b21f2b67f3a7b4631212f7541e63267967871908e97b882cebbb"
+        }
+      ]
+    },
+    {
+      "reference_process_group": "dauuNNtc",
+      "workers": [
+        {
+          "shard": 3,
+          "codex_version": "0.160.0",
+          "segments": [
+            {
+              "task_id": "PlasticBottlesInSquarePailTask",
+              "run_ids": [
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            }
+          ],
+          "client_log_sha256": "ccb9e0cc2dafd8855edc4d1242d79a9d44c444c3f61c4301e3155fa48594c1d9",
+          "server_log_sha256": "bc01c306e2e93e564081d1ba03210b8c95f4c4a648d9a0f49ab63ad713dbf5b8"
+        },
+        {
+          "shard": 4,
+          "codex_version": "0.160.0",
+          "segments": [
+            {
+              "task_id": "BlocksInBinTask",
+              "run_ids": [
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "OneBottleOnShelfTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "task_id": "PickDrillTask",
+              "run_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            }
+          ],
+          "client_log_sha256": "eab8a12a271fa0eb0dbb230adc821a4623d53e4f29323987bd45736cf568c9dd",
+          "server_log_sha256": "ae5bd1ec55560413ecab1a70f73ded0947be15c2f6f107d7cc8f1e042b0fe677"
+        }
+      ]
+    }
+  ]
+}

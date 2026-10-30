@@ -1,0 +1,101 @@
+{
+  "upstream_commit": "37ddf626871758333d6ed89cf64ad702aef127d0",
+  "files": {
+    "apps/isaaclab.python.headless.kit": {
+      "upstream_sha256": "d3c8dffa428fffb9511da127d20008451169933201279c0882d6a225643b9bed",
+      "runtime_sha256": "7a6bf54554574e3e81f3e5e5ffdaff38d9dd48462b42b574966cf48fa06d75dc"
+    },
+    "apps/isaaclab.python.headless.rendering.kit": {
+      "upstream_sha256": "423d5cccc0438bb87c278cbc2ddcff1e1ddae61337499c011348236e5e0a9ba5",
+      "runtime_sha256": "c87b9a5df4d169c1587d49508266d9a0f71042d0decabb7b47c966e181362213"
+    },
+    "apps/isaaclab.python.kit": {
+      "upstream_sha256": "c1bd3ad4796249923b3d82994abcb40c779a9bf9bae55647348a115d30b0d9a2",
+      "runtime_sha256": "433e5996353429115028836f3967dbc418beb764e4220d310cdf3df40dd0ae7e"
+    },
+    "apps/isaaclab.python.rendering.kit": {
+      "upstream_sha256": "9586c282cc14cff26eb420ee366eba2455ecc7168487d2a0954714677b5aa308",
+      "runtime_sha256": "067862ee61a293c9674867353b4d9c3cabe969d3f72d78bf638c793a0e2f39d1"
+    },
+    "apps/rendering_modes/balanced.kit": {
+      "upstream_sha256": "e4018ffa5f6c42293ba86b09f3036d4078585962233d5001a8580c7eb7a782ad",
+      "runtime_sha256": "6248b43bcfec1f643c9f7b39ec245ddc0c20a323d39854c56f632bbe30f3344f"
+    },
+    "apps/rendering_modes/performance.kit": {
+      "upstream_sha256": "07488d242117cbb18e1dd8cd99594e10a2f4b4a469f4ac8d84cd0c8ed15b4eca",
+      "runtime_sha256": "b78bd3ce751db606ddd5b7330b529d173146bfe53a6948b8e86e6da0c2056cc8"
+    },
+    "apps/rendering_modes/quality.kit": {
+      "upstream_sha256": "bf701e78c1bd15dc87f6533a8a3918dc3727bd67bf42f4aa68371e3c4ff1e651",
+      "runtime_sha256": "449bdcf2361633526c0867b0973a5c0682cb7bd4f035bf1cf4546f73db7d9b01"
+    },
+    "source/isaaclab/isaaclab/assets/articulation/articulation.py": {
+      "upstream_sha256": "fb179aacdd848906367d01105020e1d36412bd0f1da7187be09f0781ff589309",
+      "runtime_sha256": "ed3001935795b40f06d4eeb525e5f722311f432e85df6512631f25b31108f685"
+    },
+    "source/isaaclab/isaaclab/assets/articulation/articulation_data.py": {
+      "upstream_sha256": "d69495c66c409fb20823e4e467f9d90e63163b2050b77d2ac8e433221d1d208a",
+      "runtime_sha256": "08f33f14eaeb837322a3dc4c8bbd48008a11f46addbe03478b5935aa830089a2"
+    },
+    "source/isaaclab/isaaclab/assets/deformable_object/deformable_object.py": {
+      "upstream_sha256": "6efd942f71e5746a5ae8b856a6d204eaaaa60994dfe4bc09b6f0cd3a4643ee77",
+      "runtime_sha256": "e50c667dd857d4f8f0aea908216713732b6251dc7843114fef8a3f5e02612bad"
+    },
+    "source/isaaclab/isaaclab/assets/deformable_object/deformable_object_data.py": {
+      "upstream_sha256": "afc56f0286550d391c5f1528a4aaf15462683fcd1d729d340e52a4cf1eea637a",
+      "runtime_sha256": "3c08cf2a99632c1abddd8b9a04b70a4f802f24c1128b919b1bb104705e7e7bb1"
+    },
+    "source/isaaclab/isaaclab/assets/rigid_object/rigid_object.py": {
+      "upstream_sha256": "0aa371d43fae2f9dbfccc98bdb1d14f75860973afb68d3832e83b815d52fb546",
+      "runtime_sha256": "18538d3038a8c2e3136057840f4c3c476dccfe7613036058ea87e10bf7985b20"
+    },
+    "source/isaaclab/isaaclab/assets/rigid_object/rigid_object_data.py": {
+      "upstream_sha256": "5cc9e908106694d6fe0a4e2f56bf124874bac0b7e09810c308a6b321a60b0093",
+      "runtime_sha256": "6891f8347dec4cfff055ba55d0d60c7c8d9dbbd70127b0ca8c1e00fc938550ef"
+    },
+    "source/isaaclab/isaaclab/assets/rigid_object_collection/rigid_object_collection.py": {
+      "upstream_sha256": "fedbdd1aa39652c34f920434eab8d937464bc435fb7b5e1ac639f1d013eb30b7",
+      "runtime_sha256": "e0b9c8df03cd68a0fdc47ece984faae8064a933b85b1b6e195f9f898553df939"
+    },
+    "source/isaaclab/isaaclab/assets/rigid_object_collection/rigid_object_collection_data.py": {
+      "upstream_sha256": "47095d7955ebe324a7d50722992c4524e19883637ba5322e2a69ce2d582c9b5a",
+      "runtime_sha256": "9d41321e7c70d703cb668965a614ef6947b2de910b71ba40d06c995128a1a2d1"
+    },
+    "source/isaaclab/isaaclab/envs/mdp/events.py": {
+      "upstream_sha256": "14025ff2cbb7093316eaacb2d0638e85d45a869075ddef18019402b35e44643f",
+      "runtime_sha256": "28157eac32713e6edfb7a50f533a0c5e81ac329ace09f80d556931c7d1210578"
+    },
+    "source/isaaclab/isaaclab/sensors/camera/camera.py": {
+      "upstream_sha256": "a3689cffa01d046b510f7564f7adad972edf6316568b0e323abc2c4f0c4ec354",
+      "runtime_sha256": "0129c470406d6526504da8cabedf02f7171719dd46f998ab2c93da531b0705e8"
+    },
+    "source/isaaclab/isaaclab/sensors/camera/tiled_camera.py": {
+      "upstream_sha256": "f3e9205a16a3ba335f9376a57cf4bf0473ecced928d9ac12d9ddeae83961d506",
+      "runtime_sha256": "12b000c7b4292acdee7db900127760d2503d672eda9741ed77a9a5dd6e526f70"
+    },
+    "source/isaaclab/isaaclab/sensors/contact_sensor/contact_sensor.py": {
+      "upstream_sha256": "5bf3b77d2159850526e3833bf50253dbce06cb78b850eae13fb4088dc233760d",
+      "runtime_sha256": "3c14fb20d1689e73f277c25521859210c8ad6b430c040c77c027f1e701a18a6e"
+    },
+    "source/isaaclab/isaaclab/sensors/ray_caster/multi_mesh_ray_caster.py": {
+      "upstream_sha256": "8ec8313b9cd6068e65f41057d569f1d303ced1859860e77368b27d7fc6cf815b",
+      "runtime_sha256": "869e7c1d9253ec4ba77711205831cd916c878e1a852fa317ba8d50bbf361fd5f"
+    },
+    "source/isaaclab/isaaclab/sensors/ray_caster/ray_cast_utils.py": {
+      "upstream_sha256": "fe585b817897f2d6e1c58a99c266436a2d7242b737e544997c164bbaee621f84",
+      "runtime_sha256": "f9879aa94d1cf3ee987ae4b6b8dd5a3353ae2665a18d19c0f5448d25ccd77f92"
+    },
+    "source/isaaclab/isaaclab/sim/simulation_cfg.py": {
+      "upstream_sha256": "d8035df355c576ad7c876789bba54be4ebb361f5c16786a4ec8578143eebc118",
+      "runtime_sha256": "2417cb801f3665b68896c106da2886e5d44470e0ac0d6f755deadb0b453f854f"
+    },
+    "source/isaaclab/isaaclab/sim/simulation_context.py": {
+      "upstream_sha256": "d95f2eaa138b4fff845ac72439caa2eca5deab4f0d5609e06f163d20eef4df93",
+      "runtime_sha256": "9e794e1d68705ced2f4c10818e8029e67cf5ed241c3ded0a5ab50e0476624671"
+    },
+    "source/isaaclab/isaaclab/sim/utils/prims.py": {
+      "upstream_sha256": "4fe9570093a0310e10f76ad752a58c381b7ac9bb9e30f9b2309c34f605528322",
+      "runtime_sha256": "44bac440afa5f7e6de42843ca7a5d5aa18596a6c26ddd0ba94d04029de4e6743"
+    }
+  }
+}

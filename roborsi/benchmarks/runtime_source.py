@@ -58,6 +58,23 @@ _ENV_FACADE = (
     "roborsi/robots/components/env_facade_base.py",
 )
 _BENCHMARK = {
+    "robolab": (
+        "robots/robolab/assets.py",
+        "robots/robolab/assets.json",
+        "robots/robolab/benchmark_service.py",
+        "robots/robolab/contracts.py",
+        "robots/robolab/episode.py",
+        "robots/robolab/historical_native.py",
+        "robots/robolab/motion.py",
+        "robots/robolab/native.py",
+        "robots/robolab/native_files.json",
+        "robots/robolab/observations.py",
+        "robots/robolab/roborsi_adapter.py",
+        "robots/robolab/task_catalog.json",
+        "robots/robolab/worker.py",
+        "benchmarks/robolab/__init__.py",
+        "benchmarks/robolab/manifest.py",
+    ),
     "robocasa365": (
         *_ENV_FACADE,
         "roborsi/dashboard/__init__.py",

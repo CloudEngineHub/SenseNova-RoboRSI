@@ -1,0 +1,659 @@
+--- a/apps/isaaclab.python.headless.kit
++++ b/apps/isaaclab.python.headless.kit
+@@ -15,7 +15,7 @@
+ app.versionFile = "${exe-path}/VERSION"
+ app.folder = "${exe-path}/"
+ app.name = "Isaac-Sim"
+-app.version = "5.1.0"
++app.version = "6.0.0"
+ 
+ ##################################
+ # Omniverse related dependencies #
+@@ -215,6 +215,6 @@
+ # set the S3 directory manually to the latest published S3
+ # note: this is done to ensure prior versions of Isaac Sim still use the latest assets
+ [settings]
+-persistent.isaac.asset_root.default = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1"
+-persistent.isaac.asset_root.cloud = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1"
+-persistent.isaac.asset_root.nvidia = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1"
++persistent.isaac.asset_root.default = "https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0"
++persistent.isaac.asset_root.cloud = "https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0"
++persistent.isaac.asset_root.nvidia = "https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0"
+--- a/apps/isaaclab.python.headless.rendering.kit
++++ b/apps/isaaclab.python.headless.rendering.kit
+@@ -22,6 +22,7 @@
+ # Rendering
+ "omni.kit.material.library" = {}
+ "omni.kit.viewport.rtx" = {}
++"omni.kit.hydra_texture" = {}
+ 
+ [settings.isaaclab]
+ # This is used to check that this experience file is loaded when using cameras
+@@ -32,7 +33,7 @@
+ app.versionFile = "${exe-path}/VERSION"
+ app.folder = "${exe-path}/"
+ app.name = "Isaac-Sim"
+-app.version = "5.1.0"
++app.version = "6.0.0"
+ 
+ ### FSD
+ app.useFabricSceneDelegate = true
+@@ -156,6 +157,6 @@
+ # set the S3 directory manually to the latest published S3
+ # note: this is done to ensure prior versions of Isaac Sim still use the latest assets
+ [settings]
+-persistent.isaac.asset_root.default = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1"
+-persistent.isaac.asset_root.cloud = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1"
+-persistent.isaac.asset_root.nvidia = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1"
++persistent.isaac.asset_root.default = "https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0"
++persistent.isaac.asset_root.cloud = "https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0"
++persistent.isaac.asset_root.nvidia = "https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0"
+--- a/apps/isaaclab.python.kit
++++ b/apps/isaaclab.python.kit
+@@ -161,7 +161,7 @@
+ 
+ [settings.app]
+ name = "Isaac-Sim"
+-version = "5.1.0"
++version = "6.0.0"
+ versionFile = "${exe-path}/VERSION"
+ content.emptyStageOnStart = true
+ fastShutdown = true
+@@ -302,6 +302,6 @@
+ # set the S3 directory manually to the latest published S3
+ # note: this is done to ensure prior versions of Isaac Sim still use the latest assets
+ [settings]
+-persistent.isaac.asset_root.default = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1"
+-persistent.isaac.asset_root.cloud = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1"
+-persistent.isaac.asset_root.nvidia = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1"
++persistent.isaac.asset_root.default = "https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0"
++persistent.isaac.asset_root.cloud = "https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0"
++persistent.isaac.asset_root.nvidia = "https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0"
+--- a/apps/isaaclab.python.rendering.kit
++++ b/apps/isaaclab.python.rendering.kit
+@@ -33,7 +33,7 @@
+ app.versionFile = "${exe-path}/VERSION"
+ app.folder = "${exe-path}/"
+ app.name = "Isaac-Sim"
+-app.version = "5.1.0"
++app.version = "6.0.0"
+ 
+ ### FSD
+ app.useFabricSceneDelegate = true
+@@ -145,6 +145,6 @@
+ # set the S3 directory manually to the latest published S3
+ # note: this is done to ensure prior versions of Isaac Sim still use the latest assets
+ [settings]
+-persistent.isaac.asset_root.default = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1"
+-persistent.isaac.asset_root.cloud = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1"
+-persistent.isaac.asset_root.nvidia = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1"
++persistent.isaac.asset_root.default = "https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0"
++persistent.isaac.asset_root.cloud = "https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0"
++persistent.isaac.asset_root.nvidia = "https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0"
+--- a/apps/rendering_modes/balanced.kit
++++ b/apps/rendering_modes/balanced.kit
+@@ -1,18 +1,30 @@
+-rtx.translucency.enabled = false
++### THESE ARE RT1 SETTINGS ONLY ###
++# rtx.translucency.enabled = false
++# rtx.reflections.enabled = false
++# rtx.reflections.denoiser.enabled = true
++## this will be ignored when RR (dldenoiser) is enabled
++## rtx.directLighting.sampledLighting.denoisingTechnique = 0
++# rtx.directLighting.sampledLighting.enabled = true
++# rtx.indirectDiffuse.enabled = false
++# rtx.indirectDiffuse.denoiser.enabled = true
++##############################################
+ 
+-rtx.reflections.enabled = false
+-rtx.reflections.denoiser.enabled = true
+-
+-# this will be ignored when RR (dldenoiser) is enabled
+-# rtx.directLighting.sampledLighting.denoisingTechnique = 0
+-rtx.directLighting.sampledLighting.enabled = true
++### THESE ARE RT2 SETTINGS TO MATCH ABOVE PERFORMANCE SETTINGS ###
++# these are needed if indirectDiffuse = false (this means GI false) - maxBounces needs to be 2
++rtx.rtpt.cached.enabled = false
++rtx.rtpt.lightcache.cached.enabled = false
++rtx.rtpt.translucency.virtualMotion.enabled = false
++rtx.rtpt.maxBounces = 2
++rtx.rtpt.splitGlass = false
++rtx.rtpt.splitClearcoat = false
++rtx.rtpt.splitRoughReflection = true
++# this gives slightly brighter image
++rtx.rtpt.useAmbientOcclusionForAmbientLight = false
++##############################################
+ 
+ rtx.sceneDb.ambientLightIntensity = 1.0
+ 
+ rtx.shadows.enabled = true
+-
+-rtx.indirectDiffuse.enabled = false
+-rtx.indirectDiffuse.denoiser.enabled = true
+ 
+ # rtx.domeLight.upperLowerStrategy = 3
+ 
+@@ -24,6 +36,7 @@
+ 
+ # DLSS frame gen does not yet support tiled camera well
+ rtx-transient.dlssg.enabled = false
++
+ rtx-transient.dldenoiser.enabled = true
+ 
+ # Set the DLSS model
+--- a/apps/rendering_modes/performance.kit
++++ b/apps/rendering_modes/performance.kit
+@@ -1,17 +1,29 @@
+-rtx.translucency.enabled = false
++### THESE ARE RT1 SETTINGS ONLY ###
++# rtx.translucency.enabled = false
++# rtx.reflections.enabled = false
++# rtx.reflections.denoiser.enabled = false
++# rtx.directLighting.sampledLighting.denoisingTechnique = 0
++# rtx.directLighting.sampledLighting.enabled = false
++# rtx.indirectDiffuse.enabled = false
++# rtx.indirectDiffuse.denoiser.enabled = false
++##############################################
+ 
+-rtx.reflections.enabled = false
+-rtx.reflections.denoiser.enabled = false
+-
+-rtx.directLighting.sampledLighting.denoisingTechnique = 0
+-rtx.directLighting.sampledLighting.enabled = false
++### THESE ARE RT2 SETTINGS TO MATCH ABOVE PERFORMANCE SETTINGS ###
++# these are needed if indirectDiffuse = false (this means GI false) - maxBounces needs to be 2
++rtx.rtpt.cached.enabled = false
++rtx.rtpt.lightcache.cached.enabled = false
++rtx.rtpt.translucency.virtualMotion.enabled = false
++rtx.rtpt.maxBounces = 2
++rtx.rtpt.splitGlass = false
++rtx.rtpt.splitClearcoat = false
++rtx.rtpt.splitRoughReflection = true
++# this gives slightly brighter image
++rtx.rtpt.useAmbientOcclusionForAmbientLight = false
++##############################################
+ 
+ rtx.sceneDb.ambientLightIntensity = 1.0
+ 
+ rtx.shadows.enabled = true
+-
+-rtx.indirectDiffuse.enabled = false
+-rtx.indirectDiffuse.denoiser.enabled = false
+ 
+ rtx.domeLight.upperLowerStrategy = 3
+ 
+@@ -23,6 +35,7 @@
+ 
+ # DLSS frame gen does not yet support tiled camera well
+ rtx-transient.dlssg.enabled = false
++
+ rtx-transient.dldenoiser.enabled = false
+ 
+ # Set the DLSS model
+--- a/apps/rendering_modes/quality.kit
++++ b/apps/rendering_modes/quality.kit
+@@ -1,18 +1,29 @@
+-rtx.translucency.enabled = true
++### THESE ARE RT1 SETTINGS ONLY ###
++# rtx.translucency.enabled = true
++# rtx.reflections.enabled = true
++# rtx.reflections.denoiser.enabled = true
++## this will be ignored when RR (dldenoiser) is enabled
++## rtx.directLighting.sampledLighting.denoisingTechnique = 0
++# rtx.directLighting.sampledLighting.enabled = true
++# rtx.indirectDiffuse.enabled = true
++# rtx.indirectDiffuse.denoiser.enabled = true
++##############################################
+ 
+-rtx.reflections.enabled = true
+-rtx.reflections.denoiser.enabled = true
+-
+-# this will be ignored when RR (dldenoiser) is enabled
+-# rtx.directLighting.sampledLighting.denoisingTechnique = 0
+-rtx.directLighting.sampledLighting.enabled = true
++### THESE ARE RT2 SETTINGS ###
++# maxBounces should be 3 if indirectDiffuse was true
++rtx.rtpt.maxBounces = 3
++rtx.rtpt.cached.enabled = false
++rtx.rtpt.lightcache.cached.enabled = false
++rtx.rtpt.translucency.virtualMotion.enabled = false
++rtx.rtpt.splitRoughReflection = true
++# these are even more costly, we should only set them to true if noise is observed
++# rtx.rtpt.splitGlass = true
++# rtx.rtpt.splitClearcoat = true
++##############################################
+ 
+ rtx.sceneDb.ambientLightIntensity = 1.0
+ 
+ rtx.shadows.enabled = true
+-
+-rtx.indirectDiffuse.enabled = true
+-rtx.indirectDiffuse.denoiser.enabled = true
+ 
+ # rtx.domeLight.upperLowerStrategy = 4
+ 
+@@ -24,7 +35,9 @@
+ 
+ # DLSS frame gen does not yet support tiled camera well
+ rtx-transient.dlssg.enabled = false
+-rtx-transient.dldenoiser.enabled = true
++
++# RT2 only supports DLSS-RR
++# rtx-transient.dldenoiser.enabled = true
+ 
+ # Set the DLSS model
+ rtx.post.dlss.execMode = 2 # can be 0 (Performance), 1 (Balanced), 2 (Quality), or 3 (Auto)
+--- a/source/isaaclab/isaaclab/assets/articulation/articulation.py
++++ b/source/isaaclab/isaaclab/assets/articulation/articulation.py
+@@ -16,7 +16,7 @@
+ import warp as wp
+ from prettytable import PrettyTable
+ 
+-import omni.physics.tensors.impl.api as physx
++import omni.physics.tensors.api as physx
+ from isaacsim.core.simulation_manager import SimulationManager
+ from pxr import PhysxSchema, UsdPhysics
+ 
+--- a/source/isaaclab/isaaclab/assets/articulation/articulation_data.py
++++ b/source/isaaclab/isaaclab/assets/articulation/articulation_data.py
+@@ -8,7 +8,7 @@
+ 
+ import torch
+ 
+-import omni.physics.tensors.impl.api as physx
++import omni.physics.tensors.api as physx
+ from isaacsim.core.simulation_manager import SimulationManager
+ 
+ import isaaclab.utils.math as math_utils
+@@ -738,7 +738,7 @@
+         `PhysX Tensor API`_.
+ 
+         .. _`PhysX documentation`: https://nvidia-omniverse.github.io/PhysX/physx/5.5.1/docs/Articulations.html#link-incoming-joint-force
+-        .. _`PhysX Tensor API`: https://docs.omniverse.nvidia.com/kit/docs/omni_physics/latest/extensions/runtime/source/omni.physics.tensors/docs/api/python.html#omni.physics.tensors.impl.api.ArticulationView.get_link_incoming_joint_force
++        .. _`PhysX Tensor API`: https://docs.omniverse.nvidia.com/kit/docs/omni_physics/latest/extensions/runtime/source/omni.physics.tensors/docs/api/python.html#omni.physics.tensors.api.ArticulationView.get_link_incoming_joint_force
+         """
+ 
+         if self._body_incoming_joint_wrench_b.timestamp < self._sim_timestamp:
+--- a/source/isaaclab/isaaclab/assets/deformable_object/deformable_object.py
++++ b/source/isaaclab/isaaclab/assets/deformable_object/deformable_object.py
+@@ -11,7 +11,7 @@
+ 
+ import torch
+ 
+-import omni.physics.tensors.impl.api as physx
++import omni.physics.tensors.api as physx
+ from isaacsim.core.simulation_manager import SimulationManager
+ from pxr import PhysxSchema, UsdShade
+ 
+--- a/source/isaaclab/isaaclab/assets/deformable_object/deformable_object_data.py
++++ b/source/isaaclab/isaaclab/assets/deformable_object/deformable_object_data.py
+@@ -3,11 +3,13 @@
+ #
+ # SPDX-License-Identifier: BSD-3-Clause
+ 
++from __future__ import annotations
++
+ import weakref
+ 
+ import torch
+ 
+-import omni.physics.tensors.impl.api as physx
++import omni.physics.tensors.api as physx
+ 
+ import isaaclab.utils.math as math_utils
+ from isaaclab.utils.buffers import TimestampedBuffer
+--- a/source/isaaclab/isaaclab/assets/rigid_object/rigid_object.py
++++ b/source/isaaclab/isaaclab/assets/rigid_object/rigid_object.py
+@@ -12,7 +12,7 @@
+ import torch
+ import warp as wp
+ 
+-import omni.physics.tensors.impl.api as physx
++import omni.physics.tensors.api as physx
+ from isaacsim.core.simulation_manager import SimulationManager
+ from pxr import UsdPhysics
+ 
+--- a/source/isaaclab/isaaclab/assets/rigid_object/rigid_object_data.py
++++ b/source/isaaclab/isaaclab/assets/rigid_object/rigid_object_data.py
+@@ -7,7 +7,7 @@
+ 
+ import torch
+ 
+-import omni.physics.tensors.impl.api as physx
++import omni.physics.tensors.api as physx
+ 
+ import isaaclab.utils.math as math_utils
+ from isaaclab.sim.utils.stage import get_current_stage_id
+--- a/source/isaaclab/isaaclab/assets/rigid_object_collection/rigid_object_collection.py
++++ b/source/isaaclab/isaaclab/assets/rigid_object_collection/rigid_object_collection.py
+@@ -13,7 +13,7 @@
+ import torch
+ import warp as wp
+ 
+-import omni.physics.tensors.impl.api as physx
++import omni.physics.tensors.api as physx
+ from isaacsim.core.simulation_manager import SimulationManager
+ from pxr import UsdPhysics
+ 
+--- a/source/isaaclab/isaaclab/assets/rigid_object_collection/rigid_object_collection_data.py
++++ b/source/isaaclab/isaaclab/assets/rigid_object_collection/rigid_object_collection_data.py
+@@ -7,7 +7,7 @@
+ 
+ import torch
+ 
+-import omni.physics.tensors.impl.api as physx
++import omni.physics.tensors.api as physx
+ 
+ import isaaclab.utils.math as math_utils
+ from isaaclab.sim.utils.stage import get_current_stage_id
+--- a/source/isaaclab/isaaclab/envs/mdp/events.py
++++ b/source/isaaclab/isaaclab/envs/mdp/events.py
+@@ -22,7 +22,7 @@
+ import torch
+ 
+ import carb
+-import omni.physics.tensors.impl.api as physx
++import omni.physics.tensors.api as physx
+ from isaacsim.core.utils.extensions import enable_extension
+ from pxr import Gf, Sdf, UsdGeom, Vt
+ 
+--- a/source/isaaclab/isaaclab/sensors/camera/camera.py
++++ b/source/isaaclab/isaaclab/sensors/camera/camera.py
+@@ -276,6 +276,8 @@
+                 # note: We have to do it this way because the camera might be on a different
+                 #   layer (default cameras are on session layer), and this is the simplest
+                 #   way to set the property on the right layer.
++                if isinstance(param_value, np.floating):
++                    param_value = float(param_value)
+                 omni.usd.set_prop_val(param_attr(), param_value)
+         # update the internal buffers
+         self._update_intrinsic_matrices(env_ids)
+--- a/source/isaaclab/isaaclab/sensors/camera/tiled_camera.py
++++ b/source/isaaclab/isaaclab/sensors/camera/tiled_camera.py
+@@ -266,6 +266,13 @@
+             # Note: Not doing this breaks the alignment of the data (check: https://github.com/isaac-sim/IsaacLab/issues/4239)
+             if data_type == "normals":
+                 tiled_data_buffer = tiled_data_buffer[:, :, :3].contiguous()
++
++            expected_size = self._data.output[data_type].numel()
++            if tiled_data_buffer.size < expected_size:
++                raise RuntimeError(
++                    f"Camera {self.cfg.prim_path} returned {data_type} buffer "
++                    f"shape={tiled_data_buffer.shape}, expected at least {expected_size} elements"
++                )
+ 
+             wp.launch(
+                 kernel=reshape_tiled_image,
+--- a/source/isaaclab/isaaclab/sensors/contact_sensor/contact_sensor.py
++++ b/source/isaaclab/isaaclab/sensors/contact_sensor/contact_sensor.py
+@@ -14,7 +14,7 @@
+ import torch
+ 
+ import carb
+-import omni.physics.tensors.impl.api as physx
++import omni.physics.tensors.api as physx
+ from isaacsim.core.simulation_manager import SimulationManager
+ from pxr import PhysxSchema
+ 
+@@ -254,6 +254,42 @@
+     Implementation.
+     """
+ 
++    def _resolve_contact_filter_paths(self, sensor_paths: list[str]) -> list[list[str]]:
++        """Resolve one filter per column and sensor without crossing cloned environments."""
++        if not self.cfg.filter_prim_paths_expr:
++            return []
++        # Only bind the shared parent prefix, never a sensor/filter leaf pattern.
++        sensor_parent_tokens = self.cfg.prim_path.split("/")[:-1]
++        columns = []
++        for expression in self.cfg.filter_prim_paths_expr:
++            filter_tokens = expression.split("/")
++            shared_count = 0
++            for sensor_token, filter_token in zip(sensor_parent_tokens, filter_tokens[:-1]):
++                if sensor_token != filter_token:
++                    break
++                shared_count += 1
++            matches_by_prefix = {}
++            for match in sim_utils.find_matching_prim_paths(expression):
++                key = tuple(match.split("/")[:shared_count])
++                matches_by_prefix.setdefault(key, []).append(match)
++            columns.append((expression, shared_count, matches_by_prefix))
++
++        rows = []
++        for sensor_path in sensor_paths:
++            sensor_tokens = sensor_path.split("/")
++            row = []
++            for expression, shared_count, matches_by_prefix in columns:
++                key = tuple(sensor_tokens[:shared_count])
++                matches = matches_by_prefix.get(key, [])
++                if len(matches) != 1:
++                    raise RuntimeError(
++                        f"Contact filter {expression!r} for sensor {sensor_path!r} must resolve to one prim; "
++                        f"found {matches} under shared prefix {'/'.join(key)!r}."
++                    )
++                row.append(matches[0])
++            rows.append(row)
++        return rows
++
+     def _initialize_impl(self):
+         super()._initialize_impl()
+         # obtain global simulation view
+@@ -279,15 +315,25 @@
+         body_names_regex = f"{self.cfg.prim_path.rsplit('/', 1)[0]}/{body_names_regex}"
+         # convert regex expressions to glob expressions for PhysX
+         body_names_glob = body_names_regex.replace(".*", "*")
+-        filter_prim_paths_glob = [expr.replace(".*", "*") for expr in self.cfg.filter_prim_paths_expr]
+-
+         # create a rigid prim view for the sensor
+         self._body_physx_view = self._physics_sim_view.create_rigid_body_view(body_names_glob)
++        # Sim 6 wildcard contact filters can also match same-named descendants.
++        # Resolve each column through USD and use exact paths in body-view order.
++        sensor_paths = self._body_physx_view.prim_paths
++        filter_paths = self._resolve_contact_filter_paths(sensor_paths)
+         self._contact_physx_view = self._physics_sim_view.create_rigid_contact_view(
+-            body_names_glob,
+-            filter_patterns=filter_prim_paths_glob,
++            sensor_paths,
++            filter_patterns=filter_paths,
+             max_contact_data_count=self.cfg.max_contact_data_count_per_prim * len(body_names) * self._num_envs,
+         )
++        if self._contact_physx_view._backend is None:
++            raise RuntimeError(
++                f"Failed to create contact view for {sensor_paths} with filters {filter_paths}"
++            )
++        if self._contact_physx_view.sensor_paths != sensor_paths:
++            raise RuntimeError("Contact view body order differs from the rigid-body view.")
++        if self._contact_physx_view.filter_count != len(self.cfg.filter_prim_paths_expr):
++            raise RuntimeError("Contact view filter count differs from the configured filter columns.")
+         # resolve the true count of bodies
+         self._num_bodies = self.body_physx_view.count // self._num_envs
+         # check that contact reporter succeeded
+@@ -464,7 +510,7 @@
+                     contact_data[start_index_ij : (start_index_ij + count_ij), :], dim=0
+                 )
+ 
+-        For more details, see the `RigidContactView.get_contact_data() documentation <https://docs.omniverse.nvidia.com/kit/docs/omni_physics/107.3/extensions/runtime/source/omni.physics.tensors/docs/api/python.html#omni.physics.tensors.impl.api.RigidContactView.get_contact_data>`_.
++        For more details, see the `RigidContactView.get_contact_data() documentation <https://docs.omniverse.nvidia.com/kit/docs/omni_physics/107.3/extensions/runtime/source/omni.physics.tensors/docs/api/python.html#omni.physics.tensors.api.RigidContactView.get_contact_data>`_.
+ 
+         Args:
+             contact_data: Flat tensor of contact data, shape (N_envs * N_bodies, 3).
+--- a/source/isaaclab/isaaclab/sensors/ray_caster/multi_mesh_ray_caster.py
++++ b/source/isaaclab/isaaclab/sensors/ray_caster/multi_mesh_ray_caster.py
+@@ -15,7 +15,7 @@
+ import trimesh
+ import warp as wp
+ 
+-import omni.physics.tensors.impl.api as physx
++import omni.physics.tensors.api as physx
+ 
+ import isaaclab.sim as sim_utils
+ from isaaclab.sim.views import XformPrimView
+--- a/source/isaaclab/isaaclab/sensors/ray_caster/ray_cast_utils.py
++++ b/source/isaaclab/isaaclab/sensors/ray_caster/ray_cast_utils.py
+@@ -9,7 +9,7 @@
+ 
+ import torch
+ 
+-import omni.physics.tensors.impl.api as physx
++import omni.physics.tensors.api as physx
+ 
+ from isaaclab.sim.views import XformPrimView
+ from isaaclab.utils.math import convert_quat
+--- a/source/isaaclab/isaaclab/sim/simulation_cfg.py
++++ b/source/isaaclab/isaaclab/sim/simulation_cfg.py
+@@ -327,6 +327,88 @@
+     This is set by the variable: ``/rtx/domeLight/upperLowerStrategy``.
+     """
+ 
++    max_bounces: int | None = None
++    """Maximum number of ray bounces for path tracing (RT2). Default is 2.
++
++    For global illumination (indirect diffuse), this should be at least 3.
++
++    This is set by the variable: ``/rtx/rtpt/maxBounces``.
++    """
++
++    split_glass: bool | None = None
++    """Enables separate glass ray splitting for improved glass rendering (RT2). Default is False.
++
++    Enabling this can reduce noise on glass materials at the cost of performance.
++
++    This is set by the variable: ``/rtx/rtpt/splitGlass``.
++    """
++
++    split_clearcoat: bool | None = None
++    """Enables separate clearcoat ray splitting (RT2). Default is False.
++
++    Enabling this can reduce noise on clearcoat materials at the cost of performance.
++
++    This is set by the variable: ``/rtx/rtpt/splitClearcoat``.
++    """
++
++    split_rough_reflection: bool | None = None
++    """Enables separate rough reflection ray splitting (RT2). Default is False.
++
++    Enabling this can reduce noise on rough reflective materials at the cost of performance.
++
++    This is set by the variable: ``/rtx/rtpt/splitRoughReflection``.
++    """
++
++    ambient_light_intensity: float | None = None
++    """Scene ambient light intensity. Default is 1.0.
++
++    This is set by the variable: ``/rtx/sceneDb/ambientLightIntensity``.
++    """
++
++    ambient_occlusion_denoiser_mode: Literal[0, 1] | None = None
++    """Ambient occlusion denoiser mode. Default is 1.
++
++    Valid values are:
++
++    * 0: Higher quality denoising
++    * 1: Performance-oriented denoising
++
++    This is set by the variable: ``/rtx/ambientOcclusion/denoiserMode``.
++    """
++
++    subpixel_mode: Literal[0, 1] | None = None
++    """Raytracing subpixel mode. Default is 0.
++
++    Valid values are:
++
++    * 0: Performance mode
++    * 1: Quality mode (better anti-aliasing)
++
++    This is set by the variable: ``/rtx/raytracing/subpixel/mode``.
++    """
++
++    enable_cached_raytracing: bool | None = None
++    """Enables cached raytracing for improved performance. Default is True.
++
++    This is set by the variable: ``/rtx/raytracing/cached/enabled``.
++    """
++
++    max_samples_per_launch: int | None = None
++    """Maximum samples per launch for path tracing. Default is 1000000.
++
++    This setting helps avoid replicator warnings when using large tile counts.
++
++    This is set by the variable: ``/rtx/pathtracing/maxSamplesPerLaunch``.
++    """
++
++    view_tile_limit: int | None = None
++    """Maximum number of view tiles. Default is 1000000.
++
++    This setting helps avoid silent trimming of tiles.
++
++    This is set by the variable: ``/rtx/viewTile/limit``.
++    """
++
+     carb_settings: dict[str, Any] | None = None
+     """A general dictionary for users to supply all carb rendering settings with native names.
+ 
+--- a/source/isaaclab/isaaclab/sim/simulation_context.py
++++ b/source/isaaclab/isaaclab/sim/simulation_context.py
+@@ -197,6 +197,10 @@
+             # set viewport context to None
+             self._viewport_context = None
+             self._viewport_window = None
++            # Sim 6 headless experiences do not attach RTX via a viewport window.
++            usd_context = omni.usd.get_context()
++            if "rtx" not in usd_context.get_attached_hydra_engine_names():
++                omni.usd.create_hydra_engine("rtx", usd_context)
+         else:
+             # note: need to import here in case the UI is not available (ex. headless mode)
+             import omni.ui as ui
+@@ -222,7 +226,9 @@
+             # disable the viewport if offscreen_render is enabled
+             from omni.kit.viewport.utility import get_active_viewport
+ 
+-            get_active_viewport().updates_enabled = False
++            viewport = get_active_viewport()
++            if viewport is not None:
++                viewport.updates_enabled = False
+ 
+         # override enable scene querying if rendering is enabled
+         # this is needed for some GUI features
+@@ -730,6 +736,17 @@
+             "enable_shadows": "/rtx/shadows/enabled",
+             "enable_ambient_occlusion": "/rtx/ambientOcclusion/enabled",
+             "dome_light_upper_lower_strategy": "/rtx/domeLight/upperLowerStrategy",
++            "ambient_light_intensity": "/rtx/sceneDb/ambientLightIntensity",
++            "ambient_occlusion_denoiser_mode": "/rtx/ambientOcclusion/denoiserMode",
++            "subpixel_mode": "/rtx/raytracing/subpixel/mode",
++            "enable_cached_raytracing": "/rtx/raytracing/cached/enabled",
++            "max_samples_per_launch": "/rtx/pathtracing/maxSamplesPerLaunch",
++            "view_tile_limit": "/rtx/viewTile/limit",
++            # RT2 settings
++            "max_bounces": "/rtx/rtpt/maxBounces",
++            "split_glass": "/rtx/rtpt/splitGlass",
++            "split_clearcoat": "/rtx/rtpt/splitClearcoat",
++            "split_rough_reflection": "/rtx/rtpt/splitRoughReflection",
+         }
+ 
+         not_carb_settings = ["rendering_mode", "carb_settings", "antialiasing_mode"]
+@@ -755,9 +772,9 @@
+ 
+             # grab isaac lab apps path
+             isaaclab_app_exp_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), *[".."] * 4, "apps")
+-            # for Isaac Sim 4.5 compatibility, we use the 4.5 rendering mode app files in a different folder
+-            if get_isaac_sim_version().major < 5:
+-                isaaclab_app_exp_path = os.path.join(isaaclab_app_exp_path, "isaacsim_4_5")
++            # for Isaac Sim 5.0 compatibility, we use the 5.X rendering mode app files in a different folder
++            if get_isaac_sim_version().major < 6:
++                isaaclab_app_exp_path = os.path.join(isaaclab_app_exp_path, "isaacsim_5")
+ 
+             # grab preset settings
+             preset_filename = os.path.join(isaaclab_app_exp_path, f"rendering_modes/{rendering_mode}.kit")
+--- a/source/isaaclab/isaaclab/sim/utils/prims.py
++++ b/source/isaaclab/isaaclab/sim/utils/prims.py
+@@ -868,7 +868,8 @@
+     # check if prim has collision applied on it
+     has_physics_scene_api = prim.HasAPI(PhysxSchema.PhysxSceneAPI)
+     has_collider = prim.HasAPI(UsdPhysics.CollisionAPI)
+-    has_deformable_body = prim.HasAPI(PhysxSchema.PhysxDeformableBodyAPI)
++    deformable_api = getattr(PhysxSchema, "PhysxDeformableBodyAPI", None)
++    has_deformable_body = deformable_api is not None and prim.HasAPI(deformable_api)
+     has_particle_system = prim.IsA(PhysxSchema.PhysxParticleSystem)
+     if not (has_physics_scene_api or has_collider or has_deformable_body or has_particle_system):
+         logger.debug(

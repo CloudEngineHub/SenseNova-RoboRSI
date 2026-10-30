@@ -104,8 +104,9 @@ Windows 使用 `.venv\Scripts\Activate.ps1` 激活环境。
   [LIBERO-Long++ / LIBERO-Ultra-Long](benchmarks/libero_lilo/README.md)、
   [Bench2Dex](benchmarks/bench2dex/README.zh-CN.md)、
   [DexJoCo](benchmarks/dexjoco/README.zh-CN.md)、
-  [BEHAVIOR-1K](benchmarks/behavior_1k/README.zh-CN.md) 和
-  [RoboCasa365](benchmarks/robocasa365/README.zh-CN.md)。
+  [BEHAVIOR-1K](benchmarks/behavior_1k/README.zh-CN.md)、
+  [RoboCasa365](benchmarks/robocasa365/README.zh-CN.md) 和
+  [RoboLab](benchmarks/robolab/README.zh-CN.md)。
 - **Agent 配置：** [模型、提示词、上下文与预算](docs/agents.zh-CN.md)。
 - **评测：** [批量执行、结果查看与中断恢复](docs/evaluation.zh-CN.md)。
 
@@ -201,7 +202,7 @@ ICL 经验包统一托管在
 | [LIBERO-Pro](benchmarks/libero_pro/) | 已开源 | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-pro/v1.0.0) | `ghcr.io/opensensenova/sensenova-roborsi-libero-pro@sha256:a83417f1459a4c555c457caa82ef00a5de50191e3d8deb943894fa9285cff172` |
 | [LIBERO-Long++](benchmarks/libero_lilo/) | 已开源 | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-long-plus-plus/v1.0.0) | `ghcr.io/opensensenova/sensenova-roborsi-libero-long-plus-plus@sha256:814139261e914b114cb89a359c6a39d4f409a556f79928e986b6ade3dfe7dc7a` |
 | [LIBERO-Ultra-Long](benchmarks/libero_lilo/) | 已开源 | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/libero-ultra-long/v1.0.0) | `ghcr.io/opensensenova/sensenova-roborsi-libero-ultra-long@sha256:814139261e914b114cb89a359c6a39d4f409a556f79928e986b6ade3dfe7dc7a` |
-| RoboLab | 即将开源 | — | — |
+| [RoboLab](benchmarks/robolab/) | 已开源 | — | [镜像记录](benchmarks/robolab/README.zh-CN.md#当前交付状态) |
 | [Bench2Dex](benchmarks/bench2dex/) | 已开源 | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/bench2dex/v1.0.0) | `ghcr.io/opensensenova/sensenova-roborsi-bench2dex@sha256:edb0701c6ea3904c53a64820775336b998e6a3d0a9ac8b3b5be2caf824db3a1b` |
 | [DexJoCo](benchmarks/dexjoco/) | 已开源 | [v1.0.0](https://huggingface.co/datasets/sensenova/SenseNova-RoboRSI-Packages/tree/main/dexjoco/v1.0.0) | `ghcr.io/opensensenova/sensenova-roborsi-dexjoco@sha256:19fa30540e3956ae460efa0a4b473586637cb330d863ea65ba0fd6318c376d4d` |
 | LHVLN | 即将开源 | — | — |

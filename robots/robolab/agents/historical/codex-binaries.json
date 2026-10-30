@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "platform": "linux-x86_64",
+  "versions": {
+    "0.159.2": {
+      "url": "https://registry.npmjs.org/@openai/codex/-/codex-0.159.2-linux-x64.tgz",
+      "archive_sha256": "84a6b35fb45bdcb94cef9fcb329438045a8911f53876cc9a9a7e6f9bb1382eba",
+      "integrity": "sha512-RrCZ1X52wpa1lOsXtCtSyhjOFdQPh7LH5Ccv8HsKmd/2UXbUwxXFqWXFK3JzatquUNGtW/TLox5Y7qVOGkV0/Q==",
+      "member": "package/vendor/x86_64-unknown-linux-musl/bin/codex",
+      "binary_sha256": "1748767b230ebfc3d4ab7e4e254920d0c0ad9691fd8c11f190e7d44511a4a92e",
+      "version_output": "codex-cli 0.159.2"
+    },
+    "0.160.0": {
+      "url": "https://registry.npmjs.org/@openai/codex/-/codex-0.160.0-linux-x64.tgz",
+      "archive_sha256": "37a41d61c3399182b8c727b77090cc7a1566bd849d0f09070a0bbc6fec4c58dc",
+      "integrity": "sha512-KI/73OqGrHmR18s7ya7E1NqV6rT0y3lxr0s8S1qR2m6zU6QRF/HlR529jALLh5vjdUnsRT4Ahoxt0axb4kY99g==",
+      "member": "package/vendor/x86_64-unknown-linux-musl/bin/codex",
+      "binary_sha256": "12eb3e81114588aca3b7998f4f19e8997b056aca08e57a7ca7c8a3ec8c652aad",
+      "version_output": "codex-cli 0.160.0"
+    }
+  }
+}

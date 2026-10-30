@@ -1,0 +1,40 @@
+# Standard EmbodiedAgent/MCP baseline. Historical app-server runs have a
+# separate reproduction entry and must not be combined with this cohort.
+schema_version: 1
+source_root: ../../../..
+prompt_file: prompt.md
+agent:
+  planner: codex_cli
+  model: gpt-6-astra
+  reasoning_effort: max
+  max_turns: null
+  max_tokens: null
+  planner_timeout_s: 0
+  action_timeout_s: 1200
+  codex_cli:
+    executable: codex
+    expected_version: codex-cli 0.160.0
+    expected_sha256: 12eb3e81114588aca3b7998f4f19e8997b056aca08e57a7ca7c8a3ec8c652aad
+    tools: mcp
+    inherit_env: false
+    env_vars: [PATH, OPENAI_API_KEY]
+    cli_args:
+      - --ignore-user-config
+      - --ignore-rules
+      - --skip-git-repo-check
+      - --sandbox
+      - workspace-write
+    config_overrides:
+      approval_policy: never
+      mcp_servers.roborsi.tools.roborsi_action.approval_mode: approve
+      web_search: disabled
+      project_doc_max_bytes: 0
+      allow_login_shell: false
+      model_provider: robot_harness
+      model_providers.robot_harness.name: Robot harness
+      model_providers.robot_harness.wire_api: responses
+      model_providers.robot_harness.env_key: OPENAI_API_KEY
+      model_providers.robot_harness.requires_openai_auth: false
+      model_providers.robot_harness.base_url: https://api.openai.com/v1
+      model_providers.robot_harness.request_max_retries: 30
+      model_providers.robot_harness.stream_max_retries: 30
