@@ -150,6 +150,51 @@ def test_cli_config_rejects_conflicting_or_unserializable_inputs(patch):
         CodexCliConfig.from_dict({"expected_version": "codex-cli 0.154.0", **patch})
 
 
+def test_cli_preset_preserves_explicit_simulation_action_approval(tmp_path):
+    key = "mcp_servers.roborsi.tools.roborsi_action.approval_mode"
+    config = AgentConfig.from_file(
+        _preset(
+            tmp_path,
+            codex_cli={
+                "expected_version": "codex-cli 0.154.0",
+                "tools": "mcp",
+                "config_overrides": {"approval_policy": "never", key: "approve"},
+            },
+        )
+    )
+    agent = config.embodied_agent(tmp_path / "outputs")
+    assert agent.codex_cli.config_overrides[key] == "approve"
+    assert agent.codex_cli.config_overrides["approval_policy"] == "never"
+
+
+@pytest.mark.parametrize(
+    ("tools", "key", "value"),
+    [
+        (
+            "external",
+            "mcp_servers.roborsi.tools.roborsi_action.approval_mode",
+            "approve",
+        ),
+        ("mcp", "mcp_servers.roborsi.tools.roborsi_action.approval_mode", "deny"),
+        ("mcp", "mcp_servers.roborsi.tools.roborsi_action.approval_mode", True),
+        ("mcp", "mcp_servers.roborsi.tools.other_action.approval_mode", "approve"),
+        ("mcp", "mcp_servers.roborsi.tools.roborsi_action.enabled", True),
+        ("mcp", "mcp_servers.roborsi.url", "http://localhost:8000"),
+    ],
+)
+def test_cli_config_keeps_simulation_approval_exception_narrow(tools, key, value):
+    from roborsi.planner.codex_cli_config import CodexCliConfig
+
+    with pytest.raises(ValueError, match="reserved codex_cli.config_overrides key"):
+        CodexCliConfig.from_dict(
+            {
+                "expected_version": "codex-cli 0.154.0",
+                "tools": tools,
+                "config_overrides": {key: value},
+            }
+        )
+
+
 @pytest.mark.parametrize("planner", ["api", "codex", "claude_code"])
 def test_unlimited_action_wait_remains_cli_only(tmp_path, planner):
     path = tmp_path / "agent.json"

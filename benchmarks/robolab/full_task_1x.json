@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "benchmark": "robolab",
+  "budget_multiplier": 1,
+  "num_envs": 1,
+  "num_runs": 10,
+  "initial_seed": 0,
+  "reset_semantics": "one seeded environment per task; two resets before each sequential run; historical resumes restarted that environment",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "image_size": 320,
+  "timeout": 1200,
+  "codex_max_retries": 30,
+  "exploration": false,
+  "instruction_type": "default",
+  "renderer": "realtime",
+  "video_mode": "all",
+  "historical_codex_versions": [
+    "0.159.2",
+    "0.160.0"
+  ],
+  "shards": [
+    {
+      "id": 0,
+      "reference_folder": "2026-09-30_14-43-30_harness",
+      "tasks": [
+        "CleanUpToysTask",
+        "FoodPacking3CansTask",
+        "CubesAndBlocksInBinTask",
+        "FruitsMovingTask",
+        "WhiteMugInCenterOfTableTask",
+        "ClampInRightBinTask",
+        "RubiksCubeBehindBowlTask",
+        "BananasInBinOneMoreTask",
+        "LargerObjectRaisinBoxInBinTask",
+        "BowlInBinTask",
+        "MustardInLeftBinTask",
+        "BananasInCrateTask",
+        "PickUpGreenObjectTask",
+        "BigPumpkinInBinTask",
+        "PickGlassesTask"
+      ]
+    },
+    {
+      "id": 1,
+      "reference_folder": "2026-09-30_14-44-09_harness",
+      "tasks": [
+        "FruitsOnPlateTask",
+        "ElectronicsInBinTask",
+        "PutBowlOnShelfTopTask",
+        "FruitsOnPlate3Task",
+        "MouseOnKeyboardTask",
+        "BowlStackingLeftOnRightTask",
+        "FoodPacking1CansTask",
+        "RubiksCubeInFrontOfBowlTask",
+        "CookingPickPastaToolTask",
+        "SmallerObjectButterInBinTask",
+        "FoodPacking1BoxesTask",
+        "RubiksCubeOrBananaTask",
+        "FruitsOnionTask",
+        "RubiksCubeRightOfBowlTask",
+        "CoffeePotInBinTask"
+      ]
+    },
+    {
+      "id": 2,
+      "reference_folder": "2026-09-30_14-44-57_harness",
+      "tasks": [
+        "ClearOrganicObjectsTask",
+        "PutMugsOnShelfTask",
+        "ReorientRedMugTask",
+        "FoodPacking2BoxesTask",
+        "PickOrangeObjectTask",
+        "ToolsPickingAllHammersTask",
+        "FruitsOnionToPlateTask",
+        "DishesInBinTask",
+        "KeyboardOutOfBinTask",
+        "CondimentsInBinTask",
+        "PhoneOrRemoteInBinTask",
+        "CookingClearPlateTask",
+        "OneBottleInSquarePailTask",
+        "FoodPacking2CansTask",
+        "FruitsMovingOrangeOrLimeTask"
+      ]
+    },
+    {
+      "id": 3,
+      "reference_folder": "2026-09-30_14-45-15_harness",
+      "tasks": [
+        "FoodPacking3BoxesTask",
+        "ClutterPlasticTask",
+        "FoodPackingByColorTask",
+        "Stack3RubiksCubeTask",
+        "ToolOrganizationBothTask",
+        "ReorientWhiteMugsTask",
+        "NonHammerToolsInRightBinTask",
+        "PinkSpoonInPotTask",
+        "GreenSpoonsInPotTask",
+        "ReorientJugTask",
+        "HammersInLeftBinTask",
+        "RedDishesInBinTask",
+        "PutTwoMugsOnShelfTask",
+        "RedItemsInBinTask",
+        "PlasticBottlesInSquarePailTask"
+      ]
+    },
+    {
+      "id": 4,
+      "reference_folder": "2026-10-01_05-50-49_harness",
+      "tasks": [
+        "BlockStackingSpecifiedOrderTask",
+        "YellowAndWhiteObjectsInBinTask",
+        "RubiksCubesInBinTask",
+        "ThrowAwayAppleTask",
+        "SpoonsInPotTask",
+        "SmartphoneInBinTask",
+        "TakeMugsOffOfShelfTask",
+        "RubiksCubeThenBananaTask",
+        "AppleAndYogurtInBowlTask",
+        "SmallPumpkinInBinTask",
+        "ToolOrganizationTask",
+        "StackWhiteMugsTask",
+        "BlocksInBinTask",
+        "OneBottleOnShelfTask",
+        "PickDrillTask"
+      ]
+    },
+    {
+      "id": 5,
+      "reference_folder": "2026-10-01_05-51-20_harness",
+      "tasks": [
+        "MoveBananaToBagelPlateTask",
+        "MustardAboveRaisinTask",
+        "BananasOutOfBinTask",
+        "WhiteMugsInBinTask",
+        "JugsOnShelfTask",
+        "StackYellowOnRedTask",
+        "ThrowAwaySnacksTask",
+        "TakeSpatulaOffShelfTask",
+        "BBQSauceInBinTask",
+        "ToyInBinTask",
+        "AnimalsInBinTask",
+        "ToolsPickingDrillTask",
+        "BlockStackingOrderAgnosticTask",
+        "RubiksCubeAndBananaTask",
+        "GrabABagelTask"
+      ]
+    },
+    {
+      "id": 6,
+      "reference_folder": "2026-10-01_05-52-20_harness",
+      "tasks": [
+        "BananasInBinThreeTotalTask",
+        "YogurtInBowlTask",
+        "ReorientAllMugsTask",
+        "MarkerInMugTask",
+        "FruitsGreenLimesOnPlateTask",
+        "WoodSpatulaToBowlTask",
+        "FruitsOrangesOnPlateTask",
+        "ButterAboveRaisinTask",
+        "ClutterPumpkinTask",
+        "BananaInBowlTask",
+        "RecycleCartonTask",
+        "BananaOnPlateTask",
+        "RecycleCartonsOnBoxTask",
+        "SpoonInMugTask",
+        "PickUpBluePitcherTask"
+      ]
+    },
+    {
+      "id": 7,
+      "reference_folder": "2026-10-01_05-52-31_harness",
+      "tasks": [
+        "CannedFoodInBinTask",
+        "RubiksCubeLeftOfBowlTask",
+        "BananaThenRubiksCubeTask",
+        "MustardInRightBinTask",
+        "UnstackRubiksCubeTask",
+        "TakeMeasuringSpoonOutTask",
+        "RecycleCartonsVerticalCrateTask",
+        "SauceBottlesCrateTask",
+        "BlackItemsInBinTask",
+        "RubiksCubeTask",
+        "BagelsOnPlateTask",
+        "GrabAFruitTask",
+        "UtensilsInMugTask",
+        "ToolsPickingHammerTask",
+        "BowlStackingRightOnLeftTask"
+      ]
+    }
+  ]
+}

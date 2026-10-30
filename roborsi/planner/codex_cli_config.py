@@ -26,6 +26,8 @@ if TYPE_CHECKING:
 
 _ENV_NAME = re.compile(r"[A-Za-z_][A-Za-z0-9_]*\Z")
 _CONFIG_KEY = re.compile(r"[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)*\Z")
+_ROBORSI_ACTION_APPROVAL = "mcp_servers.roborsi.tools.roborsi_action.approval_mode"
+
 _FLAGS = {
     "--ignore-user-config",
     "--ignore-rules",
@@ -160,6 +162,10 @@ class CodexCliConfig:
                 or key == "mcp_servers"
                 or key == "mcp_servers.roborsi"
                 or key.startswith("mcp_servers.roborsi.")
+            ) and not (
+                key == _ROBORSI_ACTION_APPROVAL
+                and value == "approve"
+                and self.tools == "mcp"
             ):
                 raise ValueError(f"reserved codex_cli.config_overrides key: {key}")
             environment_reference = (

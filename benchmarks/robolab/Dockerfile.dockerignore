@@ -1,0 +1,14 @@
+*
+!Dockerfile
+!benchmark-runtime/
+!benchmark-runtime/**
+!build-lock.json
+!fetch_native.py
+!prune_extensions.py
+!patches/
+!patches/**
+!python-runtime.sh
+!native-requirements.txt
+!native-image.constraints.txt
+!source.json
+!build.json

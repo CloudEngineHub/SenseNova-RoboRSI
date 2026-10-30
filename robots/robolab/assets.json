@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "repository": "https://github.com/DravenALG/RoboLab",
+  "commit": "92ccc0ee1984a272d4748c92ed73144fa806a6f4",
+  "directory": "assets",
+  "file_count": 2228,
+  "total_file_bytes": 6141046362,
+  "sha256": "718c6e372bab8f9eed3f096276f23ce03e6feb401e26456ebdb92c4d1959c62e",
+  "verification": "1619 Git LFS SHA-256 OIDs and 609 Git blob IDs matched the fixed commit; directory hash includes file names and empty directories."
+}

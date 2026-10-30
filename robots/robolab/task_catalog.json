@@ -1,0 +1,966 @@
+{
+  "schema_version": 1,
+  "robolab_commit": "92ccc0ee1984a272d4748c92ed73144fa806a6f4",
+  "tasks": [
+    {
+      "task_id": "AnimalsInBinTask",
+      "instruction": "Put the lizards in the bin",
+      "episode_length_s": 90,
+      "max_steps": 1350,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "997c306e4efeaafb424b6ffac20b61653e0d61c7cfcd219529938edec56660be"
+    },
+    {
+      "task_id": "AppleAndYogurtInBowlTask",
+      "instruction": "Put the apple and yogurt in the bowl",
+      "episode_length_s": 120,
+      "max_steps": 1800,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "2963408f070506bba3390b138c09ca2f9fb667ed8ae0e195db2bbf597223f31f"
+    },
+    {
+      "task_id": "BBQSauceInBinTask",
+      "instruction": "Put the red BBQ sauce bottles in the grey bin",
+      "episode_length_s": 90,
+      "max_steps": 1350,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "5db0e3dda590aae9e7c597cc7b1f72b369e9af36e89986ff80b7d5c60ac295ba"
+    },
+    {
+      "task_id": "BagelsOnPlateTask",
+      "instruction": "Put the bagels on the plate",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "3cf82b51a394b34d63a9a6651d2132f4e0a59dc39c38a4552daa66ef232046ca"
+    },
+    {
+      "task_id": "BananaInBowlTask",
+      "instruction": "Pick up the banana and place it in the bowl",
+      "episode_length_s": 50,
+      "max_steps": 750,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "15400cd81dd392be081c4dbb177b69bc67af6c88904628f10561000266eab1e1"
+    },
+    {
+      "task_id": "BananaOnPlateTask",
+      "instruction": "Pick up the banana and put it on the plate",
+      "episode_length_s": 40,
+      "max_steps": 600,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "7f1d0401d097749aa2d12906b66a65e23a455be7ea9193335f60dfc547509cd0"
+    },
+    {
+      "task_id": "BananaThenRubiksCubeTask",
+      "instruction": "put the banana then the cube in the bowl",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "7f605b791555e208fc0d60c86c694fb70ed972b027eaccf8ba4138538f7ca5e0"
+    },
+    {
+      "task_id": "BananasInBinOneMoreTask",
+      "instruction": "Put one (1) more bananas in the grey bin.",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "50ed36da8806a910698a6005a499912fbc0b2dfc02d279cecc4f7475f8b3a52e"
+    },
+    {
+      "task_id": "BananasInBinThreeTotalTask",
+      "instruction": "Make sure there are 3 (three) bananas in the grey bin.",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "607a79d9621ca90f8aa0116a27281339f1af24457bf6c978529c11722c7a44dc"
+    },
+    {
+      "task_id": "BananasInCrateTask",
+      "instruction": "Put 2 bananas in the crate",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "66d49880f4c479bdb697edb3d6fdd9548014ab1e24e53ced3ac00ac3b0e94150"
+    },
+    {
+      "task_id": "BananasOutOfBinTask",
+      "instruction": "Take the bananas out",
+      "episode_length_s": 90,
+      "max_steps": 1350,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "92a301fd11db0c4d2c3953a384682bdc12b99a7ddb3f043efba3cfbce90e5ba4"
+    },
+    {
+      "task_id": "BigPumpkinInBinTask",
+      "instruction": "Put the bigger pumpkin in the bin",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "96831083bc4088ddcb13285637603ddcb84c79bac6433107f3226bd3c31f8ccb"
+    },
+    {
+      "task_id": "BlackItemsInBinTask",
+      "instruction": "Put the black items in the grey bin",
+      "episode_length_s": 120,
+      "max_steps": 1800,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "a70b7997e940bb59453804833e05db4870bddeaf07be65423a44b12534296a5d"
+    },
+    {
+      "task_id": "BlockStackingOrderAgnosticTask",
+      "instruction": "Stack the blocks into a tower",
+      "episode_length_s": 90,
+      "max_steps": 1350,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "1ac4899e984555e79e59eb2451a58905025d5a564558f31843f4fd7f2b06f797"
+    },
+    {
+      "task_id": "BlockStackingSpecifiedOrderTask",
+      "instruction": "Stack the blocks in the order from bottom to top: red, blue, green, yellow",
+      "episode_length_s": 90,
+      "max_steps": 1350,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "6d3017d40661cd2d406a4ceaa553d1dbc37cc84077139d3365f4608eeeff6bfd"
+    },
+    {
+      "task_id": "BlocksInBinTask",
+      "instruction": "Sort all colored blocks into the bin",
+      "episode_length_s": 150,
+      "max_steps": 2250,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "432dab20f2b3e796aa30a5cd6f3b79a88a688b6d3542840a0053c4b05939612e"
+    },
+    {
+      "task_id": "BowlInBinTask",
+      "instruction": "put the bowl in the grey bin",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "f77e468877d83e74ddedcdacec5132b5ce4f01794fadc420e825f1c35f5b84ac"
+    },
+    {
+      "task_id": "BowlStackingLeftOnRightTask",
+      "instruction": "Stack the left bowl on the right bowl",
+      "episode_length_s": 20,
+      "max_steps": 300,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "e8428b86855891c89e87802c2d6ef4098ea31ffaa233ea7138239cde5a58a1cd"
+    },
+    {
+      "task_id": "BowlStackingRightOnLeftTask",
+      "instruction": "Stack the right bowl on the left bowl",
+      "episode_length_s": 20,
+      "max_steps": 300,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "327c2f7142223c060d9a11d30f36865bfc34873f03e44dcd84d11079c1ad3282"
+    },
+    {
+      "task_id": "ButterAboveRaisinTask",
+      "instruction": "Pick up the butter box and place it on top of the raisin box",
+      "episode_length_s": 40,
+      "max_steps": 600,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "730bb6416e556bcbfa6496cf7fc34e3c8c6f8168c8bbf2c1d47c385b0bd7b510"
+    },
+    {
+      "task_id": "CannedFoodInBinTask",
+      "instruction": "Put the canned food in the grey bin",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "d961bf77b12cb8756c33e38463c9e7fbf84ec8e440b744499f95d2244412c4e8"
+    },
+    {
+      "task_id": "ClampInRightBinTask",
+      "instruction": "Put the spring clamp in the right bin",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "1726816ed0e8077c5b6b644572723f6d6e9bb0fc4ea3162287d363c2d8d37a84"
+    },
+    {
+      "task_id": "CleanUpToysTask",
+      "instruction": "Clean up all the smaller toys and leave the birdhouse on the table",
+      "episode_length_s": 300,
+      "max_steps": 4500,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "5b67ffa8dc60f78812e7403d0bd05789ea9082eac5c5039e65d17cdd69ebb3b3"
+    },
+    {
+      "task_id": "ClearOrganicObjectsTask",
+      "instruction": "Clear away the organic objects",
+      "episode_length_s": 240,
+      "max_steps": 3600,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "0c38b42dbd721f17e6197df0c32cc4e8f8bf976bfd5e59ad4f75daec10020006"
+    },
+    {
+      "task_id": "ClutterPlasticTask",
+      "instruction": "Put all plastic bottles away in the bin",
+      "episode_length_s": 180,
+      "max_steps": 2700,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "3ba1a70593d5a13d8351e236852960ab574eed9caae910a9768acb42a9ef115c"
+    },
+    {
+      "task_id": "ClutterPumpkinTask",
+      "instruction": "Put all the pumpkins away in the bin",
+      "episode_length_s": 90,
+      "max_steps": 1350,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "a6583344250d74005767f28ff06f871df1b34c607bc566ecfd3352ed9bcfa274"
+    },
+    {
+      "task_id": "CoffeePotInBinTask",
+      "instruction": "Put the coffee pot in the grey bin",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "bd0a22fe8c01cdbe3c45516b141e64833cb969bc408ca327d23e10f90a1fe1b3"
+    },
+    {
+      "task_id": "CondimentsInBinTask",
+      "instruction": "Sort the sauce condiments into the grey bin",
+      "episode_length_s": 180,
+      "max_steps": 2700,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "939f8e9390db658842eb397251fb87b3669d8fcf7c691630ba8defb15786d7f5"
+    },
+    {
+      "task_id": "CookingClearPlateTask",
+      "instruction": "Put the two measuring cups outside of the plate",
+      "episode_length_s": 180,
+      "max_steps": 2700,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "7ba62846c959f3c359ab23a96bc2b51027b07b8a7dfc1be4d378d8a99be5e9a1"
+    },
+    {
+      "task_id": "CookingPickPastaToolTask",
+      "instruction": "Move the pink tool from this utensil container to the other utensil holder",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "e236885bc010f597a2f8f732a6b0ff2c8f23fff145389927d0549a4bd94ff8f9"
+    },
+    {
+      "task_id": "CubesAndBlocksInBinTask",
+      "instruction": "Put all the cubes and blocks in the bin",
+      "episode_length_s": 240,
+      "max_steps": 3600,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "273a38073da22945768cb64f87720373eac90c0564c358ed2f732a7164e73ec0"
+    },
+    {
+      "task_id": "DishesInBinTask",
+      "instruction": "Put the dishware in the grey bin",
+      "episode_length_s": 180,
+      "max_steps": 2700,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "58c3c3c1b9fb68ee3f8f94e9656d43126bf048ab46642989bddc7bbbea1daffe"
+    },
+    {
+      "task_id": "ElectronicsInBinTask",
+      "instruction": "Put the electronic devices in the grey bin",
+      "episode_length_s": 180,
+      "max_steps": 2700,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "ade8c6f67499c7d299cab4e85be90bd739e2b2258b4c90f5e4af75c0348308fe"
+    },
+    {
+      "task_id": "FoodPacking1BoxesTask",
+      "instruction": "Pack boxed foods into the bin",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "d53b8c7944fe41652ef45d0f87ba87043a3186a9fcfded69bb41b29e82716259"
+    },
+    {
+      "task_id": "FoodPacking1CansTask",
+      "instruction": "Pack canned foods into the bin",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "3a43c55a14417a287aa6a7e0f69d937a18c3f603d18486284a80ba28f1ab366c"
+    },
+    {
+      "task_id": "FoodPacking2BoxesTask",
+      "instruction": "Pack boxed foods into the bin",
+      "episode_length_s": 180,
+      "max_steps": 2700,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "60095031f1c9f8aa2fdcaeed019ef7527933fbff6f16091aec4389dd0011de17"
+    },
+    {
+      "task_id": "FoodPacking2CansTask",
+      "instruction": "Pack canned foods into the bin",
+      "episode_length_s": 180,
+      "max_steps": 2700,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "af937519c2bda88ab8b000983bf7fc63883ecddc69032c4b3e1beac31506c0c3"
+    },
+    {
+      "task_id": "FoodPacking3BoxesTask",
+      "instruction": "Pack boxed foods into the bin",
+      "episode_length_s": 240,
+      "max_steps": 3600,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "fc1948c2122e36cfa8974700494f1d9c1fba627ab042dae8a78d02e6726e21ab"
+    },
+    {
+      "task_id": "FoodPacking3CansTask",
+      "instruction": "Pack canned foods into the bin",
+      "episode_length_s": 240,
+      "max_steps": 3600,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "503b6d8f2a55c5f47cda4f5a90452491c29bea7634a509803fa17a329973b7ee"
+    },
+    {
+      "task_id": "FoodPackingByColorTask",
+      "instruction": "Pack yellow objects in right container and blue object in the left container",
+      "episode_length_s": 120,
+      "max_steps": 1800,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "d3809c0e79eef484c48234c0b00bfde0593d96d527b2a62c589440cd030bfb66"
+    },
+    {
+      "task_id": "FruitsGreenLimesOnPlateTask",
+      "instruction": "Put all the green fruit on the plate",
+      "episode_length_s": 90,
+      "max_steps": 1350,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "199b27b0300b99846d12357d3ade17b2f6c57e199117ee0b41245eddfa89824e"
+    },
+    {
+      "task_id": "FruitsMovingOrangeOrLimeTask",
+      "instruction": "Move an orange or a lime to the wood bowl",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "8f11ba1cc840f98574ddfdb169fcd2dc9f38fde123da86fcae586fe0c3aab7cd"
+    },
+    {
+      "task_id": "FruitsMovingTask",
+      "instruction": "Move an orange to the white bowl",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "b09c8c30fc4358badd727762cfd4505aa317893fe4541f53d2f98cf52dbb6924"
+    },
+    {
+      "task_id": "FruitsOnPlate3Task",
+      "instruction": "Put three (3) fruits on the plate",
+      "episode_length_s": 200,
+      "max_steps": 3000,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "9dc6b86448c43cf59a05ede8e9c9a3588174ea40c7d09e4527daea6a29c20b8e"
+    },
+    {
+      "task_id": "FruitsOnPlateTask",
+      "instruction": "Put all the fruits on the plate",
+      "episode_length_s": 300,
+      "max_steps": 4500,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "31282da0cdc8069fd8f94d585e9e8eeb6d2eac9a79c0f7fa64fc44fc612bd736"
+    },
+    {
+      "task_id": "FruitsOnionTask",
+      "instruction": "Put the onion in the wood bowl",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "01b003e973c0644073e2e35929c367881996b0bd9c07f15d613fe2b8c47380fb"
+    },
+    {
+      "task_id": "FruitsOnionToPlateTask",
+      "instruction": "Put the onion on the plate",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "0100391c3688e418073cba27b7b16b360af5691081f6d1e97bc9d81d7a28b58d"
+    },
+    {
+      "task_id": "FruitsOrangesOnPlateTask",
+      "instruction": "Put all the oranges on the plate",
+      "episode_length_s": 90,
+      "max_steps": 1350,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "86014d2bbb6295021aa985cb5925e3a9869b72b3d8aafc2bc9c5983405f41f64"
+    },
+    {
+      "task_id": "GrabABagelTask",
+      "instruction": "Grab a bagel",
+      "episode_length_s": 30,
+      "max_steps": 450,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "79fc93acbccc756a4d986ebcc694b31e9edd2c7eb05001ea2185fd74b1439566"
+    },
+    {
+      "task_id": "GrabAFruitTask",
+      "instruction": "Pick up a fruit",
+      "episode_length_s": 30,
+      "max_steps": 450,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "3b47220b98334ed260b5652c84106bdafbd3f3a3c190284810a3743ca4cd86df"
+    },
+    {
+      "task_id": "GreenSpoonsInPotTask",
+      "instruction": "Put the green spoons in the pot",
+      "episode_length_s": 180,
+      "max_steps": 2700,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "aa8695757decfa246d4afd90ed4255bbd926eaf7255ebf8b74ee83bd461e78f2"
+    },
+    {
+      "task_id": "HammersInLeftBinTask",
+      "instruction": "Put the red hammer and black hammer in the left bin",
+      "episode_length_s": 180,
+      "max_steps": 2700,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "d0b36dcdadf5d73b43b157348ed13befc9c8a1f3166241f340d1eebb3ed8fe88"
+    },
+    {
+      "task_id": "JugsOnShelfTask",
+      "instruction": "Put all the jugs on the shelf",
+      "episode_length_s": 120,
+      "max_steps": 1800,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "77245cfa82970bdbf551d73995e07c97ee1079d25ca75286f5ddd75e7a0b995b"
+    },
+    {
+      "task_id": "KeyboardOutOfBinTask",
+      "instruction": "Take the keyboard out of the bin and put it on the table",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "6634c2cda6e08ef8c9977b0609496e365ca8c89ba53625d373646d15f25aac52"
+    },
+    {
+      "task_id": "LargerObjectRaisinBoxInBinTask",
+      "instruction": "Place the larger object in the grey bin.",
+      "episode_length_s": 30,
+      "max_steps": 450,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "68736e8e114509e0d81b3a0ec237bbf9c701214ff7e376743bfa1d66796bb840"
+    },
+    {
+      "task_id": "MarkerInMugTask",
+      "instruction": "Put the whiteboard marker in the mug",
+      "episode_length_s": 40,
+      "max_steps": 600,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "5ee5bc766dc82dc42c8f03bab19e6613682fa75cf7f59f19c477c2ae6dde8d1f"
+    },
+    {
+      "task_id": "MouseOnKeyboardTask",
+      "instruction": "Put the computer mouse on the keyboard",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "a743665f556e20ad3b5b94b1ea22da008f26a4878aba243c77ac770a8426185d"
+    },
+    {
+      "task_id": "MoveBananaToBagelPlateTask",
+      "instruction": "Move the bananas to the bagel plate",
+      "episode_length_s": 90,
+      "max_steps": 1350,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "cdaae7fb1b3d87cfde208752258a8e2c5e4b038a52ea015f623ee0025e75d0dc"
+    },
+    {
+      "task_id": "MustardAboveRaisinTask",
+      "instruction": "Place the mustard on the raisin box. ",
+      "episode_length_s": 40,
+      "max_steps": 600,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "45ba6f848d4b3f0d1248f32263e3ceb7d4e0ddf6bb14f12bf3fc528890e86ebb"
+    },
+    {
+      "task_id": "MustardInLeftBinTask",
+      "instruction": "Put the mustard in the left bin",
+      "episode_length_s": 30,
+      "max_steps": 450,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "81c02112a979d9dc808d40e57f3a2b404fe1722e53347e20ca60c17163e1580a"
+    },
+    {
+      "task_id": "MustardInRightBinTask",
+      "instruction": "Put the mustard in the right bin",
+      "episode_length_s": 30,
+      "max_steps": 450,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "b669461c0c12c6ad84f1a49fc52d0bc0735e80d38ac8850435c340bc81efe51d"
+    },
+    {
+      "task_id": "NonHammerToolsInRightBinTask",
+      "instruction": "Put the non-hammer tools in the right bin",
+      "episode_length_s": 180,
+      "max_steps": 2700,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "3c7964e79663159f44b932840e7082a20e62b4e4f14c7b42cd588bcb04b139e8"
+    },
+    {
+      "task_id": "OneBottleInSquarePailTask",
+      "instruction": "Put any white plastic bottle in the square pail",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "f3a7512e39dcb9524bbb3df965dd23f588fbfc8adcef95175eaa9255de5b817d"
+    },
+    {
+      "task_id": "OneBottleOnShelfTask",
+      "instruction": "Put any white plastic bottle on the shelf",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "0e09c92ff812e245abe62f96525f05715d7fcfd2521796e14c8a6da772e99aa1"
+    },
+    {
+      "task_id": "PhoneOrRemoteInBinTask",
+      "instruction": "Put the phone or the remote in the grey bin",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "7870bb06fdf6967a8a037b6684c85f5eee9f214a4eec614d10eed9adc5cb2dd7"
+    },
+    {
+      "task_id": "PickDrillTask",
+      "instruction": "Pick up the cordless drill.",
+      "episode_length_s": 40,
+      "max_steps": 600,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "1eb859f4cfe42a3da9c08233776e7bc9e32cc7d640cf65f3a73364112d93b507"
+    },
+    {
+      "task_id": "PickGlassesTask",
+      "instruction": "Pick up the eye glasses",
+      "episode_length_s": 30,
+      "max_steps": 450,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "1c8693020d083fee9008d0dbf8f86c6de83657045fa30f7c55db316c3144fbda"
+    },
+    {
+      "task_id": "PickOrangeObjectTask",
+      "instruction": "Pick up the orange measuring cup",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "0169c2e69fa0cb3f36fb6b01cdbe05dcbbd170315face114849cecd3e07fdf94"
+    },
+    {
+      "task_id": "PickUpBluePitcherTask",
+      "instruction": "Pick up the large blue pitcher",
+      "episode_length_s": 30,
+      "max_steps": 450,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "b92c89c5c36928681dda5a2ae4083a535b2b4ecf7773c3b2f1aa31d16ce57f4f"
+    },
+    {
+      "task_id": "PickUpGreenObjectTask",
+      "instruction": "Pick up the green vegetable block",
+      "episode_length_s": 30,
+      "max_steps": 450,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "c564fd0dcd242bb581fa392b6842556f4e794197fe96c93c98ae4e104bbb5797"
+    },
+    {
+      "task_id": "PinkSpoonInPotTask",
+      "instruction": "Put the pink spaghetti spoon in the pot",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "65b6e9464796ba4f234ca710082481afda0b8e5751855806ee280347ccf6a5f0"
+    },
+    {
+      "task_id": "PlasticBottlesInSquarePailTask",
+      "instruction": "Put all the small plastic bottles in the square pail",
+      "episode_length_s": 180,
+      "max_steps": 2700,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "c90164b6930ed80ac07022ffbeeccd9c9bd91dfb60156c845f3d70e486ccb9fa"
+    },
+    {
+      "task_id": "PutBowlOnShelfTopTask",
+      "instruction": "Put the serving bowl anywhere on the shelf in front of you",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "1c47f8ccfbaa35e62b0a035438fd0409995b2a1c182f7b0f18411b84e05a37a6"
+    },
+    {
+      "task_id": "PutMugsOnShelfTask",
+      "instruction": "Put the two mugs on the shelf",
+      "episode_length_s": 180,
+      "max_steps": 2700,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "7d3b582b8e3f8cadfd3648640f486a9b6dcbf4d7653721499e17f6c96224fa81"
+    },
+    {
+      "task_id": "PutTwoMugsOnShelfTask",
+      "instruction": "Put two (2) mugs on the wire shelf",
+      "episode_length_s": 180,
+      "max_steps": 2700,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "390df4cfcefff45b9b331ff6445c19816905de50e7ef091076222dae55b0c843"
+    },
+    {
+      "task_id": "RecycleCartonTask",
+      "instruction": "Put the recyclable cartons in the grey bin",
+      "episode_length_s": 90,
+      "max_steps": 1350,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "b0555a92cc12e0e45291c0e26e4761227f8dd329d78e4444d9e85050e8a7031d"
+    },
+    {
+      "task_id": "RecycleCartonsOnBoxTask",
+      "instruction": "Put the cartons that can be recycled on the box",
+      "episode_length_s": 90,
+      "max_steps": 1350,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "0902ac5d4a6c29727efeb185a9ad1ee2eadf862086e3002469d4897bdb29aeb8"
+    },
+    {
+      "task_id": "RecycleCartonsVerticalCrateTask",
+      "instruction": "Put the cartons that can be recycled in the vertical crate",
+      "episode_length_s": 90,
+      "max_steps": 1350,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "260ce4ee4f8f58decb226b3c20db9fad290726ccae01f8165e80a13f5a6db6f1"
+    },
+    {
+      "task_id": "RedDishesInBinTask",
+      "instruction": "Put the red dishware in the grey bin",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "96642f68146b4eb712eb37d2b8fbf9b9c380c375a1079628ec58c359a806584b"
+    },
+    {
+      "task_id": "RedItemsInBinTask",
+      "instruction": "Put all the red things in the grey bin",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "eea44102eb9c4b84f99e9912a0adfff2fc914f6236e010265cfba4963c9538d9"
+    },
+    {
+      "task_id": "ReorientAllMugsTask",
+      "instruction": "Reorient all the mugs upright so that the opening is facing upwards.",
+      "episode_length_s": 90,
+      "max_steps": 1350,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "abcf08404c32720dd8ce20b433b29e49e3ad0aae4576567111031ca3113de01e"
+    },
+    {
+      "task_id": "ReorientJugTask",
+      "instruction": "Stand the jug upright",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "588dd770a959d7c337812b3d23dbdcea505728180d186af151e993acf7c00029"
+    },
+    {
+      "task_id": "ReorientRedMugTask",
+      "instruction": "Put the red mug upright so that the opening is facing upwards.",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "c93d22a8f99b72cafaa2b48f0643824feb689c0c8119a75ee9cb1cd5fdadcf68"
+    },
+    {
+      "task_id": "ReorientWhiteMugsTask",
+      "instruction": "Make sure all the white mugs are upright so that the opening is facing upwards.",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "6c0d8343e2c44bcd45f380b9106ddff7aba62101eff50e1b3cb1f2d3d90f532f"
+    },
+    {
+      "task_id": "RubiksCubeAndBananaTask",
+      "instruction": "Put the cube and the banana in the bowl",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "980c7a22b49c85565a41a77c1b9ffd89036826ac6ea5d0078745bd430049971b"
+    },
+    {
+      "task_id": "RubiksCubeBehindBowlTask",
+      "instruction": "Put the rubiks cube behind the bowl",
+      "episode_length_s": 30,
+      "max_steps": 450,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "718cff7520ef6ae7b7ea70411f214d4b0cca76ff05c38c0992b0812df83a5107"
+    },
+    {
+      "task_id": "RubiksCubeInFrontOfBowlTask",
+      "instruction": "Put the rubiks cube in front of the bowl",
+      "episode_length_s": 30,
+      "max_steps": 450,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "fe1d00b852190edc17b0a2e32ec834902d83686a312167da691393c44ff181fa"
+    },
+    {
+      "task_id": "RubiksCubeLeftOfBowlTask",
+      "instruction": "Put the rubiks cube to the left of the bowl",
+      "episode_length_s": 30,
+      "max_steps": 450,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "52ba8ec8b5099291ef59b2e7ccb753c16821c52433e51504cdcf1beb77bce4e4"
+    },
+    {
+      "task_id": "RubiksCubeOrBananaTask",
+      "instruction": "Put the cube or the banana in the bowl",
+      "episode_length_s": 30,
+      "max_steps": 450,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "90804e10f463b0e91e8af2b59dd68ba12b37c9e0f414da6391df2ddb9c083fc0"
+    },
+    {
+      "task_id": "RubiksCubeRightOfBowlTask",
+      "instruction": "Put the rubiks cube to the right of the bowl",
+      "episode_length_s": 30,
+      "max_steps": 450,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "d2eeff8ce52404f2c86bdb9202bdcbbb129069ac6319ce39e165e3c8783b63d2"
+    },
+    {
+      "task_id": "RubiksCubeTask",
+      "instruction": "Put the cube in the bowl",
+      "episode_length_s": 40,
+      "max_steps": 600,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "7bda4edf979bf5f92e0675f234ac37d422705eaaca9330e3528c3314a13cf7f9"
+    },
+    {
+      "task_id": "RubiksCubeThenBananaTask",
+      "instruction": "Put the cube then the banana in the bowl",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "b5aa027a42b787304d8507385d56e4c07059e799738067f1f634b4b579faec02"
+    },
+    {
+      "task_id": "RubiksCubesInBinTask",
+      "instruction": "Sort all rubiks cubes into the bin",
+      "episode_length_s": 120,
+      "max_steps": 1800,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "4601f1a427120b85bda4b2d5417bec8bac8ce6fa0217fccfd00ab63cee05ea14"
+    },
+    {
+      "task_id": "SauceBottlesCrateTask",
+      "instruction": "Put the red bbq sauce bottle in the crate",
+      "episode_length_s": 40,
+      "max_steps": 600,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "624bcbda63984f4cc326eb27132a16971cb00f2a9e7ea1ba5b0275f39dcf5b3d"
+    },
+    {
+      "task_id": "SmallPumpkinInBinTask",
+      "instruction": "Put the small pumpkin in the bin",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "2458fdace867bd9048950ce538e32a1371ef5f64b75b3d3a7167291a75627ccf"
+    },
+    {
+      "task_id": "SmallerObjectButterInBinTask",
+      "instruction": "Place the smaller object in the grey bin.",
+      "episode_length_s": 30,
+      "max_steps": 450,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "9770ee1ada43982de7b57eea5b4b3e0f88f92a2d6af3bab2eca6f7d665fe23b6"
+    },
+    {
+      "task_id": "SmartphoneInBinTask",
+      "instruction": "Put the smartphone in the grey bin",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "a543b57389d2a1145d4b044058ee6d53b3e7f26ab132ea5964ab89330f9695da"
+    },
+    {
+      "task_id": "SpoonInMugTask",
+      "instruction": "Put the metal spoon that's in the wooden bowl in the mug",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "c7db1138ddae4b3f87f53e314fe1c5a56bfff2df2f307a6dc58b64414b2249e7"
+    },
+    {
+      "task_id": "SpoonsInPotTask",
+      "instruction": "Put all of the serving spoons with no holes in the pot",
+      "episode_length_s": 180,
+      "max_steps": 2700,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "2ee34a34337f0767e43b4a0df6993559740a6f5003435959634e4140696ff4f1"
+    },
+    {
+      "task_id": "Stack3RubiksCubeTask",
+      "instruction": "Stack the rubiks cubes in a tower",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "8e7b243a16db074bbf3ef6944c84ae43f29142a9e91e1166309fa3836274bb45"
+    },
+    {
+      "task_id": "StackWhiteMugsTask",
+      "instruction": "Stack the white mugs on top of each other.",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "06ebf951334511b2831c5b39300036b716a743c58998cb96c35abc4b583e5082"
+    },
+    {
+      "task_id": "StackYellowOnRedTask",
+      "instruction": "Stack the yellow block on the red block",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "ee13269d4cc37c41a4cd627216ce372e9171e096f434e046b4e7ae43f46e37ac"
+    },
+    {
+      "task_id": "TakeMeasuringSpoonOutTask",
+      "instruction": "Take the white colored measuring spoon out of the red bowl and put it on the table.",
+      "episode_length_s": 40,
+      "max_steps": 600,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "e1b9202d99f24cba5624ea760aecac5031fdd6e1976e2df6d07595572c36b9a6"
+    },
+    {
+      "task_id": "TakeMugsOffOfShelfTask",
+      "instruction": "Take the mugs off the shelf",
+      "episode_length_s": 180,
+      "max_steps": 2700,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "09cd23c9094d8011f9187fd3bd1079c4707ddb31b497daa7d6a4ab5e8097d110"
+    },
+    {
+      "task_id": "TakeSpatulaOffShelfTask",
+      "instruction": "Take the spatula off the shelf and put it on the table",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "bfa35291b807f9e460356232290fc2c9dc47d40bd88d9cfb8044d4597368b965"
+    },
+    {
+      "task_id": "ThrowAwayAppleTask",
+      "instruction": "Throw away the apple",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "b552ad419722dad505d5bfb876ea7fedf052b493562770d5bc691d7b03cdd187"
+    },
+    {
+      "task_id": "ThrowAwaySnacksTask",
+      "instruction": "Put away the snacks in the bin",
+      "episode_length_s": 120,
+      "max_steps": 1800,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "fd6301c5a3698c3094592bb1ed5584dded4dd81a7ce61b0ea11e6e5288db6d4d"
+    },
+    {
+      "task_id": "ToolOrganizationBothTask",
+      "instruction": "Put hammers in the right bin and do not touch anything else",
+      "episode_length_s": 180,
+      "max_steps": 2700,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "711d74ae26df892efc091d105df702e872b21ecda466738e2f293d2a8a8c5e77"
+    },
+    {
+      "task_id": "ToolOrganizationTask",
+      "instruction": "Put the red hammer and black hammer in the left bin",
+      "episode_length_s": 180,
+      "max_steps": 2700,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "3d0227d538577f62292cb4f0c4c96d459a52f524e79db59d831577b255ac0a92"
+    },
+    {
+      "task_id": "ToolsPickingAllHammersTask",
+      "instruction": "Take out all the hammers and put them on the table",
+      "episode_length_s": 240,
+      "max_steps": 3600,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "d5ba63fe06c456fa372f595375f87f0684862071cd3f244fff2d152fb6780232"
+    },
+    {
+      "task_id": "ToolsPickingDrillTask",
+      "instruction": "Select the cordless drill and put it on the table",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "b8d0a76e8b1011a7a779f6f8c9cfbe21ac081b09a4d8dd5473356db1096e0006"
+    },
+    {
+      "task_id": "ToolsPickingHammerTask",
+      "instruction": "Select the blue hammer and put it on the table",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "716ba9be245c7e94bcf134fe411b8ac2846578e1a4870fafbb75f9eb352dcbe8"
+    },
+    {
+      "task_id": "ToyInBinTask",
+      "instruction": "Put the lizard away in the bin",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "b91d8e17d1b9e52758a221041c6fd7d740031a00b8c56b0e71a0e10affc43359"
+    },
+    {
+      "task_id": "UnstackRubiksCubeTask",
+      "instruction": "Unstack the rubiks cube tower",
+      "episode_length_s": 90,
+      "max_steps": 1350,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "ff695996e60f180e8c3641d72761aa7b032973b6d472d664374b4896af44cbdc"
+    },
+    {
+      "task_id": "UtensilsInMugTask",
+      "instruction": "Put the fork and spoon in the ceramicmug",
+      "episode_length_s": 90,
+      "max_steps": 1350,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "30fc1d95bb335e8e24950656e70e1c87dd7c375d2536746061d6d0d083e3f288"
+    },
+    {
+      "task_id": "WhiteMugInCenterOfTableTask",
+      "instruction": "Put the white mug in the center of the table.",
+      "episode_length_s": 30,
+      "max_steps": 450,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "893da6e4f11a6911ad3480f83a3ddd2af2dce17d29172def43391cc6ec83195e"
+    },
+    {
+      "task_id": "WhiteMugsInBinTask",
+      "instruction": "Clean up the white mugs",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "05cd23592f9d161916514d8a9d035b90b792954141c967c12a44bc45c9b5e997"
+    },
+    {
+      "task_id": "WoodSpatulaToBowlTask",
+      "instruction": "Put the wooden spatula in the bowl",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "6f730a237d48a75ff4ba392881fe3596d39fb8f548c31a350213944b01cde33c"
+    },
+    {
+      "task_id": "YellowAndWhiteObjectsInBinTask",
+      "instruction": "Put all white objects and yellow objects in the grey bin",
+      "episode_length_s": 60,
+      "max_steps": 900,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "545f7e3142a5cd9ae1326d77513dc40aa83032bd5332a50ab71353f446a6138c"
+    },
+    {
+      "task_id": "YogurtInBowlTask",
+      "instruction": "Put the small red yogurt in the red bowl",
+      "episode_length_s": 40,
+      "max_steps": 600,
+      "control_dt": 0.06666666666666667,
+      "reference_config_sha256": "68bdc0cd497234388d3637f5628d5d65d1370f378b9c80ee690e63f0ac6ca86e"
+    }
+  ]
+}

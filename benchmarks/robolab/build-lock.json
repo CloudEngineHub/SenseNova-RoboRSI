@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "platform": "linux/amd64",
+  "base_image": "nvcr.io/nvidia/isaac-sim@sha256:68735a60b6c15c85e0dd0098570c6d2cc79e928f2d068ce2790aa43284ac165d",
+  "native_sim_version": "6.0.0-rc.59+release.41464.5f2772bc.gl",
+  "sources": {
+    "isaaclab": {
+      "commit": "37ddf626871758333d6ed89cf64ad702aef127d0",
+      "url": "https://codeload.github.com/isaac-sim/IsaacLab/tar.gz/37ddf626871758333d6ed89cf64ad702aef127d0",
+      "sha256": "ce67e1f1c2ff5f29def916aa92f929aea3856b4eb5f1b1cbe6e07218606d4439"
+    },
+    "robolab": {
+      "commit": "92ccc0ee1984a272d4748c92ed73144fa806a6f4",
+      "url": "https://codeload.github.com/DravenALG/RoboLab/tar.gz/92ccc0ee1984a272d4748c92ed73144fa806a6f4",
+      "sha256": "3028776fd2a8354ff834d58427829a4933d862613b35d9eb2cac336f3ec691a6"
+    }
+  }
+}

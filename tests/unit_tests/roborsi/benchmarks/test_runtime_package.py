@@ -37,7 +37,9 @@ sys.meta_path.insert(0, Guard())
 """
 
 
-@pytest.mark.parametrize("benchmark", ["libero", "bench2dex", "dexjoco", "behavior_1k"])
+@pytest.mark.parametrize(
+    "benchmark", ["libero", "bench2dex", "dexjoco", "behavior_1k", "robolab"]
+)
 def test_bundle_imports_and_service_help_without_agent_code(tmp_path, benchmark):
     context = prepare_context(benchmark, tmp_path / "context", source_root=ROOT)
     runtime = context / "benchmark-runtime"
@@ -125,7 +127,8 @@ main(['--kind', 'benchmark', '--help'])
 
 
 @pytest.mark.parametrize(
-    "benchmark", ["libero", "libero_pro", "libero_lilo", "dexjoco", "behavior_1k"]
+    "benchmark",
+    ["libero", "libero_pro", "libero_lilo", "dexjoco", "behavior_1k", "robolab"],
 )
 def test_exported_manifest_help_does_not_import_native_dependencies(
     tmp_path, benchmark
